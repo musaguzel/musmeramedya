@@ -6,6 +6,8 @@ import 'package:musmeramedya/core/init/constants/app/app_constants.dart';
 import 'package:musmeramedya/ui/login/viewModel/login_page_view_model.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../core/init/network/network_change_manager.dart';
+
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -17,11 +19,12 @@ class LoginPage extends StatelessWidget {
           model.init();
           model.setContext(context);
         },
-      onPageBuilder: (context,store,networkResult) => buildScaffold(context, store) );
+      onPageBuilder: (context,store,networkResult) => buildScaffold(context, store,networkResult) );
   }
 
-  Scaffold buildScaffold(BuildContext context, LoginPageViewModel store) {
+  Scaffold buildScaffold(BuildContext context, LoginPageViewModel store,NetworkResult networkResult) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: buildAppBar,
         body: Column(
           children: [
@@ -40,6 +43,20 @@ class LoginPage extends StatelessWidget {
                     buildTextfieldTitle(context,"Şifre"),
                     buildSizedBox,
                     buildTextFieldPassword(store),
+                    buildSizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(onPressed: (){
+
+                        }, child: Text('Giriş Yap')),
+                        TextButton(onPressed: (){
+
+                        }, child: Text('Şifremi Unuttum'))
+                      ],
+                    ),
+                    const SizedBox(height: 20,),
+                    wrapSignUp(context,networkResult)
                   ],
                 ),
               ),
@@ -121,6 +138,23 @@ class LoginPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+  Center wrapSignUp(BuildContext context,NetworkResult networkResult) {
+    return Center(
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        alignment: WrapAlignment.center,
+        spacing: 12,
+        children: [
+          Text(
+            'Hala bir hesabın yok mu?',style: context.textTheme?.generalTextStyle,
+          ),
+         ElevatedButton(onPressed: (){
+
+         }, child: Text('Kayıt Ol'))
+        ],
+      ),
     );
   }
 }
