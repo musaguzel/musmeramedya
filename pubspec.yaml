@@ -15,6 +15,11 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
+  #firebase
+  firebase_core: ^2.13.0
+  firebase_auth: ^4.6.1
+  cloud_firestore: ^4.7.1
+
   #Animation
   page_transition: ^2.0.9
   #State Managment
@@ -24,12 +29,23 @@ dependencies:
   #Network
   connectivity_plus: ^4.0.1
 
+  #Animation
+  simple_animations: ^4.0.1
+  supercharged: ^2.1.1
+  animated_text_kit: ^4.2.2
+
+dependency_overrides:
+  test_api: 0.5.2
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
   build_runner: ^2.4.4
+  json_serializable: ^6.7.0
 
 flutter:
 

@@ -4,8 +4,7 @@ import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/init/constants/app/app_constants.dart';
 import 'package:musmeramedya/ui/login/viewModel/login_page_view_model.dart';
-import 'package:mobx/mobx.dart';
-
+import '../../../core/constants/navigation/navigation_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
 
 
@@ -48,7 +47,11 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(onPressed: (){
-
+                          FocusScope.of(context).unfocus();
+                          if (store.emailController.text.isNotEmpty &&
+                              store.passwordController.text.isNotEmpty) {
+                            store.loginWithEmailAndPassword(context);
+                          }
                         }, child: Text('Giriş Yap')),
                         TextButton(onPressed: (){
 
@@ -56,7 +59,7 @@ class LoginPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20,),
-                    wrapSignUp(context,networkResult)
+                    wrapSignUp(context,networkResult,store)
                   ],
                 ),
               ),
@@ -65,12 +68,6 @@ class LoginPage extends StatelessWidget {
         )
     );
   }
-
-
-
-
-
-
 
   AppBar get buildAppBar {
     return AppBar(
@@ -97,6 +94,7 @@ class LoginPage extends StatelessWidget {
             ],
           ),
           child: TextFormField(
+            controller: store.emailController,
             focusNode: store.focusNodeEmail,
             style: const TextStyle(color: Colors.black87,
             ),
@@ -127,6 +125,7 @@ class LoginPage extends StatelessWidget {
             ],
           ),
           child: TextFormField(
+            controller: store.passwordController,
             obscureText: true,
             focusNode: store.focusNodePassword,
             style: const TextStyle(color: Colors.black87,
@@ -140,7 +139,7 @@ class LoginPage extends StatelessWidget {
       },
     );
   }
-  Center wrapSignUp(BuildContext context,NetworkResult networkResult) {
+  Center wrapSignUp(BuildContext context,NetworkResult networkResult,LoginPageViewModel viewModel) {
     return Center(
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -151,7 +150,7 @@ class LoginPage extends StatelessWidget {
             'Hala bir hesabın yok mu?',style: context.textTheme?.generalTextStyle,
           ),
          ElevatedButton(onPressed: (){
-
+              viewModel.navigation.navigateToPage(path: NavigationConstants.REGISTER);
          }, child: Text('Kayıt Ol'))
         ],
       ),

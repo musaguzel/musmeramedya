@@ -1,18 +1,29 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:musmeramedya/core/init/theme/app_theme.dart';
-import 'package:musmeramedya/ui/login/view/loginpage.dart';
-
 import 'core/init/navigation/navigation_route.dart';
 import 'core/init/navigation/navigation_service.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  await _init();
   runApp(const MyApp());
 }
+
+
+Future<void> _init() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp]);
+}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../init/navigation/navigation_service.dart';
@@ -9,10 +11,8 @@ abstract class BaseViewModel {
 
 
 
-  /*final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;*/
-
+  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   NavigationService navigation = NavigationService.instance;
 
