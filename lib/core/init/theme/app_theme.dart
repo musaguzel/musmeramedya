@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 
 final MyAppTheme = ThemeData(
-    brightness: Brightness.dark,
+    brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.white,
-    /*inputDecorationTheme: const InputDecorationTheme(
-      //filled: true,//fillColor: Colors.green,
-      labelStyle: TextStyle(color: Color(0xffE86CAB), fontSize: 13),
-      hintStyle: TextStyle(color: Color(0xffE86CAB), fontSize: 13),
-    ),*/
-
 
     cardTheme: const CardTheme(
       color: Color(0xffF5F5F5),
@@ -23,9 +17,8 @@ final MyAppTheme = ThemeData(
     ),
 
     inputDecorationTheme: const InputDecorationTheme(
-    //filled: true,//fillColor: Colors.green,
-    labelStyle: TextStyle(color: Color(0xff000000), fontSize: 13),
-    hintStyle: TextStyle(color: Color(0xff000000), fontSize: 13),
-      fillColor: Colors.black
+    labelStyle: TextStyle(color: Color(0xff263863), fontSize: 13),
+    hintStyle: TextStyle(color: Color(0xff08214f), fontSize: 13),
+      fillColor: Colors.red
 ),
     );

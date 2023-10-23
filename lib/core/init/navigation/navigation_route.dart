@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/register/view/register_page.dart';
+import 'package:musmeramedya/ui/splash/view/splash_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../product/exception/navigate_model_not_found.dart';
@@ -18,7 +19,7 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
-        return normalNavigate(const LoginPage(), NavigationConstants.DEFAULT ,args.arguments);
+        return normalNavigate(const SplashPage(), NavigationConstants.DEFAULT ,args.arguments);
 
       case NavigationConstants.LOGIN:
         return normalNavigate(const LoginPage(), NavigationConstants.LOGIN ,args.arguments);
@@ -27,7 +28,7 @@ class NavigationRoute {
         return normalNavigate(const RegisterPage(), NavigationConstants.REGISTER ,args.arguments);
 
       case NavigationConstants.MAIN:
-        return normalNavigate(const MainPage(), NavigationConstants.MAIN ,args.arguments);
+        return normalNavigate(MainPage(), NavigationConstants.MAIN ,args.arguments);
 
       case NavigationConstants.NOTFOUND:
         return normalNavigate( const NotFoundNavigationWidget(), NavigationConstants.NOTFOUND ,args.arguments);
