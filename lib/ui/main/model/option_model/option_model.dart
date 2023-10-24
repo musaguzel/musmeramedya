@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 class OptionModel {
    String text;
-   IconData icon;
+   Image icon;
 
    OptionModel(this.text, this.icon);
 }

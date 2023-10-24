@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/constants/application/app_strings.dart';
@@ -6,8 +7,9 @@ import 'package:musmeramedya/ui/main/viewModel/main_page_view_model.dart';
 import '../../../core/base/view/base_widget.dart';
 import '../../../core/constants/application/application_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
+import '../../../product/widgets/shimmer/shimmer_widget.dart';
 import '../components/navigation_drawer.dart';
-import '../model/option_model.dart';
+import '../model/option_model/option_model.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({super.key});
@@ -118,7 +120,13 @@ class _MainPageState extends State<MainPage> {
               value: option,
               child: Row(
                 children: [
-                  Icon(option.icon),
+                  CachedNetworkImage(
+                    imageUrl:"https://cdn4.iconfinder.com/data/icons/social-media-black-white-2/600/Instagram_glyph_svg-512.png",
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) =>
+                        ShimmerWidget.rectangular(heigth: 15),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
                   const SizedBox(width: 8),
                   Text(option.text),
                 ],

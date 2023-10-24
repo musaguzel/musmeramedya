@@ -1,7 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
 import '../../../core/base/model/base_view_model.dart';
-import '../model/option_model.dart';
+import '../model/option_model/option_model.dart';
 
 part 'main_page_view_model.g.dart';
 
@@ -15,22 +15,22 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
   TextEditingController amountController =TextEditingController();
 
   @observable
-  OptionModel selectedCategory = OptionModel("Kategori", Icons.add); // Seçilen öğenin başlangıç değeri boş bir metin olabilir.
+  OptionModel selectedCategory = OptionModel("Kategori", Image.network("https://a.thumbs.redditmedia.com/JDkvH4BSYJQOZ93RZGUIVUjtEqi1T5WnhTyqeCtgUJ0.png",height: 50,width: 50,)); // Seçilen öğenin başlangıç değeri boş bir metin olabilir.
   @observable
-  OptionModel selectedService = OptionModel("Kategori", Icons.add); // Seçilen öğenin başlangıç değeri boş bir metin olabilir.
+  OptionModel selectedService = OptionModel("Kategori", Image.network("https://a.thumbs.redditmedia.com/JDkvH4BSYJQOZ93RZGUIVUjtEqi1T5WnhTyqeCtgUJ0.png")); // Seçilen öğenin başlangıç değeri boş bir metin olabilir.
 
   @observable
   List<OptionModel> categories = [
-    OptionModel('Instagram', Icons.star),
-    OptionModel('Tiktok', Icons.favorite),
-    OptionModel('Twitter', Icons.face),
+    OptionModel('Instagram', Image.network("https://a.thumbs.redditmedia.com/JDkvH4BSYJQOZ93RZGUIVUjtEqi1T5WnhTyqeCtgUJ0.png")),
+    OptionModel('Tiktok', Image.network("https://a.thumbs.redditmedia.com/JDkvH4BSYJQOZ93RZGUIVUjtEqi1T5WnhTyqeCtgUJ0.png")),
+    OptionModel('Twitter', Image.network("https://a.thumbs.redditmedia.com/JDkvH4BSYJQOZ93RZGUIVUjtEqi1T5WnhTyqeCtgUJ0.png")),
   ];
 
   @observable
   List<OptionModel> services = [
-    OptionModel('Instagram', Icons.star),
-    OptionModel('Tiktok', Icons.favorite),
-    OptionModel('Twitter', Icons.face),
+    OptionModel('Instagram', Image.network("https://a.thumbs.redditmedia.com/JDkvH4BSYJQOZ93RZGUIVUjtEqi1T5WnhTyqeCtgUJ0.png")),
+    OptionModel('Tiktok', Image.network("https://a.thumbs.redditmedia.com/JDkvH4BSYJQOZ93RZGUIVUjtEqi1T5WnhTyqeCtgUJ0.png")),
+    OptionModel('Twitter', Image.network("https://a.thumbs.redditmedia.com/JDkvH4BSYJQOZ93RZGUIVUjtEqi1T5WnhTyqeCtgUJ0.png")),
   ];
 
   @action

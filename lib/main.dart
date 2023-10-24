@@ -36,5 +36,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
+//iconları netten alma, image fieldi yap firestora kodda ta to png yap isme göre icon gelsin
 // veritabanını hazırla, veri modellerini yap
 //anlık fiyat hesaplaması için güzel bir yol bul
