@@ -36,7 +36,5 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// mainpage'de parçalanmış kodları üstten alta doğru sırala kod düzeni için
 // veritabanını hazırla, veri modellerini yap
-//Uygulama içi tüm Stringleri düzenle
 //anlık fiyat hesaplaması için güzel bir yol bul
