@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/constants/application/app_strings.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
+import 'package:musmeramedya/core/extension/string_extension.dart';
+import 'package:musmeramedya/ui/main/model/social_media_model/social_media_service_model.dart';
 import 'package:musmeramedya/ui/main/viewModel/main_page_view_model.dart';
 import '../../../core/base/view/base_widget.dart';
 import '../../../core/constants/application/application_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
 import '../../../product/widgets/shimmer/shimmer_widget.dart';
 import '../components/navigation_drawer.dart';
-import '../model/option_model/option_model.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({super.key});
@@ -35,7 +36,7 @@ class _MainPageState extends State<MainPage> {
   Scaffold buildScaffold(BuildContext context, MainPageViewModel store,
       NetworkResult networkResult) {
     return Scaffold(
-      drawer: NavigationDrawerMain(),
+      drawer: const NavigationDrawerMain(),
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text(ApplicationConstants.APPNAME),
@@ -52,15 +53,9 @@ class _MainPageState extends State<MainPage> {
                     children: [
                       buildTitle(ApplicationStrings.MAIN_CATEGORY),
                       buildDropdownCategory(
-                          isCategoryOption: true,
-                          selectedOption: store.selectedCategory,
-                          options: store.categories,
                           store: store),
                       buildTitle(ApplicationStrings.MAIN_SERVIS),
-                      buildDropdownCategory(
-                          isCategoryOption: false,
-                          selectedOption: store.selectedService,
-                          options: store.services,
+                      buildDropdownService(
                           store: store),
                       buildTitle(ApplicationStrings.MAIN_LINK),
                       buildTextField(controller: store.linkController,isAmount: false),
@@ -90,56 +85,92 @@ class _MainPageState extends State<MainPage> {
   }
 
   Observer buildDropdownCategory(
-      {required MainPageViewModel store,
-        required OptionModel selectedOption,
-        required List<OptionModel> options,
-        required bool isCategoryOption}) {
+      {required MainPageViewModel store}) {
     return Observer(builder: (_) {
       return Container(
         decoration: const BoxDecoration(
           color: Colors.white, // Arka plan rengi beyaz
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
-        child: DropdownButton<OptionModel>(
-          padding: context.paddingNormal,
-          isDense: true,
-          isExpanded: true,
-          value: options.firstWhere(
-                  (option) => option.text == selectedOption.text,
-              orElse: () => options[0]),
-          onChanged: (OptionModel? newValue) {
-            if (newValue != null) {
-              isCategoryOption
-                  ? store.setSelectedCategory(newValue)
-                  : store.setSelectedService(newValue);
-            }
-          },
-          items:
-          options.map<DropdownMenuItem<OptionModel>>((OptionModel option) {
-            return DropdownMenuItem<OptionModel>(
-              value: option,
+
+
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<SocialMediaServiceModel>(
+            isExpanded: true,
+            isDense: true,
+            padding: context.paddingNormal,
+            value: store.selectedCategory,
+            hint: const Text(ApplicationStrings.MAIN_CHOSE_CATEGORY,style: TextStyle(color: Colors.black),),
+            items: store.socialMediaServices
+                .map((category) => DropdownMenuItem<SocialMediaServiceModel>(
+              value: category,
               child: Row(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl:"https://cdn4.iconfinder.com/data/icons/social-media-black-white-2/600/Instagram_glyph_svg-512.png",
-                    fit: BoxFit.fill,
-                    placeholder: (context, url) =>
-                        ShimmerWidget.rectangular(heigth: 15),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ImageIcon(
+                    AssetImage(category.socialMediaName.toPNG),
                   ),
                   const SizedBox(width: 8),
-                  Text(option.text),
+                  Text(category.categoryName), // Kategori adı
                 ],
               ),
-            );
-          }).toList(),
-          style: const TextStyle(color: Colors.black),
-          dropdownColor: Colors.blueGrey.shade200,
-          borderRadius: BorderRadius.circular(15),
+            ))
+                .toList(),
+            onChanged: (value) => store.setSelectedCategory(value!),
+
+            style: const TextStyle(color: Colors.black),
+            dropdownColor: Colors.blueGrey.shade200,
+            borderRadius: BorderRadius.circular(15),
+          ),
         ),
       );
     });
   }
+
+  Observer buildDropdownService(
+      {required MainPageViewModel store}) {
+    return Observer(builder: (_) {
+      return Container(
+        decoration: const BoxDecoration(
+          color: Colors.white, // Arka plan rengi beyaz
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        ),
+
+
+        child: AbsorbPointer(
+          absorbing: store.selectedCategory != null ? false : true,
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              isExpanded: true,
+              isDense: true,
+              padding: context.paddingNormal,
+              value: store.selectedService,
+              hint: Text(ApplicationStrings.MAIN_CHOSE_SERVICE,style: TextStyle(color: store.selectedCategory != null ? Colors.black : Colors.black.withOpacity(0.7)),),
+              items: store.selectedCategory?.serviceNames.map((String item) {
+                return DropdownMenuItem<String>(
+                  value: item,
+                  child: Row(
+                    children: [
+                      ImageIcon(
+                        AssetImage(store.selectedCategory!.socialMediaName.toPNG),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(item), // Kategori adı
+                    ],
+                  ),
+                );
+              }).toList(),
+              onChanged: (value) => store.setSelectedService(value ?? ""),
+
+              style: const TextStyle(color: Colors.black),
+              dropdownColor: Colors.blueGrey.shade200,
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
 
   Observer buildTextField({required TextEditingController controller,required bool isAmount}) {
     return Observer(

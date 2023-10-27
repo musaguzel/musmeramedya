@@ -8,17 +8,20 @@ class SocialMediaServiceModel {
   @JsonKey(name: 'category_name')
   String categoryName;
 
-  @JsonKey(name: 'service_name')
-  String serviceName;
+  @JsonKey(name: 'service_names')
+  List<String> serviceNames;
 
   @JsonKey(name: 'service_price')
   String servicePrice;
 
-  @JsonKey(name: 'service_average_time')
-  String serviceAverageTime;
+  @JsonKey(name: 'service_average_times')
+  List<String> serviceAverageTime;
 
-  SocialMediaServiceModel({required this.categoryName, required this.serviceName
-  ,required this.servicePrice,required this.serviceAverageTime});
+  @JsonKey(name: 'social_media_name')
+  String socialMediaName;
+
+  SocialMediaServiceModel({required this.categoryName, required this.serviceNames
+  ,required this.servicePrice,required this.serviceAverageTime, required this.socialMediaName});
 
   factory SocialMediaServiceModel.fromJson(Map<String,dynamic> json) => _$SocialMediaServiceModelFromJson(json);
   Map<String,dynamic> toJson() => _$SocialMediaServiceModelToJson(this);

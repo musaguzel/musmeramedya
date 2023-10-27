@@ -36,6 +36,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//iconları netten alma, image fieldi yap firestora kodda ta to png yap isme göre icon gelsin
-// veritabanını hazırla, veri modellerini yap
+//Firebase'de service_price kısmı da array olacak , tahmini süre ve fiyat hesaplama olayları geliştirilecek.
+//orders kısmı gün gün belge olarak kaydedilecek
 //anlık fiyat hesaplaması için güzel bir yol bul
