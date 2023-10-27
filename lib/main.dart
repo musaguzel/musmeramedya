@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:musmeramedya/core/constants/application/application_constants.dart';
 import 'package:musmeramedya/core/init/theme/app_theme.dart';
 import 'core/init/navigation/navigation_route.dart';
 import 'core/init/navigation/navigation_service.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Musmera Medya',
+      title: ApplicationConstants.APPNAME,
       debugShowCheckedModeBanner: false,
       theme: MyAppTheme,
       onGenerateRoute: NavigationRoute.instance.generateRoute,

@@ -53,17 +53,6 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
   @observable
   String? selectedService;
 
-  @action
-  List<SocialMediaServiceModel> getCategories(String categoryName){
-    List<SocialMediaServiceModel> filteredList = [];
-
-    for (var service in socialMediaServices) {
-      if (service.categoryName == categoryName) {
-        filteredList.add(service);
-      }
-    }
-    return filteredList;
-  }
 }
 
 

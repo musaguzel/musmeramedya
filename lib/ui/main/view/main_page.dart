@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/constants/application/app_strings.dart';
@@ -9,7 +8,6 @@ import 'package:musmeramedya/ui/main/viewModel/main_page_view_model.dart';
 import '../../../core/base/view/base_widget.dart';
 import '../../../core/constants/application/application_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
-import '../../../product/widgets/shimmer/shimmer_widget.dart';
 import '../components/navigation_drawer.dart';
 
 class MainPage extends StatefulWidget {
