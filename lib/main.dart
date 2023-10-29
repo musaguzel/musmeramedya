@@ -37,6 +37,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//Firebase'de service_price kısmı da array olacak , tahmini süre ve fiyat hesaplama olayları geliştirilecek.
+//servis zamanı ve para durumu kısmında sadece zaman yazıyor. Bir field'de zaman bir field'de para yazsın
 //orders kısmı gün gün belge olarak kaydedilecek
 //anlık fiyat hesaplaması için güzel bir yol bul

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:musmeramedya/core/constants/application/app_strings.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/extension/string_extension.dart';
 import 'package:musmeramedya/ui/main/model/social_media_model/social_media_service_model.dart';
 import 'package:musmeramedya/ui/main/viewModel/main_page_view_model.dart';
 import '../../../core/base/view/base_widget.dart';
 import '../../../core/constants/application/application_constants.dart';
+import '../../../core/constants/application/app_strings.dart';
 import '../../../core/init/network/network_change_manager.dart';
 import '../components/navigation_drawer.dart';
 
@@ -60,9 +60,9 @@ class _MainPageState extends State<MainPage> {
                       buildTitle(ApplicationStrings.MAIN_AMOUNT),
                       buildTextField(controller: store.amountController,isAmount: true),
                       buildMinMaksAmount,
-                      buildAverageTimeText,
-                      buildTimeAndPriceInfoText(needPadding: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
-                      buildTimeAndPriceInfoText(needPadding: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
+                      buildAverageTimeText(store),
+                      buildTimeAndPriceInfoText(store: store,needPadding: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
+                      buildTimeAndPriceInfoText(store: store,needPadding: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
                       buildCreateOrderButton()
                     ],
                   )),
@@ -141,7 +141,7 @@ class _MainPageState extends State<MainPage> {
               isExpanded: true,
               isDense: true,
               padding: context.paddingNormal,
-              value: store.selectedService,
+              value: (store.selectedService != null && store.selectedService!.isNotEmpty) ? store.selectedService!['servicename'].toString() : store.selectedCategory?.serviceNames[0].toString(),
               hint: Text(ApplicationStrings.MAIN_CHOSE_SERVICE,style: TextStyle(color: store.selectedCategory != null ? Colors.black : Colors.black.withOpacity(0.7)),),
               items: store.selectedCategory?.serviceNames.map((String item) {
                 return DropdownMenuItem<String>(
@@ -156,13 +156,13 @@ class _MainPageState extends State<MainPage> {
                     ],
                   ),
                 );
-              }).toList(),
-              onChanged: (value) => store.setSelectedService(value ?? ""),
+              }).toList() ,
+              onChanged: (value) => store.setSelectedService(value),
 
               style: const TextStyle(color: Colors.black),
               dropdownColor: Colors.blueGrey.shade200,
               borderRadius: BorderRadius.circular(15),
-            ),
+            ) ,
           ),
         ),
       );
@@ -211,7 +211,7 @@ class _MainPageState extends State<MainPage> {
       child: Text('Minimum: 100 - Maksimum: 15000',style: TextStyle(color: Colors.black.withOpacity(0.7)),),
     );
   }
-  Observer buildTimeAndPriceInfoText({required bool needPadding}) {
+  Observer buildTimeAndPriceInfoText({required MainPageViewModel store,required bool needPadding}) {
     return Observer(builder: (_){
       return Padding(
         padding: EdgeInsets.only(top: needPadding ? 8.0 : 0),
@@ -233,25 +233,27 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
           ),
-          child: const Padding(
-            padding: EdgeInsets.all(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
             child: Text(
-              '1 Saat 32 Dakika',
-              style: TextStyle(fontSize: 16),
+                store.selectedService?['serviceaveragetime'].toString() ?? ApplicationStrings.MAIN_AVERAGE_TIME,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ),
       );
     });
   }
-  ListTile get buildAverageTimeText {
-    return const ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      minLeadingWidth: 0,
-                      visualDensity: VisualDensity(horizontal: -4,vertical: 0),
-                      title: Text(ApplicationStrings.MAIN_AVERAGE_TIME,style: TextStyle(fontWeight: FontWeight.bold),),
-                      leading: Icon(Icons.info,color: Colors.black),
-                    );
+  Observer buildAverageTimeText(MainPageViewModel store) {
+    return Observer(builder: (_){
+      return const ListTile(
+        contentPadding: EdgeInsets.zero,
+        minLeadingWidth: 0,
+        visualDensity: VisualDensity(horizontal: -4,vertical: 0),
+        title:  Text(ApplicationStrings.MAIN_AVERAGE_TIME,style: TextStyle(fontWeight: FontWeight.bold),),
+        leading: Icon(Icons.info,color: Colors.black),
+      );
+    });
   }
   Padding buildCreateOrderButton() {
     return Padding(

@@ -41,17 +41,28 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
   @action
   void setSelectedCategory(SocialMediaServiceModel socialMediaServiceModel) {
     selectedCategory = socialMediaServiceModel;
+    selectedService?.clear();
+    selectedService = {                                                           //Bir kategori seçildiğinde servisi, seçilen kategorinin servisinin ilk öğesini koy
+      'servicename': selectedCategory?.serviceNames[0].toString(),
+      'serviceaveragetime': selectedCategory?.serviceAverageTime[0].toString(),
+    };
   }
 
   @action
-  void setSelectedService(String sosyalMedyaVeriler) {
-    selectedService = sosyalMedyaVeriler;
+  void setSelectedService(String? sosyalMedyaVeriler) {                  //Bir servis seçildiğinde seçilen kategorinin servislerinde tıklanılan servisini bul ve indeksini al
+    var index = selectedCategory?.serviceNames.indexOf(sosyalMedyaVeriler!) ?? 1;
+    String serviceAverageTime = selectedCategory?.serviceAverageTime[index].toString() ?? '1 saat';  //Aynı indeksteki servis tamamlanma zamanını al
+    selectedService?.clear();
+    selectedService = {                                                           //seçilen servisi ismini ekle zamanını ekle,seçilen servisi oluştur
+      'servicename': sosyalMedyaVeriler,
+      'serviceaveragetime': serviceAverageTime,
+    };
   }
 
   @observable
   SocialMediaServiceModel? selectedCategory;
   @observable
-  String? selectedService;
+  Map<String,dynamic>? selectedService;
 
 }
 

@@ -45,13 +45,13 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
       Atom(name: '_MainPageViewModelBase.selectedService', context: context);
 
   @override
-  String? get selectedService {
+  Map<String, dynamic>? get selectedService {
     _$selectedServiceAtom.reportRead();
     return super.selectedService;
   }
 
   @override
-  set selectedService(String? value) {
+  set selectedService(Map<String, dynamic>? value) {
     _$selectedServiceAtom.reportWrite(value, super.selectedService, () {
       super.selectedService = value;
     });
@@ -80,22 +80,11 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
   }
 
   @override
-  void setSelectedService(String sosyalMedyaVeriler) {
+  void setSelectedService(String? sosyalMedyaVeriler) {
     final _$actionInfo = _$_MainPageViewModelBaseActionController.startAction(
         name: '_MainPageViewModelBase.setSelectedService');
     try {
       return super.setSelectedService(sosyalMedyaVeriler);
-    } finally {
-      _$_MainPageViewModelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  List<SocialMediaServiceModel> getCategories(String categoryName) {
-    final _$actionInfo = _$_MainPageViewModelBaseActionController.startAction(
-        name: '_MainPageViewModelBase.getCategories');
-    try {
-      return super.getCategories(categoryName);
     } finally {
       _$_MainPageViewModelBaseActionController.endAction(_$actionInfo);
     }

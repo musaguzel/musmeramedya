@@ -12,7 +12,7 @@ class SocialMediaServiceModel {
   List<String> serviceNames;
 
   @JsonKey(name: 'service_price')
-  String servicePrice;
+  List<String>  servicePrice;
 
   @JsonKey(name: 'service_average_times')
   List<String> serviceAverageTime;
