@@ -57,6 +57,22 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
     });
   }
 
+  late final _$livePriceAtom =
+      Atom(name: '_MainPageViewModelBase.livePrice', context: context);
+
+  @override
+  String get livePrice {
+    _$livePriceAtom.reportRead();
+    return super.livePrice;
+  }
+
+  @override
+  set livePrice(String value) {
+    _$livePriceAtom.reportWrite(value, super.livePrice, () {
+      super.livePrice = value;
+    });
+  }
+
   late final _$verileriAlAsyncAction =
       AsyncAction('_MainPageViewModelBase.verileriAl', context: context);
 
@@ -69,7 +85,7 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
       ActionController(name: '_MainPageViewModelBase', context: context);
 
   @override
-  void setSelectedCategory(SocialMediaServiceModel socialMediaServiceModel) {
+  void setSelectedCategory(SocialMediaServiceModel? socialMediaServiceModel) {
     final _$actionInfo = _$_MainPageViewModelBaseActionController.startAction(
         name: '_MainPageViewModelBase.setSelectedCategory');
     try {
@@ -91,11 +107,23 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
   }
 
   @override
+  void calculatePrice() {
+    final _$actionInfo = _$_MainPageViewModelBaseActionController.startAction(
+        name: '_MainPageViewModelBase.calculatePrice');
+    try {
+      return super.calculatePrice();
+    } finally {
+      _$_MainPageViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 socialMediaServices: ${socialMediaServices},
 selectedCategory: ${selectedCategory},
-selectedService: ${selectedService}
+selectedService: ${selectedService},
+livePrice: ${livePrice}
     ''';
   }
 }

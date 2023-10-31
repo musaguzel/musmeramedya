@@ -18,33 +18,49 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
 
   @override
   Future<void> init() async {
-   await verileriAl();
+    await verileriAl();
   }
 
 
   @observable
   ObservableList<SocialMediaServiceModel> socialMediaServices = ObservableList<SocialMediaServiceModel>();
 
-
-
   @action
   Future<void> verileriAl() async {
     final socialMediaQuery = firebaseFirestore.collection('categories').snapshots();
-    socialMediaQuery.listen((snapshot) {
+    socialMediaQuery.listen((snapshot) async {
       socialMediaServices.clear();
       socialMediaServices.addAll(snapshot.docs.map((doc) => SocialMediaServiceModel.fromJson(doc.data())));
-      print(socialMediaServices.toString());
+
+      // Veritabanı güncellendikten sonra seçili değeri kontrol edin ve güncelleyin.
+      if (selectedCategory != null &&
+          socialMediaServices.indexOf(selectedCategory) == -1) {
+
+        int selectedIndex = -1;  // Eşleşen öğenin indeksi
+        for (int i = 0; i < socialMediaServices.length; i++) {
+          if (socialMediaServices[i].categoryName == selectedCategory?.categoryName) {
+            selectedIndex = i;  // Eşleşen öğenin indeksi
+            setSelectedCategory(socialMediaServices[i]);
+            break;  // Eşleşen öğeyi bulduk, döngüden çık
+          }else {
+            setSelectedCategory(socialMediaServices.first);
+          }
+        }
+      }
     });
   }
 
 
+
+
   @action
-  void setSelectedCategory(SocialMediaServiceModel socialMediaServiceModel) {
+  void setSelectedCategory(SocialMediaServiceModel? socialMediaServiceModel) {
     selectedCategory = socialMediaServiceModel;
     selectedService?.clear();
     selectedService = {                                                           //Bir kategori seçildiğinde servisi, seçilen kategorinin servisinin ilk öğesini koy
       'servicename': selectedCategory?.serviceNames[0].toString(),
       'serviceaveragetime': selectedCategory?.serviceAverageTime[0].toString(),
+      'serviceprice': selectedCategory?.servicePrice[0].toString(),
     };
   }
 
@@ -52,17 +68,35 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
   void setSelectedService(String? sosyalMedyaVeriler) {                  //Bir servis seçildiğinde seçilen kategorinin servislerinde tıklanılan servisini bul ve indeksini al
     var index = selectedCategory?.serviceNames.indexOf(sosyalMedyaVeriler!) ?? 1;
     String serviceAverageTime = selectedCategory?.serviceAverageTime[index].toString() ?? '1 saat';  //Aynı indeksteki servis tamamlanma zamanını al
+    String servicePrice = selectedCategory?.servicePrice[index].toString() ?? '10 tl';  //Aynı indeksteki servis tamamlanma zamanını al
+    double formattedServicePrice = double.parse(servicePrice);
     selectedService?.clear();
     selectedService = {                                                           //seçilen servisi ismini ekle zamanını ekle,seçilen servisi oluştur
       'servicename': sosyalMedyaVeriler,
       'serviceaveragetime': serviceAverageTime,
+      'serviceprice': formattedServicePrice,
     };
+  }
+
+
+  @action
+  void calculatePrice(){
+      if(selectedService != null){
+        amountController.text.isEmpty ? livePrice = "Fiyat" : livePrice = "";
+        double formattedPrice = double.parse(selectedService!['serviceprice'].toString()); //veritabanından gelen 1 adet servisin fiyatı
+        double formattedAmount = amountController.text.isNotEmpty ? double.parse(amountController.text) : 0.0;  //Kullanıcının istediği miktar
+        var realPrice = formattedPrice * formattedAmount;                                  //Kullanıcıya sunulacak fiyat
+
+        livePrice = realPrice == 0.0 ? "Fiyat" : realPrice.toString();
+      }
   }
 
   @observable
   SocialMediaServiceModel? selectedCategory;
   @observable
   Map<String,dynamic>? selectedService;
+  @observable
+  String livePrice = "Fiyat";
 
 }
 

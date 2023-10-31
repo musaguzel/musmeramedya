@@ -56,13 +56,13 @@ class _MainPageState extends State<MainPage> {
                       buildDropdownService(
                           store: store),
                       buildTitle(ApplicationStrings.MAIN_LINK),
-                      buildTextField(controller: store.linkController,isAmount: false),
+                      buildTextField(store: store,isAmount: false),
                       buildTitle(ApplicationStrings.MAIN_AMOUNT),
-                      buildTextField(controller: store.amountController,isAmount: true),
+                      buildTextField(store: store,isAmount: true),
                       buildMinMaksAmount,
                       buildAverageTimeText(store),
-                      buildTimeAndPriceInfoText(store: store,needPadding: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
-                      buildTimeAndPriceInfoText(store: store,needPadding: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
+                      buildTimeAndPriceInfoText(store: store,needPadding: false,isPriceText: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
+                      buildTimeAndPriceInfoText(store: store,needPadding: true,isPriceText: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
                       buildCreateOrderButton()
                     ],
                   )),
@@ -97,7 +97,7 @@ class _MainPageState extends State<MainPage> {
             isExpanded: true,
             isDense: true,
             padding: context.paddingNormal,
-            value: store.selectedCategory,
+            value:  store.selectedCategory,
             hint: const Text(ApplicationStrings.MAIN_CHOSE_CATEGORY,style: TextStyle(color: Colors.black),),
             items: store.socialMediaServices
                 .map((category) => DropdownMenuItem<SocialMediaServiceModel>(
@@ -113,7 +113,7 @@ class _MainPageState extends State<MainPage> {
               ),
             ))
                 .toList(),
-            onChanged: (value) => store.setSelectedCategory(value!),
+            onChanged: (value) => store.setSelectedCategory(value),
 
             style: const TextStyle(color: Colors.black),
             dropdownColor: Colors.blueGrey.shade200,
@@ -157,7 +157,11 @@ class _MainPageState extends State<MainPage> {
                   ),
                 );
               }).toList() ,
-              onChanged: (value) => store.setSelectedService(value),
+              onChanged: (value) {
+                store.setSelectedService(value);
+                store.amountController.clear();
+                store.livePrice = "Fiyat";
+              },
 
               style: const TextStyle(color: Colors.black),
               dropdownColor: Colors.blueGrey.shade200,
@@ -170,7 +174,7 @@ class _MainPageState extends State<MainPage> {
   }
 
 
-  Observer buildTextField({required TextEditingController controller,required bool isAmount}) {
+  Observer buildTextField({required MainPageViewModel store,required bool isAmount}) {
     return Observer(
       builder: (_) {
         return Container(
@@ -191,8 +195,11 @@ class _MainPageState extends State<MainPage> {
             ],
           ),
           child: TextFormField(
+            onChanged: (value){
+              store.calculatePrice();
+            },
             keyboardType: isAmount ? TextInputType.number: TextInputType.text,
-            controller: controller,
+            controller: isAmount ? store.amountController : store.linkController,
             style: const TextStyle(
               color: Colors.black87,
             ),
@@ -211,7 +218,7 @@ class _MainPageState extends State<MainPage> {
       child: Text('Minimum: 100 - Maksimum: 15000',style: TextStyle(color: Colors.black.withOpacity(0.7)),),
     );
   }
-  Observer buildTimeAndPriceInfoText({required MainPageViewModel store,required bool needPadding}) {
+  Observer buildTimeAndPriceInfoText({required MainPageViewModel store,required bool needPadding,required bool isPriceText}) {
     return Observer(builder: (_){
       return Padding(
         padding: EdgeInsets.only(top: needPadding ? 8.0 : 0),
@@ -236,7 +243,7 @@ class _MainPageState extends State<MainPage> {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Text(
-                store.selectedService?['serviceaveragetime'].toString() ?? ApplicationStrings.MAIN_AVERAGE_TIME,
+                isPriceText ? (store.livePrice ?? "Fiyat") : (store.selectedService?['serviceaveragetime'].toString() ?? ApplicationStrings.MAIN_AVERAGE_TIME),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),

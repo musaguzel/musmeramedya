@@ -37,6 +37,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//servis zamanı ve para durumu kısmında sadece zaman yazıyor. Bir field'de zaman bir field'de para yazsın
+//ana ekranın çoğu bitti , kodlarını düzenle yeni ekranlara geç
 //orders kısmı gün gün belge olarak kaydedilecek
 //anlık fiyat hesaplaması için güzel bir yol bul
