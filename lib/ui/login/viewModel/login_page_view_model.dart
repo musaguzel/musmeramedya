@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
-
 import '../../../core/base/model/base_view_model.dart';
-import '../../../core/constants/navigation/navigation_constants.dart';
-
+import '../../../core/init/constants/navigation/navigation_constants.dart';
 part 'login_page_view_model.g.dart';
 
 class LoginPageViewModel = _LoginPageViewModelBase with _$LoginPageViewModel;

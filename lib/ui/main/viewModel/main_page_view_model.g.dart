@@ -73,12 +73,36 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
     });
   }
 
+  late final _$isOrderSavingAtom =
+      Atom(name: '_MainPageViewModelBase.isOrderSaving', context: context);
+
+  @override
+  bool get isOrderSaving {
+    _$isOrderSavingAtom.reportRead();
+    return super.isOrderSaving;
+  }
+
+  @override
+  set isOrderSaving(bool value) {
+    _$isOrderSavingAtom.reportWrite(value, super.isOrderSaving, () {
+      super.isOrderSaving = value;
+    });
+  }
+
   late final _$verileriAlAsyncAction =
       AsyncAction('_MainPageViewModelBase.verileriAl', context: context);
 
   @override
   Future<void> verileriAl() {
     return _$verileriAlAsyncAction.run(() => super.verileriAl());
+  }
+
+  late final _$saveOrderAsyncAction =
+      AsyncAction('_MainPageViewModelBase.saveOrder', context: context);
+
+  @override
+  Future<void> saveOrder() {
+    return _$saveOrderAsyncAction.run(() => super.saveOrder());
   }
 
   late final _$_MainPageViewModelBaseActionController =
@@ -123,7 +147,8 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
 socialMediaServices: ${socialMediaServices},
 selectedCategory: ${selectedCategory},
 selectedService: ${selectedService},
-livePrice: ${livePrice}
+livePrice: ${livePrice},
+isOrderSaving: ${isOrderSaving}
     ''';
   }
 }

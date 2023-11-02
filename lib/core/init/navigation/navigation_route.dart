@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:musmeramedya/ui/main/view/main_page.dart';
+import 'package:musmeramedya/ui/orders/view/orders_page.dart';
 import 'package:musmeramedya/ui/register/view/register_page.dart';
 import 'package:musmeramedya/ui/splash/view/splash_page.dart';
 import 'package:page_transition/page_transition.dart';
@@ -29,6 +30,9 @@ class NavigationRoute {
 
       case NavigationConstants.MAIN:
         return normalNavigate(MainPage(), NavigationConstants.MAIN ,args.arguments);
+
+      case NavigationConstants.ORDERS:
+        return normalNavigate(OrdersPage(), NavigationConstants.ORDERS ,args.arguments);
 
       case NavigationConstants.NOTFOUND:
         return normalNavigate( const NotFoundNavigationWidget(), NavigationConstants.NOTFOUND ,args.arguments);

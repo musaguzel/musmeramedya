@@ -5,8 +5,8 @@ import 'package:musmeramedya/core/extension/string_extension.dart';
 import 'package:musmeramedya/ui/main/model/social_media_model/social_media_service_model.dart';
 import 'package:musmeramedya/ui/main/viewModel/main_page_view_model.dart';
 import '../../../core/base/view/base_widget.dart';
-import '../../../core/constants/application/application_constants.dart';
-import '../../../core/constants/application/app_strings.dart';
+import '../../../core/init/app_strings.dart';
+import '../../../core/init/constants/app/app_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
 import '../components/navigation_drawer.dart';
 
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
   Scaffold buildScaffold(BuildContext context, MainPageViewModel store,
       NetworkResult networkResult) {
     return Scaffold(
-      drawer: const NavigationDrawerMain(),
+      drawer: NavigationDrawerMain(),
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text(ApplicationConstants.APPNAME),
@@ -63,7 +63,7 @@ class _MainPageState extends State<MainPage> {
                       buildAverageTimeText(store),
                       buildTimeAndPriceInfoText(store: store,needPadding: false,isPriceText: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
                       buildTimeAndPriceInfoText(store: store,needPadding: true,isPriceText: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
-                      buildCreateOrderButton()
+                      buildCreateOrderButton(store)
                     ],
                   )),
             )
@@ -173,7 +173,6 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-
   Observer buildTextField({required MainPageViewModel store,required bool isAmount}) {
     return Observer(
       builder: (_) {
@@ -218,39 +217,6 @@ class _MainPageState extends State<MainPage> {
       child: Text('Minimum: 100 - Maksimum: 15000',style: TextStyle(color: Colors.black.withOpacity(0.7)),),
     );
   }
-  Observer buildTimeAndPriceInfoText({required MainPageViewModel store,required bool needPadding,required bool isPriceText}) {
-    return Observer(builder: (_){
-      return Padding(
-        padding: EdgeInsets.only(top: needPadding ? 8.0 : 0),
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white, // Arka plan rengi beyaz
-            borderRadius:
-            const BorderRadius.all(Radius.circular(10.0)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.blue.withOpacity(0.3),
-                // Neon gibi parlak mavi renk
-                blurRadius: 10.0,
-                // Bulanıklık miktarı
-                spreadRadius: 1.0,
-                // Yayılma miktarı
-                offset: const Offset(0, 0), // Gölgenin yönü
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-                isPriceText ? (store.livePrice ?? "Fiyat") : (store.selectedService?['serviceaveragetime'].toString() ?? ApplicationStrings.MAIN_AVERAGE_TIME),
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      );
-    });
-  }
   Observer buildAverageTimeText(MainPageViewModel store) {
     return Observer(builder: (_){
       return const ListTile(
@@ -262,12 +228,53 @@ class _MainPageState extends State<MainPage> {
       );
     });
   }
-  Padding buildCreateOrderButton() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 1.0,top: 4.0),
-      child: ElevatedButton(onPressed: (){
+  Observer buildTimeAndPriceInfoText({required MainPageViewModel store,required bool needPadding,required bool isPriceText}) {
+    return Observer(builder: (_){
+      return Padding(
+        padding: EdgeInsets.only(top: needPadding ? 8.0 : 0),
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.7), // Arka plan rengi beyaz
+            borderRadius:
+            const BorderRadius.all(Radius.circular(10.0)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.green.withOpacity(0.3),
+                // Neon gibi parlak mavi renk
+                blurRadius: 0.0,
+                // Bulanıklık miktarı
+                spreadRadius: 1.0,
+                // Yayılma miktarı
+                offset: const Offset(0, 0), // Gölgenin yönü
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+                isPriceText ? (store.livePrice) : (store.selectedService?['serviceaveragetime'].toString() ?? ApplicationStrings.MAIN_AVERAGE_TIME),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      );
+    });
+  }
 
-      }, child: Text(ApplicationStrings.MAIN_CREATE_ORDER)),
-    );
+  Observer buildCreateOrderButton(MainPageViewModel store) {
+    return Observer(builder: (_){
+      return
+      !store.isOrderSaving ?
+       Padding(
+        padding: const EdgeInsets.only(left: 1.0,top: 4.0),
+        child: ElevatedButton(onPressed: (){
+              store.saveOrder();
+        }, child:  const Text(ApplicationStrings.MAIN_CREATE_ORDER)),
+      ):  const Padding(
+        padding: EdgeInsets.only(left: 1.0,top: 20.0),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    });
   }
 }

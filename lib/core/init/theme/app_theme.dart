@@ -15,7 +15,10 @@ final MyAppTheme = ThemeData(
         ),
       titleTextStyle: TextStyle(color: Colors.black,fontSize: 18)
     ),
+    snackBarTheme: const SnackBarThemeData(
+  contentTextStyle: TextStyle(color: Colors.black),
 
+    ),
     inputDecorationTheme: const InputDecorationTheme(
     labelStyle: TextStyle(color: Color(0xff263863), fontSize: 13),
     hintStyle: TextStyle(color: Color(0xff08214f), fontSize: 13),

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:musmeramedya/core/extension/context_extension.dart';
+import 'package:musmeramedya/core/init/navigation/navigation_service.dart';
+
+import '../../../core/init/constants/navigation/navigation_constants.dart';
 
 
 class NavigationDrawerMain extends StatelessWidget {
-  const NavigationDrawerMain({super.key});
+   NavigationDrawerMain({super.key});
+
+  final NavigationService navigation = NavigationService.instance;
 
   @override
   Widget build(BuildContext context) => Drawer(
@@ -39,7 +43,7 @@ class NavigationDrawerMain extends StatelessWidget {
           ),
         ),
 
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
       ],
     ),
   );
@@ -50,30 +54,38 @@ class NavigationDrawerMain extends StatelessWidget {
       children: [
         ListTile(
           leading: Icon(Icons.add),
-          title: Text("home"),
-          onTap: (){},
+          title: Text("Yeni Sipariş"),
+          onTap: (){
+            navigation.navigateToPageClear(path: NavigationConstants.MAIN);
+          },
         ),
         ListTile(
           leading: Icon(Icons.add),
-          title: Text("home"),
-          onTap: (){},
+          title: Text("Siparişler"),
+          onTap: (){
+            navigation.navigateToPage(path: NavigationConstants.ORDERS);
+          },
         ),
         ListTile(
           leading: Icon(Icons.add),
-          title: Text("home"),
+          title: Text("Bakiye Ekle"),
           onTap: (){},
         ),ListTile(
           leading: Icon(Icons.add),
-          title: Text("home"),
+          title: Text("Destek"),
           onTap: (){},
         ),
         const Divider(color: Colors.pink,),
         ListTile(
           leading: Icon(Icons.add),
-          title: Text("home"),
+          title: Text("Hesap"),
           onTap: (){},
         ),
-
+        ListTile(
+          leading: Icon(Icons.add),
+          title: Text("Çıkış Yap"),
+          onTap: (){},
+        ),
 
 
       ],

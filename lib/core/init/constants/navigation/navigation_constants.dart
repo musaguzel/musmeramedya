@@ -11,5 +11,8 @@ class NavigationConstants {
   static const HOME = '/home';
 
   static const MAIN = '/main';
+
+  static const ORDERS = '/orders';
+
   static const FORGOT_PASSWORD = "/forgotpassword";
 }

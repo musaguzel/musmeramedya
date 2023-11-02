@@ -4,7 +4,7 @@ import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/init/constants/app/app_constants.dart';
 import 'package:musmeramedya/ui/login/viewModel/login_page_view_model.dart';
-import '../../../core/constants/navigation/navigation_constants.dart';
+import '../../../core/init/constants/navigation/navigation_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
 
 
