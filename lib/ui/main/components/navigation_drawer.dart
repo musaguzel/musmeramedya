@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/init/navigation/navigation_service.dart';
+import 'package:musmeramedya/ui/main/viewModel/main_page_view_model.dart';
+import 'package:musmeramedya/ui/register/model/user_model.dart';
 
 import '../../../core/init/constants/navigation/navigation_constants.dart';
 
 
 class NavigationDrawerMain extends StatelessWidget {
-   NavigationDrawerMain({super.key});
+   NavigationDrawerMain({super.key, this.viewModel});
 
+   final MainPageViewModel? viewModel;
   final NavigationService navigation = NavigationService.instance;
 
   @override
@@ -35,11 +39,15 @@ class NavigationDrawerMain extends StatelessWidget {
               width: 2.0, // Çizgi kalınlığı
             ),),
           padding: const EdgeInsets.only(top: 20.0,bottom: 20.0,left: 50.0,right: 50.0),
-          child: const Column(
-            children: [
-              Text("Musa Güzel",style: TextStyle(fontSize: 25),),
-              Text("Bakiye: 50000"),
-            ],
+          child: Observer(
+            builder: (_){
+              return Column(
+                children: [
+                  Text(viewModel != null ? viewModel?.currentUser?.fullName.toString() as String : "0",style: TextStyle(fontSize: 25),),
+                  Text("Bakiye: ${viewModel != null ? viewModel?.currentUser?.balance.toString() : "0"}"),
+                ],
+              );
+            },
           ),
         ),
 
@@ -69,7 +77,9 @@ class NavigationDrawerMain extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.add),
           title: Text("Bakiye Ekle"),
-          onTap: (){},
+          onTap: (){
+            navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE);
+          },
         ),ListTile(
           leading: Icon(Icons.add),
           title: Text("Destek"),

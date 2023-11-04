@@ -25,6 +25,22 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
     });
   }
 
+  late final _$currentUserAtom =
+      Atom(name: '_MainPageViewModelBase.currentUser', context: context);
+
+  @override
+  UserModel? get currentUser {
+    _$currentUserAtom.reportRead();
+    return super.currentUser;
+  }
+
+  @override
+  set currentUser(UserModel? value) {
+    _$currentUserAtom.reportWrite(value, super.currentUser, () {
+      super.currentUser = value;
+    });
+  }
+
   late final _$selectedCategoryAtom =
       Atom(name: '_MainPageViewModelBase.selectedCategory', context: context);
 
@@ -97,6 +113,15 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
     return _$verileriAlAsyncAction.run(() => super.verileriAl());
   }
 
+  late final _$updateUserInfoAsyncAction =
+      AsyncAction('_MainPageViewModelBase.updateUserInfo', context: context);
+
+  @override
+  Future<void> updateUserInfo(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    return _$updateUserInfoAsyncAction
+        .run(() => super.updateUserInfo(snapshot));
+  }
+
   late final _$saveOrderAsyncAction =
       AsyncAction('_MainPageViewModelBase.saveOrder', context: context);
 
@@ -145,6 +170,7 @@ mixin _$MainPageViewModel on _MainPageViewModelBase, Store {
   String toString() {
     return '''
 socialMediaServices: ${socialMediaServices},
+currentUser: ${currentUser},
 selectedCategory: ${selectedCategory},
 selectedService: ${selectedService},
 livePrice: ${livePrice},

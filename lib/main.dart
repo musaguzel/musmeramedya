@@ -38,6 +38,6 @@ class MyApp extends StatelessWidget {
 }
 
 //internet kontrolü eklenecek
-//ana ekranın çoğu bitti , kodlarını düzenle yeni ekranlara geç
-//orders kısmı gün gün belge olarak kaydedilecek
-//anlık fiyat hesaplaması için güzel bir yol bul
+//bakiye ekle kısmında ikinci aşamada iban bilgileri ve seçilen tutar güzel bir şekilde tasarlanacak
+//ödeme yaptım butonu olacak ve kullanıcı tıkladığında veri tabanına ödemeler koleksiyonu açılıp oraya
+//kayıt ettirilecek. kimin ödeme yaptığı, kaç para, ne zaman, gibi bilgiler kayıt ettirilecek.

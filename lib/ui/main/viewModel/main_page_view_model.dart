@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
 import 'package:musmeramedya/ui/main/model/social_media_model/social_media_service_model.dart';
 import 'package:musmeramedya/ui/orders/model/orders_model.dart';
+import 'package:musmeramedya/ui/register/model/user_model.dart';
 import '../../../core/base/model/base_view_model.dart';
 part 'main_page_view_model.g.dart';
 
@@ -19,6 +21,7 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
 
   @override
   Future<void> init() async {
+    getUserInfoStream().listen(updateUserInfo);
     await verileriAl();
   }
 
@@ -49,6 +52,25 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
         }
       }
     });
+  }
+  @observable
+  UserModel? currentUser;
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserInfoStream() {
+    return firebaseFirestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser?.uid)
+        .snapshots();
+  }
+
+  @action
+  Future<void> updateUserInfo(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) async {
+    if (snapshot.exists) {
+      UserModel user =
+      UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
+      currentUser = user;
+    }
   }
 
 
@@ -98,7 +120,8 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
     if(firebaseAuth.currentUser != null){
       double? parsedValue = double.tryParse(livePrice);
       if(selectedCategory != null && parsedValue != null && livePrice.isNotEmpty && amountController.text.isNotEmpty && linkController.text.isNotEmpty){
-        OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: DateTime.now(),serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, status: false);
+        OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: DateTime.now(),serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, socialMediaName:
+            selectedCategory?.socialMediaName ?? "instagram",status: false);
         await firebaseFirestore.collection('orders').add(order.toJson()).then((value) => showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green));
       }else{
         showsnackbar(message: 'Lütfen Bilgileri Eksiksiz Girin');

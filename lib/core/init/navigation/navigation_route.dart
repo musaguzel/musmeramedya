@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:musmeramedya/ui/add_balance/view/first_stage/add_balance_page.dart';
+import 'package:musmeramedya/ui/add_balance/view/second_stage/add_balance_second.dart';
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/orders/view/orders_page.dart';
 import 'package:musmeramedya/ui/register/view/register_page.dart';
@@ -32,7 +34,13 @@ class NavigationRoute {
         return normalNavigate(MainPage(), NavigationConstants.MAIN ,args.arguments);
 
       case NavigationConstants.ORDERS:
-        return normalNavigate(OrdersPage(), NavigationConstants.ORDERS ,args.arguments);
+        return normalNavigate(const OrdersPage(), NavigationConstants.ORDERS ,args.arguments);
+
+      case NavigationConstants.ADD_BALANCE:
+        return normalNavigate(const AddBalancePage(), NavigationConstants.ADD_BALANCE ,args.arguments);
+
+      case NavigationConstants.ADD_BALANCE_SECOND:
+        return normalNavigate(const AddBalanceSecondStage(), NavigationConstants.ADD_BALANCE_SECOND ,args.arguments);
 
       case NavigationConstants.NOTFOUND:
         return normalNavigate( const NotFoundNavigationWidget(), NavigationConstants.NOTFOUND ,args.arguments);

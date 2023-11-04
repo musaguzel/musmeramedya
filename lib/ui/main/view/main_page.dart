@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
   Scaffold buildScaffold(BuildContext context, MainPageViewModel store,
       NetworkResult networkResult) {
     return Scaffold(
-      drawer: NavigationDrawerMain(),
+      drawer: NavigationDrawerMain(viewModel: store),
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text(ApplicationConstants.APPNAME),

@@ -13,6 +13,7 @@ OrdersModel _$OrdersModelFromJson(Map<String, dynamic> json) => OrdersModel(
       servicePrice: json['service_price'] as String,
       serviceAmount: json['service_amount'] as String,
       socialMediaLink: json['social_media_link'] as String,
+      socialMediaName: json['social_media_name'] as String,
       status: json['status'] as bool,
     );
 
@@ -24,5 +25,6 @@ Map<String, dynamic> _$OrdersModelToJson(OrdersModel instance) =>
       'service_price': instance.servicePrice,
       'service_amount': instance.serviceAmount,
       'social_media_link': instance.socialMediaLink,
+      'social_media_name': instance.socialMediaName,
       'status': instance.status,
     };

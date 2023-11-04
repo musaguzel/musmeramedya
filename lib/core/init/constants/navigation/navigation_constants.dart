@@ -14,5 +14,9 @@ class NavigationConstants {
 
   static const ORDERS = '/orders';
 
+  static const ADD_BALANCE = '/addbalance';
+
+  static const ADD_BALANCE_SECOND = '/addbalancesecondstage';
+
   static const FORGOT_PASSWORD = "/forgotpassword";
 }
