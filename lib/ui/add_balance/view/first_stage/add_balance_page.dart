@@ -3,9 +3,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/init/constants/navigation/navigation_constants.dart';
-import 'package:musmeramedya/ui/add_balance/view/second_stage/add_balance_second.dart';
+import 'package:musmeramedya/product/widgets/shimmer/shimmer_widget.dart';
 import 'package:musmeramedya/ui/add_balance/viewModel/add_balance_page_view_model.dart';
-import 'package:musmeramedya/ui/main/components/navigation_drawer.dart';
 
 
 class AddBalancePage extends StatelessWidget {
@@ -22,10 +21,11 @@ class AddBalancePage extends StatelessWidget {
         body: Center(
           child: Observer(
             builder: (_){
-              return GridView.builder(
+              return store.prices.isNotEmpty ?  GridView.builder(
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: context.width / 2.74, // Kartların maksimum genişliği
+                  maxCrossAxisExtent: context.width , // Kartların maksimum genişliği
+                  mainAxisExtent: context.height / 5,
                   crossAxisSpacing: 10,    // Yatayda aralık
                   mainAxisSpacing: 10,     // Dikeyde aralık
                 ),
@@ -36,17 +36,24 @@ class AddBalancePage extends StatelessWidget {
                         store.navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE_SECOND,data: store.prices[index]);
                     },
                     child: Card(
-                      color: Colors.blueGrey,
+                      color: Colors.grey.shade500,
                       child: Center(
-                        child: Text(
-                          store.prices[index],
-                          style: TextStyle(fontSize: 24),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(store.prices[index].title,style: const TextStyle(fontSize: 24),),
+                            ListTile(
+                              title: Text(store.prices[index].subtitle),
+                              subtitle: Text(store.prices[index].price),
+                              trailing: const Icon(Icons.arrow_circle_right,size: 30,color: Colors.yellow,),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   );
                 },
-              );
+              ) : CircularProgressIndicator();
             },
           )
         )

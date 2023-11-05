@@ -38,6 +38,6 @@ class MyApp extends StatelessWidget {
 }
 
 //internet kontrolü eklenecek
-//bakiye ekle kısmında ikinci aşamada iban bilgileri ve seçilen tutar güzel bir şekilde tasarlanacak
 //ödeme yaptım butonu olacak ve kullanıcı tıkladığında veri tabanına ödemeler koleksiyonu açılıp oraya
 //kayıt ettirilecek. kimin ödeme yaptığı, kaç para, ne zaman, gibi bilgiler kayıt ettirilecek.
+//kodlar düzenlenecek stringler ayarlanacak, tasarım güzelleştirilecek
