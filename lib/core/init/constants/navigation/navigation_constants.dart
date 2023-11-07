@@ -18,5 +18,7 @@ class NavigationConstants {
 
   static const ADD_BALANCE_SECOND = '/addbalancesecondstage';
 
+  static const PAYMENT_SUCCESSFUL = '/paymentsuccessful';
+
   static const FORGOT_PASSWORD = "/forgotpassword";
 }

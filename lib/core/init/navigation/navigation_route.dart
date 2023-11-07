@@ -3,6 +3,7 @@ import 'package:musmeramedya/ui/add_balance/view/first_stage/add_balance_page.da
 import 'package:musmeramedya/ui/add_balance/view/second_stage/add_balance_second.dart';
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/orders/view/orders_page.dart';
+import 'package:musmeramedya/ui/payment_successful/view/payment_successful_page.dart';
 import 'package:musmeramedya/ui/register/view/register_page.dart';
 import 'package:musmeramedya/ui/splash/view/splash_page.dart';
 import 'package:page_transition/page_transition.dart';
@@ -41,6 +42,9 @@ class NavigationRoute {
 
       case NavigationConstants.ADD_BALANCE_SECOND:
         return normalNavigate(const AddBalanceSecondStage(), NavigationConstants.ADD_BALANCE_SECOND ,args.arguments);
+
+      case NavigationConstants.PAYMENT_SUCCESSFUL:
+        return normalNavigate(PaymentSuccessfulPage(), NavigationConstants.PAYMENT_SUCCESSFUL ,args.arguments);
 
       case NavigationConstants.NOTFOUND:
         return normalNavigate( const NotFoundNavigationWidget(), NavigationConstants.NOTFOUND ,args.arguments);

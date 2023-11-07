@@ -38,6 +38,8 @@ class MyApp extends StatelessWidget {
 }
 
 //internet kontrolü eklenecek
-//ödeme yaptım butonu olacak ve kullanıcı tıkladığında veri tabanına ödemeler koleksiyonu açılıp oraya
-//kayıt ettirilecek. kimin ödeme yaptığı, kaç para, ne zaman, gibi bilgiler kayıt ettirilecek.
+//user olayı halledilecek. user bir kere veritabanından okunacak tüm sayfalarda kullanılabilecek provider falan ne gerekiyorsa yap
+//sipariş durumu izleme kısmı yapılacak
+//tarihler veritabanına karman çorban veriliyor onlara regex tanımlanacak.
+//url , kısmına regex kural tanımlanacak
 //kodlar düzenlenecek stringler ayarlanacak, tasarım güzelleştirilecek

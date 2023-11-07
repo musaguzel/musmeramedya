@@ -78,7 +78,7 @@ class NavigationDrawerMain extends StatelessWidget {
           leading: Icon(Icons.add),
           title: Text("Bakiye Ekle"),
           onTap: (){
-            navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE);
+            navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE,data: viewModel?.currentUser);
           },
         ),ListTile(
           leading: Icon(Icons.add),

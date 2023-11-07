@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
-import 'package:musmeramedya/ui/add_balance/model/price_packages_model.dart';
+import 'package:musmeramedya/ui/add_balance/model/payment_model/payment_model.dart';
+import 'package:musmeramedya/ui/add_balance/model/price_model/price_packages_model.dart';
 import '../../../core/base/model/base_view_model.dart';
 
 part 'add_balance_page_view_model.g.dart';
@@ -18,55 +19,80 @@ abstract class _AddBalancePageViewModelBase with Store, BaseViewModel {
 
   @override
   Future<void> init() async {
-    getPriceList();
+    await getPaymentInfo();
   }
 
-  @observable
-  ObservableList<PricePackagesModel> prices = ObservableList<
-      PricePackagesModel>.of([]);
 
-  @observable
-  String iban = '';
+
+
 
   @action
   void copyIban() {
-    Clipboard.setData(ClipboardData(text: iban));
+    Clipboard.setData(ClipboardData(text: paymentMethods?.iban ?? 'Ödeme Adresi'));
     showsnackbar(message: 'Metin Kopyalandı');
   }
 
+  @action
+  void setContainerState() {
+    containerIsOpen = !containerIsOpen;
+  }
+
   @observable
-  bool pricesLoading = false;
+  bool paymentInfoLoading = false;
+
+  @observable
+  bool containerIsOpen = false;
+
+  @observable
+  PaymentInfoModel? paymentMethods;
+
+  @observable
+  String? selectedPaymentMethod;
+
+  @observable
+  String? selectedPaymentTotal;
+
+  @observable
+  String? selectedDiscount;
+
+  @observable
+  String? totalPayment;
 
   @action
-  Future<void> getIban() async {
+  void setTotalPayment(){
+    var convertedPaymentTotal = int.tryParse(selectedPaymentTotal!);
+    var convertedTotalDiscount = int.tryParse(selectedDiscount!);
+    var calculatePrice = convertedPaymentTotal! - convertedTotalDiscount!;
+    totalPayment = calculatePrice.toString();
+  }
+
+  @action
+  Future<void> savePaymentProccessToFirebase(PaymentModel paymentModel) async {
+  try{
+    await firebaseFirestore.collection('payments').add(paymentModel.toJson());
+  }catch(e){
+
+    }
+  }
+
+  @action
+  Future<void> getPaymentInfo() async {
     try {
+      paymentInfoLoading = true;
       final DocumentSnapshot documentSnapshot = await firebaseFirestore
           .collection('admin').doc('odeme_bilgileri').get();
 
       if (documentSnapshot.exists) {
         final data = documentSnapshot.data() as Map<String, dynamic>;
-        iban = data['iban'];
+        paymentMethods = PaymentInfoModel.fromJson(data);
+        /*var paymentMethodsDynamic = data['payment_method'] as List<dynamic>;
+        paymentMethods = paymentMethodsDynamic.map((value) => value.toString()).toList();*/
+        //iban = data['iban'] as String;
+        paymentInfoLoading = false;
       }
     } catch (e) {
       print('Hata: $e');
     }
   }
+}
 
-  @action
-    Future<void> getPriceList() async {
-
-    try {
-    pricesLoading = true;
-    final QuerySnapshot documentSnapshot = await firebaseFirestore.collection('prices').get();
-    if (documentSnapshot.docs.isNotEmpty) {
-    documentSnapshot.docs.forEach((element) {
-    prices.add(PricePackagesModel.fromJson(element.data() as Map<String, dynamic>));
-    pricesLoading = false;
-    });
-    }
-    } catch (e) {
-    print('Hata: $e');
-    }
-
-    }
-  }
