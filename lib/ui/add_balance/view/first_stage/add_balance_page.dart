@@ -1,11 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/init/constants/navigation/navigation_constants.dart';
 import 'package:musmeramedya/ui/add_balance/viewModel/add_balance_page_view_model.dart';
 import 'package:musmeramedya/ui/register/model/user_model.dart';
+import '../../../main/components/navigation_drawer.dart';
+import '../../components/payment_history_data_table.dart';
 import '../../model/payment_model/payment_model.dart';
 
 class AddBalancePage extends StatelessWidget {
@@ -23,14 +26,15 @@ class AddBalancePage extends StatelessWidget {
         },
         onPageBuilder: (context, store, networkResult) =>
             Scaffold(
-              //drawer: NavigationDrawerMain(),
+              drawer: NavigationDrawerMain(),
                 appBar: AppBar(
-                  title: Text('Bakiye Ekle'),
+                  title: const Text('Bakiye Ekle'),
                 ),
                 body: SingleChildScrollView(
-                    child: Column(children: [
+                    child: Column(
+                        children: [
                       Card(
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(5),
                           child: Padding(
                               padding: const EdgeInsets.only(
                                 left: 15.0,
@@ -49,8 +53,19 @@ class AddBalancePage extends StatelessWidget {
                                         store: store, context: context),
                                     buildSizedBox20,
                                     buildButtonNext(store,currentUser),
-                                    buildSizedBox20,
-                                  ])))
+                                    //buildSizedBox20,
+                                  ]))),
+
+                                Observer(builder: (_){
+                                  return
+                                  !store.isPaymentHistoryLoading ?
+                                   Padding(
+                                     padding: const EdgeInsets.all(2.0),
+                                     child: PaymentHistoryDataTable(paymentHistory: store.paymentHistory,),
+                                   ) : const CircularProgressIndicator();
+                                },)
+
+
                     ]))));
   }
 
@@ -60,8 +75,9 @@ class AddBalancePage extends StatelessWidget {
         onPressed: () {
           if (store.selectedPaymentMethod != null &&
               store.selectedPaymentTotal != null) {
+            final formattedDate = DateFormat('dd-MM-yyyy hh:mm').format(DateTime.now());
             final paymentModel = PaymentModel(userId: currentUser.userID.toString(),userName: currentUser.fullName.toString(),selectedPaymentMethod: store.selectedPaymentMethod.toString()
-            ,selectedPaymentTotal:store.selectedPaymentTotal.toString(),selectedPaymentDiscount: store.selectedDiscount.toString(),totalPayment: store.totalPayment.toString(),date: DateTime.now() );
+            ,selectedPaymentTotal:store.selectedPaymentTotal.toString(),selectedPaymentDiscount: store.selectedDiscount.toString(),totalPayment: store.totalPayment.toString(),date: formattedDate,status: false );
             store.navigation.navigateToPage(
                 path: NavigationConstants.ADD_BALANCE_SECOND, data: paymentModel);
           } else {

@@ -126,6 +126,40 @@ mixin _$AddBalancePageViewModel on _AddBalancePageViewModelBase, Store {
     });
   }
 
+  late final _$paymentHistoryAtom = Atom(
+      name: '_AddBalancePageViewModelBase.paymentHistory', context: context);
+
+  @override
+  ObservableList<PaymentModel> get paymentHistory {
+    _$paymentHistoryAtom.reportRead();
+    return super.paymentHistory;
+  }
+
+  @override
+  set paymentHistory(ObservableList<PaymentModel> value) {
+    _$paymentHistoryAtom.reportWrite(value, super.paymentHistory, () {
+      super.paymentHistory = value;
+    });
+  }
+
+  late final _$isPaymentHistoryLoadingAtom = Atom(
+      name: '_AddBalancePageViewModelBase.isPaymentHistoryLoading',
+      context: context);
+
+  @override
+  bool get isPaymentHistoryLoading {
+    _$isPaymentHistoryLoadingAtom.reportRead();
+    return super.isPaymentHistoryLoading;
+  }
+
+  @override
+  set isPaymentHistoryLoading(bool value) {
+    _$isPaymentHistoryLoadingAtom
+        .reportWrite(value, super.isPaymentHistoryLoading, () {
+      super.isPaymentHistoryLoading = value;
+    });
+  }
+
   late final _$savePaymentProccessToFirebaseAsyncAction = AsyncAction(
       '_AddBalancePageViewModelBase.savePaymentProccessToFirebase',
       context: context);
@@ -134,6 +168,15 @@ mixin _$AddBalancePageViewModel on _AddBalancePageViewModelBase, Store {
   Future<void> savePaymentProccessToFirebase(PaymentModel paymentModel) {
     return _$savePaymentProccessToFirebaseAsyncAction
         .run(() => super.savePaymentProccessToFirebase(paymentModel));
+  }
+
+  late final _$getPaymentHistoryAsyncAction = AsyncAction(
+      '_AddBalancePageViewModelBase.getPaymentHistory',
+      context: context);
+
+  @override
+  Future<void> getPaymentHistory() {
+    return _$getPaymentHistoryAsyncAction.run(() => super.getPaymentHistory());
   }
 
   late final _$getPaymentInfoAsyncAction = AsyncAction(
@@ -190,7 +233,9 @@ paymentMethods: ${paymentMethods},
 selectedPaymentMethod: ${selectedPaymentMethod},
 selectedPaymentTotal: ${selectedPaymentTotal},
 selectedDiscount: ${selectedDiscount},
-totalPayment: ${totalPayment}
+totalPayment: ${totalPayment},
+paymentHistory: ${paymentHistory},
+isPaymentHistoryLoading: ${isPaymentHistoryLoading}
     ''';
   }
 }

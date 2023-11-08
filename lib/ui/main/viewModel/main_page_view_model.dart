@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
 import 'package:musmeramedya/ui/main/model/social_media_model/social_media_service_model.dart';
+import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/orders/model/orders_model.dart';
 import 'package:musmeramedya/ui/register/model/user_model.dart';
 import '../../../core/base/model/base_view_model.dart';
@@ -70,6 +72,7 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
       UserModel user =
       UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
       currentUser = user;
+      userModelGlobal = user;
     }
   }
 
@@ -120,7 +123,8 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
     if(firebaseAuth.currentUser != null){
       double? parsedValue = double.tryParse(livePrice);
       if(selectedCategory != null && parsedValue != null && livePrice.isNotEmpty && amountController.text.isNotEmpty && linkController.text.isNotEmpty){
-        OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: DateTime.now(),serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, socialMediaName:
+        final formattedDate = DateFormat('dd-MM-yyyy hh:mm').format(DateTime.now());
+        OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: formattedDate,serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, socialMediaName:
             selectedCategory?.socialMediaName ?? "instagram",status: false);
         await firebaseFirestore.collection('orders').add(order.toJson()).then((value) => showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green));
       }else{

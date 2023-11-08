@@ -8,8 +8,11 @@ import '../../../core/base/view/base_widget.dart';
 import '../../../core/init/app_strings.dart';
 import '../../../core/init/constants/app/app_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
+import '../../register/model/user_model.dart';
 import '../components/navigation_drawer.dart';
 
+
+    UserModel userModelGlobal = UserModel(fullName: "", email: "", balance: 5, userID: "");
 class MainPage extends StatefulWidget {
   MainPage({super.key});
 
@@ -25,7 +28,7 @@ class _MainPageState extends State<MainPage> {
         onModelReady: (model) {
           model.init();
           model.setContext(context);
-        },
+          },
         onPageBuilder: (context, store, networkResult) =>
             buildScaffold(context, store, networkResult));
   }

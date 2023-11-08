@@ -38,8 +38,7 @@ class MyApp extends StatelessWidget {
 }
 
 //internet kontrolü eklenecek
-//user olayı halledilecek. user bir kere veritabanından okunacak tüm sayfalarda kullanılabilecek provider falan ne gerekiyorsa yap
-//sipariş durumu izleme kısmı yapılacak
-//tarihler veritabanına karman çorban veriliyor onlara regex tanımlanacak.
+//drawer da bazı sayfalardan gelince Musa güzel ve bakiye kısmı sıfırlanıyor bu çözülecek
+//Siparişler kısmının Tasarımını Datatable benzetmeye çalış ya da internetten side Datatable diye bir arat
 //url , kısmına regex kural tanımlanacak
 //kodlar düzenlenecek stringler ayarlanacak, tasarım güzelleştirilecek

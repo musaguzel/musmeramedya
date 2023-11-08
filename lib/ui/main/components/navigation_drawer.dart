@@ -5,6 +5,7 @@ import 'package:musmeramedya/ui/main/viewModel/main_page_view_model.dart';
 import 'package:musmeramedya/ui/register/model/user_model.dart';
 
 import '../../../core/init/constants/navigation/navigation_constants.dart';
+import '../view/main_page.dart';
 
 
 class NavigationDrawerMain extends StatelessWidget {
@@ -78,7 +79,7 @@ class NavigationDrawerMain extends StatelessWidget {
           leading: Icon(Icons.add),
           title: Text("Bakiye Ekle"),
           onTap: (){
-            navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE,data: viewModel?.currentUser);
+            navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE,data: viewModel?.currentUser ?? userModelGlobal);
           },
         ),ListTile(
           leading: Icon(Icons.add),

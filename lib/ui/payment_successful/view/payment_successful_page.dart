@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/init/constants/navigation/navigation_constants.dart';
-
+import 'package:musmeramedya/ui/main/view/main_page.dart';
 import '../../../core/init/navigation/navigation_service.dart';
-
 
 
 class PaymentSuccessfulPage extends StatelessWidget {
@@ -28,14 +27,14 @@ class PaymentSuccessfulPage extends StatelessWidget {
               width: 100, // İsteğe bağlı: animasyonun genişliği
               repeat: false,
             ),
-            ListTile(
+            const ListTile(
              title: Text('Ödemeniz İnceleniyor',textAlign: TextAlign.center,style: TextStyle(fontSize: 24),),
               subtitle: Text('\nÖdemenizi doğruladıktan sonra bakiyeniz ortalama 1-2 saat içinde hesabınıza yansır',textAlign: TextAlign.center,),
             ),
             Spacer(),
           ElevatedButton(
             onPressed: () {
-              navigation.navigateToPageClear(path: NavigationConstants.ADD_BALANCE);
+              navigation.navigateToPageClear(path: NavigationConstants.ADD_BALANCE,data: userModelGlobal);
             },
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,

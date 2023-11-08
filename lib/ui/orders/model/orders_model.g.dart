@@ -8,7 +8,7 @@ part of 'orders_model.dart';
 
 OrdersModel _$OrdersModelFromJson(Map<String, dynamic> json) => OrdersModel(
       userID: json['user_id'] as String,
-      datetime: DateTime.parse(json['date'] as String),
+      datetime: json['date'] as String,
       serviceName: json['service_name'] as String,
       servicePrice: json['service_price'] as String,
       serviceAmount: json['service_amount'] as String,
@@ -20,7 +20,7 @@ OrdersModel _$OrdersModelFromJson(Map<String, dynamic> json) => OrdersModel(
 Map<String, dynamic> _$OrdersModelToJson(OrdersModel instance) =>
     <String, dynamic>{
       'user_id': instance.userID,
-      'date': instance.datetime.toIso8601String(),
+      'date': instance.datetime,
       'service_name': instance.serviceName,
       'service_price': instance.servicePrice,
       'service_amount': instance.serviceAmount,

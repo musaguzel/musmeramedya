@@ -9,7 +9,7 @@ class OrdersModel {
   String userID;
 
   @JsonKey(name: 'date')
-  DateTime datetime;
+  String datetime;
 
   @JsonKey(name: 'service_name')
   String  serviceName;

@@ -20,6 +20,7 @@ abstract class _AddBalancePageViewModelBase with Store, BaseViewModel {
   @override
   Future<void> init() async {
     await getPaymentInfo();
+    await getPaymentHistory();
   }
 
 
@@ -69,10 +70,37 @@ abstract class _AddBalancePageViewModelBase with Store, BaseViewModel {
   @action
   Future<void> savePaymentProccessToFirebase(PaymentModel paymentModel) async {
   try{
-    await firebaseFirestore.collection('payments').add(paymentModel.toJson());
+    //await firebaseFirestore.collection('payments').add(paymentModel.toJson());
+    await firebaseFirestore.collection('users').doc(firebaseAuth.currentUser?.uid).collection('payment_history').add(paymentModel.toJson());
   }catch(e){
 
     }
+  }
+
+  @observable
+  ObservableList<PaymentModel> paymentHistory = ObservableList<PaymentModel>();
+
+  @observable
+  bool isPaymentHistoryLoading = false;
+
+  @action
+  Future<void> getPaymentHistory() async {
+    isPaymentHistoryLoading = true;
+    var paymentHistoryFromFirestore = await firebaseFirestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser?.uid)
+        .collection('payment_history')
+        .orderBy('date', descending: true)
+        .get();
+
+    if (paymentHistoryFromFirestore.docs.isNotEmpty) {
+      for (var element in paymentHistoryFromFirestore.docs) {
+        paymentHistory.add(PaymentModel.fromJson(element.data()));
+      }
+    } else {
+      print('Belge bulunamadı');
+    }
+    isPaymentHistoryLoading = false;
   }
 
   @action
