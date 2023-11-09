@@ -7,6 +7,7 @@ import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/orders/model/orders_model.dart';
 import 'package:musmeramedya/ui/register/model/user_model.dart';
 import '../../../core/base/model/base_view_model.dart';
+import '../../../core/init/constants/navigation/navigation_constants.dart';
 part 'main_page_view_model.g.dart';
 
 class MainPageViewModel = _MainPageViewModelBase with _$MainPageViewModel;
@@ -127,6 +128,7 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
         OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: formattedDate,serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, socialMediaName:
             selectedCategory?.socialMediaName ?? "instagram",status: false);
         await firebaseFirestore.collection('orders').add(order.toJson()).then((value) => showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green));
+        navigation.navigateToPageClear(path: NavigationConstants.ORDERS);
       }else{
         showsnackbar(message: 'Lütfen Bilgileri Eksiksiz Girin');
       }

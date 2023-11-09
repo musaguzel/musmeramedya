@@ -9,7 +9,7 @@ import '../../../core/init/app_strings.dart';
 import '../../../core/init/constants/app/app_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
 import '../../register/model/user_model.dart';
-import '../components/navigation_drawer.dart';
+import '../../_widgets/drawer/navigation_drawer.dart';
 
 
     UserModel userModelGlobal = UserModel(fullName: "", email: "", balance: 5, userID: "");
@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
   Scaffold buildScaffold(BuildContext context, MainPageViewModel store,
       NetworkResult networkResult) {
     return Scaffold(
-      drawer: NavigationDrawerMain(viewModel: store),
+      drawer: NavigationDrawerMain(),
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text(ApplicationConstants.APPNAME),

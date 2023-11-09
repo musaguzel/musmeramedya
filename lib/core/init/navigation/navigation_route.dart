@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:musmeramedya/ui/add_balance/view/first_stage/add_balance_page.dart';
 import 'package:musmeramedya/ui/add_balance/view/second_stage/add_balance_second.dart';
+import 'package:musmeramedya/ui/contact_us/view/contact_us_detail.dart';
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/orders/view/orders_page.dart';
 import 'package:musmeramedya/ui/payment_successful/view/payment_successful_page.dart';
@@ -45,6 +46,9 @@ class NavigationRoute {
 
       case NavigationConstants.PAYMENT_SUCCESSFUL:
         return normalNavigate(PaymentSuccessfulPage(), NavigationConstants.PAYMENT_SUCCESSFUL ,args.arguments);
+
+      case NavigationConstants.CONTACT_US:
+        return normalNavigate(const ContactUsPage(), NavigationConstants.CONTACT_US ,args.arguments);
 
       case NavigationConstants.NOTFOUND:
         return normalNavigate( const NotFoundNavigationWidget(), NavigationConstants.NOTFOUND ,args.arguments);

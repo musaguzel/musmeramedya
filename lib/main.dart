@@ -38,7 +38,5 @@ class MyApp extends StatelessWidget {
 }
 
 //internet kontrolü eklenecek
-//drawer da bazı sayfalardan gelince Musa güzel ve bakiye kısmı sıfırlanıyor bu çözülecek
-//Siparişler kısmının Tasarımını Datatable benzetmeye çalış ya da internetten side Datatable diye bir arat
 //url , kısmına regex kural tanımlanacak
 //kodlar düzenlenecek stringler ayarlanacak, tasarım güzelleştirilecek

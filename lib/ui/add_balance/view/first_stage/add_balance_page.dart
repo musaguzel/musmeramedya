@@ -6,8 +6,9 @@ import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/init/constants/navigation/navigation_constants.dart';
 import 'package:musmeramedya/ui/add_balance/viewModel/add_balance_page_view_model.dart';
+import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/register/model/user_model.dart';
-import '../../../main/components/navigation_drawer.dart';
+import '../../../_widgets/drawer/navigation_drawer.dart';
 import '../../components/payment_history_data_table.dart';
 import '../../model/payment_model/payment_model.dart';
 
@@ -16,8 +17,6 @@ class AddBalancePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserModel currentUser =
-    ModalRoute.of(context)!.settings.arguments as UserModel;
     return BaseView(
         viewModel: AddBalancePageViewModel(),
         onModelReady: (model) {
@@ -52,7 +51,7 @@ class AddBalancePage extends StatelessWidget {
                                     buildDropdownPaymentTotal(
                                         store: store, context: context),
                                     buildSizedBox20,
-                                    buildButtonNext(store,currentUser),
+                                    buildButtonNext(store,userModelGlobal),
                                     //buildSizedBox20,
                                   ]))),
 

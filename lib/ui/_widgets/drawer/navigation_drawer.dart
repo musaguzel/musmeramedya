@@ -1,17 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/init/navigation/navigation_service.dart';
-import 'package:musmeramedya/ui/main/viewModel/main_page_view_model.dart';
-import 'package:musmeramedya/ui/register/model/user_model.dart';
-
 import '../../../core/init/constants/navigation/navigation_constants.dart';
-import '../view/main_page.dart';
+import '../../main/view/main_page.dart';
 
 
 class NavigationDrawerMain extends StatelessWidget {
-   NavigationDrawerMain({super.key, this.viewModel});
+   NavigationDrawerMain({super.key});
 
-   final MainPageViewModel? viewModel;
+   FirebaseAuth auth = FirebaseAuth.instance;
   final NavigationService navigation = NavigationService.instance;
 
   @override
@@ -44,8 +42,8 @@ class NavigationDrawerMain extends StatelessWidget {
             builder: (_){
               return Column(
                 children: [
-                  Text(viewModel != null ? viewModel?.currentUser?.fullName.toString() as String : "0",style: TextStyle(fontSize: 25),),
-                  Text("Bakiye: ${viewModel != null ? viewModel?.currentUser?.balance.toString() : "0"}"),
+                  Text(userModelGlobal.fullName,style: const TextStyle(fontSize: 25),),
+                  Text("Bakiye: ${userModelGlobal.balance.toString()}"),
                 ],
               );
             },
@@ -62,40 +60,45 @@ class NavigationDrawerMain extends StatelessWidget {
       runSpacing: 16,
       children: [
         ListTile(
-          leading: Icon(Icons.add),
-          title: Text("Yeni Sipariş"),
+          leading: const Icon(Icons.add),
+          title: const Text("Yeni Sipariş"),
           onTap: (){
             navigation.navigateToPageClear(path: NavigationConstants.MAIN);
           },
         ),
         ListTile(
-          leading: Icon(Icons.add),
-          title: Text("Siparişler"),
+          leading: const Icon(Icons.add),
+          title: const Text("Siparişler"),
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.ORDERS);
           },
         ),
         ListTile(
-          leading: Icon(Icons.add),
-          title: Text("Bakiye Ekle"),
+          leading: const Icon(Icons.add),
+          title: const Text("Bakiye Ekle"),
           onTap: (){
-            navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE,data: viewModel?.currentUser ?? userModelGlobal);
+            navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE,);
           },
         ),ListTile(
-          leading: Icon(Icons.add),
-          title: Text("Destek"),
-          onTap: (){},
+          leading: const Icon(Icons.add),
+          title: const Text("Destek"),
+          onTap: (){
+            navigation.navigateToPage(path: NavigationConstants.CONTACT_US,);
+          },
         ),
         const Divider(color: Colors.pink,),
         ListTile(
-          leading: Icon(Icons.add),
-          title: Text("Hesap"),
+          leading: const Icon(Icons.add),
+          title: const Text("Hesap"),
           onTap: (){},
         ),
         ListTile(
-          leading: Icon(Icons.add),
-          title: Text("Çıkış Yap"),
-          onTap: (){},
+          leading: const Icon(Icons.add),
+          title: const Text("Çıkış Yap"),
+          onTap: (){
+            navigation.removeAllOldRoutes;
+            auth.signOut();
+          },
         ),
 
 

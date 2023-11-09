@@ -20,5 +20,7 @@ class NavigationConstants {
 
   static const PAYMENT_SUCCESSFUL = '/paymentsuccessful';
 
+  static const CONTACT_US = '/contactus';
+
   static const FORGOT_PASSWORD = "/forgotpassword";
 }
