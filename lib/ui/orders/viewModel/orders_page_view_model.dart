@@ -34,13 +34,15 @@ abstract class _OrdersPageViewModelBase with Store, BaseViewModel {
 
   @action
   Future<void> fetchPendingOrders() async {
-    QuerySnapshot pendingTradeSnapshot=
-    await firebaseFirestore.collection("orders").where('user_id',isEqualTo: firebaseAuth.currentUser?.uid).get();
-    if (pendingTradeSnapshot.docs.isNotEmpty) {
-      pendingTradeSnapshot.docs.forEach((element) {
-        pendingOrders.add(OrdersModel.fromJson(element.data() as Map<String, dynamic>));
-        pendingOrdersLoading = false;
-      });
+    if(firebaseAuth.currentUser != null){
+      QuerySnapshot pendingTradeSnapshot=
+      await firebaseFirestore.collection("users").doc(firebaseAuth.currentUser?.uid).collection('orders_history').get();
+      if (pendingTradeSnapshot.docs.isNotEmpty) {
+        pendingTradeSnapshot.docs.forEach((element) {
+          pendingOrders.add(OrdersModel.fromJson(element.data() as Map<String, dynamic>));
+          pendingOrdersLoading = false;
+        });
+    }
     } else {
       print('Belge bulunamadı');
     }

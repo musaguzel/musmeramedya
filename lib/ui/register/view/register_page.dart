@@ -177,10 +177,9 @@ class RegisterPage extends StatelessWidget {
     return FadeAnimation(
       delay: 0.2,
       child: ElevatedButton(
-        child: Center(
+        child: const Center(
           child: Text(
             "Üye Ol",
-            //style: context.textTheme?.buttonTextStyle2,
           ),
         ),
         onPressed: () {

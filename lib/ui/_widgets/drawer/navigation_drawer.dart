@@ -9,7 +9,6 @@ import '../../main/view/main_page.dart';
 class NavigationDrawerMain extends StatelessWidget {
    NavigationDrawerMain({super.key});
 
-   FirebaseAuth auth = FirebaseAuth.instance;
   final NavigationService navigation = NavigationService.instance;
 
   @override
@@ -90,14 +89,14 @@ class NavigationDrawerMain extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.add),
           title: const Text("Hesap"),
-          onTap: (){},
+          onTap: (){
+            navigation.navigateToPage(path: NavigationConstants.PROFILE,);
+          },
         ),
         ListTile(
           leading: const Icon(Icons.add),
           title: const Text("Çıkış Yap"),
           onTap: (){
-            navigation.removeAllOldRoutes;
-            auth.signOut();
           },
         ),
 

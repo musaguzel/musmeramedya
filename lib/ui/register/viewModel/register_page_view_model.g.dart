@@ -51,6 +51,26 @@ mixin _$RegisterPageViewModel on _RegisterPageViewModelBase, Store {
         .run(() => super.createUserWithEmailAndPassword(context));
   }
 
+  late final _$generateInviteCodeAsyncAction = AsyncAction(
+      '_RegisterPageViewModelBase.generateInviteCode',
+      context: context);
+
+  @override
+  Future<String> generateInviteCode(String userId) {
+    return _$generateInviteCodeAsyncAction
+        .run(() => super.generateInviteCode(userId));
+  }
+
+  late final _$isInviteCodeExistsAsyncAction = AsyncAction(
+      '_RegisterPageViewModelBase.isInviteCodeExists',
+      context: context);
+
+  @override
+  Future<bool> isInviteCodeExists(String code) {
+    return _$isInviteCodeExistsAsyncAction
+        .run(() => super.isInviteCodeExists(code));
+  }
+
   late final _$_RegisterPageViewModelBaseActionController =
       ActionController(name: '_RegisterPageViewModelBase', context: context);
 

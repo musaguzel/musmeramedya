@@ -12,7 +12,7 @@ import '../../register/model/user_model.dart';
 import '../../_widgets/drawer/navigation_drawer.dart';
 
 
-    UserModel userModelGlobal = UserModel(fullName: "", email: "", balance: 5, userID: "");
+    UserModel userModelGlobal = UserModel(fullName: "", email: "", balance: 5, userID: "",referenceCode: "");
 class MainPage extends StatefulWidget {
   MainPage({super.key});
 

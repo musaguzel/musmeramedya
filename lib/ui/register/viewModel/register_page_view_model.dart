@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +27,7 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
 
   @action
   Future<void> createUserWithEmailAndPassword(BuildContext context) async {
+    showDialog(context: viewModelContext, barrierDismissible: false,builder: (context) => const Center(child: CircularProgressIndicator(),));
     try {
       int balance = 0;
 
@@ -32,17 +36,21 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
             email: emailController.text, password: passwordController.text)
             .then((value) async {
 
+              String referenceCode = await generateInviteCode(firebaseAuth.currentUser!.uid);
 
           UserModel users = UserModel(
             fullName: fullNameController.text,
             email: emailController.text,
             balance: balance,
-            userID: firebaseAuth.currentUser?.uid,);
+            userID: firebaseAuth.currentUser?.uid,
+          referenceCode: referenceCode);
 
           await firebaseFirestore
               .collection("users")
               .doc(firebaseAuth.currentUser?.uid)
               .set(users.toJson());
+
+          await firebaseAuth.currentUser?.sendEmailVerification();
 
           showsnackbar(
               message: "Hesabınız Oluşturuldu", backgroundColor: Colors.green);
@@ -68,6 +76,7 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
             break;
         }
       }
+      Navigator.of(viewModelContext).pop();
     }
   }
 
@@ -80,6 +89,41 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
   @action
   void isLockStateChange() {
     isLock = !isLock;
+  }
+
+
+  final CollectionReference inviteCodesCollection =
+  FirebaseFirestore.instance.collection('inviteCodes');
+
+
+
+
+  @action
+  Future<String> generateInviteCode(String userId) async {
+    var random = Random();
+    int codeLength = 8;
+    String characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+    String inviteCode = '';
+
+    do {
+      inviteCode = '';
+      for (int i = 0; i < codeLength; i++) {
+        int index = random.nextInt(characters.length);
+        inviteCode += characters[index];
+      }
+    } while (await isInviteCodeExists(inviteCode));
+
+    // Üretilen kodu Firestore'a ekleyin ve kullanıcı ID'si ile ilişkilendirin.
+    await inviteCodesCollection.doc(inviteCode).set({'used': true, 'userId': userId});
+
+    return inviteCode;
+  }
+  @action
+  Future<bool> isInviteCodeExists(String code) async {
+    // Firestore'da kodun var olup olmadığını kontrol et.
+    DocumentSnapshot snapshot = await inviteCodesCollection.doc(code).get();
+    return snapshot.exists;
   }
 
 }

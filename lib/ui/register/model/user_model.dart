@@ -12,11 +12,13 @@ class UserModel {
   @JsonKey(name: 'balance')
   int balance;
 
-
   @JsonKey(name: 'userID')
   String? userID;
 
-  UserModel({required this.fullName, required this.email,  required this.balance,required this.userID});
+  @JsonKey(name: 'reference_code')
+  String? referenceCode;
+
+  UserModel({required this.fullName, required this.email,  required this.balance,required this.userID,required this.referenceCode});
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
