@@ -10,6 +10,8 @@ class SettingsViewModel = _SettingsViewModelBase with _$SettingsViewModel;
 
 abstract class _SettingsViewModelBase with Store, BaseViewModel {
 
+  final FocusNode focusNode = FocusNode();
+
   @override
   void setContext(BuildContext context) => viewModelContext = context;
 

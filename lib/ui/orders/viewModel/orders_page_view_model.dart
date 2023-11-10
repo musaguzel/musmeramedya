@@ -36,7 +36,7 @@ abstract class _OrdersPageViewModelBase with Store, BaseViewModel {
   Future<void> fetchPendingOrders() async {
     if(firebaseAuth.currentUser != null){
       QuerySnapshot pendingTradeSnapshot=
-      await firebaseFirestore.collection("users").doc(firebaseAuth.currentUser?.uid).collection('orders_history').get();
+      await firebaseFirestore.collection("users").doc(firebaseAuth.currentUser?.uid).collection('orders_history').orderBy('date', descending: true).get();
       if (pendingTradeSnapshot.docs.isNotEmpty) {
         pendingTradeSnapshot.docs.forEach((element) {
           pendingOrders.add(OrdersModel.fromJson(element.data() as Map<String, dynamic>));

@@ -18,6 +18,10 @@ extension StringLocalization on String {
 
 
 
+extension ValidUrlExtension on String {
+  bool get isValidURL => Uri.parse(this).isAbsolute;
+}
+
 extension ImagePathExtension on String {
   String get toSVG => 'assets/svg/$this.svg';
   String get toPNG => 'assets/images/$this.png';

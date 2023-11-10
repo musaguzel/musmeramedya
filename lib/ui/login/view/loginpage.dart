@@ -25,46 +25,51 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
         appBar: buildAppBar,
-        body: Column(
-          children: [
-            Card(
-              margin: const EdgeInsets.all(20),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildTextfieldTitle(context,"Kullanıcı Adı"),
-                    buildSizedBox,
-                    buildTextFieldEmail(store),
-                    buildSizedBox,
-                    buildTextfieldTitle(context,"Şifre"),
-                    buildSizedBox,
-                    buildTextFieldPassword(store),
-                    buildSizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(onPressed: (){
-                          FocusScope.of(context).unfocus();
-                          if (store.emailController.text.isNotEmpty &&
-                              store.passwordController.text.isNotEmpty) {
-                            store.loginWithEmailAndPassword(context);
-                          }
-                        }, child: Text('Giriş Yap')),
-                        TextButton(onPressed: (){
+        body: GestureDetector(
+          onTap: (){
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: Column(
+            children: [
+              Card(
+                margin: const EdgeInsets.all(20),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildTextfieldTitle(context,"Kullanıcı Adı"),
+                      buildSizedBox,
+                      buildTextFieldEmail(store),
+                      buildSizedBox,
+                      buildTextfieldTitle(context,"Şifre"),
+                      buildSizedBox,
+                      buildTextFieldPassword(store),
+                      buildSizedBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(onPressed: (){
+                            FocusScope.of(context).unfocus();
+                            if (store.emailController.text.isNotEmpty &&
+                                store.passwordController.text.isNotEmpty) {
+                              store.loginWithEmailAndPassword(context);
+                            }
+                          }, child: Text('Giriş Yap')),
+                          TextButton(onPressed: (){
 
-                        }, child: Text('Şifremi Unuttum'))
-                      ],
-                    ),
-                    const SizedBox(height: 20,),
-                    wrapSignUp(context,networkResult,store)
-                  ],
+                          }, child: Text('Şifremi Unuttum'))
+                        ],
+                      ),
+                      const SizedBox(height: 20,),
+                      wrapSignUp(context,networkResult,store)
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         )
     );
   }

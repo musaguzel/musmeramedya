@@ -33,95 +33,113 @@ class _OrdersPageState extends State<OrdersPage> {
   Observer buildObserver(OrdersPageViewModel store) {
     return Observer(
       builder: (_) {
-        return Card(
-          child: ListView.builder(
-            itemCount: store.pendingOrders.length,
-            itemBuilder: (context, index) {
-              return AnimatedContainer(
-                decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: const BorderRadius.all(Radius.circular(7))),
-                duration: const Duration(milliseconds: 200),
-                height: store.isOpenList[index] ? 200 : 50,
-                margin: const EdgeInsets.all(8),
-                child: Center(
-                    child: ListTile(
-                  onTap: () {
-                    store.toggleContainer(index);
-                    setState(() {});
+        return store.pendingOrdersLoading
+            ? const Center(child: CircularProgressIndicator()) : (store.pendingOrders.isNotEmpty)
+            ?   Card(
+                child: ListView.builder(
+                  itemCount: store.pendingOrders.length,
+                  itemBuilder: (context, index) {
+                    return AnimatedContainer(
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(7))),
+                      duration: const Duration(milliseconds: 200),
+                      height: store.isOpenList[index] ? 200 : 50,
+                      margin: const EdgeInsets.all(8),
+                      child: Center(
+                          child: ListTile(
+                        onTap: () {
+                          store.toggleContainer(index);
+                          setState(() {});
+                        },
+                        title: store.isOpenList[index]
+                            ? SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    buildOrdersDetail(
+                                        title: 'Tarih: ',
+                                        value: store
+                                            .pendingOrders[index].datetime
+                                            .toString()),
+                                    buildOrdersDetail(
+                                        title: 'Link: ',
+                                        value: store.pendingOrders[index]
+                                            .socialMediaLink,
+                                        isLinkText: true,viewModel: store),
+                                    buildOrdersDetail(
+                                        title: 'Fiyat: ',
+                                        value: store
+                                            .pendingOrders[index].servicePrice),
+                                    buildOrdersDetail(
+                                        title: 'Miktar: ',
+                                        value: store.pendingOrders[index]
+                                            .serviceAmount),
+                                    buildOrdersDetail(
+                                        title: 'Servis: ',
+                                        value: store
+                                            .pendingOrders[index].serviceName),
+                                    buildOrdersDetail(
+                                        title: 'Durum: ',
+                                        value: (store.pendingOrders[index]
+                                                    .status &&
+                                                !store.pendingOrders[index]
+                                                    .isCancelled)
+                                            ? 'Tamamlandı'
+                                            : (!store.pendingOrders[index]
+                                                        .status &&
+                                                    !store.pendingOrders[index]
+                                                        .isCancelled)
+                                                ? 'Bekleniyor'
+                                                : (store.pendingOrders[index]
+                                                        .isCancelled)
+                                                    ? 'İptal'
+                                                    : 'Diğer Durum',
+                                        isStatusValue:
+                                            store.pendingOrders[index].status,
+                                        isCancelled: store
+                                            .pendingOrders[index].isCancelled),
+                                  ],
+                                ),
+                              )
+                            : Text(store.pendingOrders[index].serviceName),
+                        leading: ImageIcon(AssetImage(
+                            store.pendingOrders[index].socialMediaName.toPNG)),
+                        trailing: Icon(
+                          (store.pendingOrders[index].status &&
+                                  !store.pendingOrders[index].isCancelled)
+                              ? Icons.done
+                              : (!store.pendingOrders[index].status &&
+                                      !store.pendingOrders[index].isCancelled)
+                                  ? Icons.access_time_outlined
+                                  : Icons.cancel,
+                          color: (store.pendingOrders[index].status &&
+                                  !store.pendingOrders[index].isCancelled)
+                              ? Colors.green
+                              : (!store.pendingOrders[index].status &&
+                                      !store.pendingOrders[index].isCancelled)
+                                  ? Colors.blueGrey
+                                  : Colors.red,
+                        ),
+                      )),
+                    );
                   },
-                  title: store.isOpenList[index]
-                      ? SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              buildOrdersDetail(
-                                  title: 'Tarih: ',
-                                  value: store.pendingOrders[index].datetime
-                                      .toString()),
-                              buildOrdersDetail(
-                                  title: 'Link: ',
-                                  value: store
-                                      .pendingOrders[index].socialMediaLink),
-                              buildOrdersDetail(
-                                  title: 'Fiyat: ',
-                                  value:
-                                      store.pendingOrders[index].servicePrice),
-                              buildOrdersDetail(
-                                  title: 'Miktar: ',
-                                  value:
-                                      store.pendingOrders[index].serviceAmount),
-                              buildOrdersDetail(
-                                  title: 'Servis: ',
-                                  value:
-                                      store.pendingOrders[index].serviceName),
-                              buildOrdersDetail(
-                                  title: 'Durum: ',
-                                  value: (store.pendingOrders[index].status &&
-                                          !store
-                                              .pendingOrders[index].isCancelled)
-                                      ? 'Tamamlandı'
-                                      : (!store.pendingOrders[index].status &&
-                                              !store.pendingOrders[index]
-                                                  .isCancelled)
-                                          ? 'Bekleniyor'
-                                          : (store.pendingOrders[index]
-                                                  .isCancelled)
-                                              ? 'İptal'
-                                              : 'Diğer Durum',
-                                  isStatusValue:
-                                      store.pendingOrders[index].status,isCancelled: store.pendingOrders[index].isCancelled),
-                            ],
-                          ),
-                        )
-                      : Text(store.pendingOrders[index].serviceName),
-                  leading: ImageIcon(AssetImage(
-                      store.pendingOrders[index].socialMediaName.toPNG)),
-                  trailing: Icon(
-                     (store.pendingOrders[index].status && !store.pendingOrders[index].isCancelled)
-                        ? Icons.done
-                        : (!store.pendingOrders[index].status && !store.pendingOrders[index].isCancelled)
-                        ? Icons.access_time_outlined
-                        : Icons.cancel,
-                    color: (store.pendingOrders[index].status && !store.pendingOrders[index].isCancelled)
-                        ? Colors.green
-                        : (!store.pendingOrders[index].status && !store.pendingOrders[index].isCancelled)
-                        ? Colors.blueGrey
-                        : Colors.red,
-
-                  ),
-                )),
-              );
-            },
-          ),
-        );
+                ),
+              )
+            : const Center(child: Text('Şu Anda Bekleyen Siparişiniz Yok'));
       },
     );
   }
 
   Padding buildOrdersDetail(
-      {required String title, required String value, bool? isStatusValue,bool? isCancelled}) {
+      {required String title,
+      required String value,
+      bool? isStatusValue,
+      bool? isCancelled,
+      bool? isLinkText,
+      OrdersPageViewModel? viewModel}) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: Row(
@@ -130,13 +148,23 @@ class _OrdersPageState extends State<OrdersPage> {
             title,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          Text(
-            value,
-            style: TextStyle(
-                color: isStatusValue == null
-                    ? Colors.black
-                    : ((isStatusValue && !isCancelled!) ? Colors.green : (!isStatusValue && !isCancelled!) ? Colors.blueGrey : Colors.red)),
-          ),
+          isLinkText != null
+              ? GestureDetector(onTap: () {
+                  if(viewModel != null){
+                    viewModel.launchURL(value);
+                  }
+          }, child: const Text('Linke Git',style: TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.bold),))
+              : Text(
+                  value,
+                  style: TextStyle(
+                      color: isStatusValue == null
+                          ? Colors.black
+                          : ((isStatusValue && !isCancelled!)
+                              ? Colors.green
+                              : (!isStatusValue && !isCancelled!)
+                                  ? Colors.blueGrey
+                                  : Colors.red)),
+                ),
         ],
       ),
     );

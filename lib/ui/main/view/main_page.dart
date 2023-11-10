@@ -13,14 +13,11 @@ import '../../_widgets/drawer/navigation_drawer.dart';
 
 
     UserModel userModelGlobal = UserModel(fullName: "", email: "", balance: 5, userID: "",referenceCode: "");
-class MainPage extends StatefulWidget {
-  MainPage({super.key});
+class MainPage extends StatelessWidget {
+   MainPage({super.key});
 
-  @override
-  State<MainPage> createState() => _MainPageState();
-}
+  final FocusNode _focusNode = FocusNode();
 
-class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return BaseView(
@@ -29,10 +26,12 @@ class _MainPageState extends State<MainPage> {
           model.init();
           model.setContext(context);
           },
+        onDispose: (){
+          _focusNode.dispose();
+        },
         onPageBuilder: (context, store, networkResult) =>
             buildScaffold(context, store, networkResult));
   }
-
 
   Scaffold buildScaffold(BuildContext context, MainPageViewModel store,
       NetworkResult networkResult) {
@@ -42,38 +41,42 @@ class _MainPageState extends State<MainPage> {
         appBar: AppBar(
           title: const Text(ApplicationConstants.APPNAME),
         ),
-        body: SingleChildScrollView(
-          child: Column(children: [
-            Card(
-              margin: const EdgeInsets.all(10),
-              child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0,right: 15.0,),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildTitle(ApplicationStrings.MAIN_CATEGORY),
-                      buildDropdownCategory(
-                          store: store),
-                      buildTitle(ApplicationStrings.MAIN_SERVIS),
-                      buildDropdownService(
-                          store: store),
-                      buildTitle(ApplicationStrings.MAIN_LINK),
-                      buildTextField(store: store,isAmount: false),
-                      buildTitle(ApplicationStrings.MAIN_AMOUNT),
-                      buildTextField(store: store,isAmount: true),
-                      buildMinMaksAmount,
-                      buildAverageTimeText(store),
-                      buildTimeAndPriceInfoText(store: store,needPadding: false,isPriceText: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
-                      buildTimeAndPriceInfoText(store: store,needPadding: true,isPriceText: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
-                      buildCreateOrderButton(store)
-                    ],
-                  )),
-            )
-          ]),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Card(
+                margin: const EdgeInsets.all(10),
+                child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0,right: 15.0,),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildTitle(ApplicationStrings.MAIN_CATEGORY),
+                        buildDropdownCategory(
+                            store: store,context: context),
+                        buildTitle(ApplicationStrings.MAIN_SERVIS),
+                        buildDropdownService(
+                            store: store,context: context),
+                        buildTitle(ApplicationStrings.MAIN_LINK),
+                        buildTextField(store: store,isAmount: false),
+                        buildTitle(ApplicationStrings.MAIN_AMOUNT),
+                        buildTextField(store: store,isAmount: true),
+                        buildMinMaksAmount,
+                        buildAverageTimeText(store),
+                        buildTimeAndPriceInfoText(store: store,needPadding: false,isPriceText: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
+                        buildTimeAndPriceInfoText(store: store,needPadding: true,isPriceText: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
+                        buildCreateOrderButton(store)
+                      ],
+                    )),
+              )
+            ]),
+          ),
         ));
   }
-
 
   Padding buildTitle(String title) {
     return Padding(
@@ -86,7 +89,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Observer buildDropdownCategory(
-      {required MainPageViewModel store}) {
+      {required MainPageViewModel store,required BuildContext context}) {
     return Observer(builder: (_) {
       return Container(
         decoration: const BoxDecoration(
@@ -128,15 +131,13 @@ class _MainPageState extends State<MainPage> {
   }
 
   Observer buildDropdownService(
-      {required MainPageViewModel store}) {
+      {required MainPageViewModel store,required BuildContext context}) {
     return Observer(builder: (_) {
       return Container(
         decoration: const BoxDecoration(
           color: Colors.white, // Arka plan rengi beyaz
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
-
-
         child: AbsorbPointer(
           absorbing: store.selectedCategory != null ? false : true,
           child: DropdownButtonHideUnderline(
@@ -214,12 +215,14 @@ class _MainPageState extends State<MainPage> {
       },
     );
   }
+
   Padding get buildMinMaksAmount {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0,left: 4.0),
       child: Text('Minimum: 100 - Maksimum: 15000',style: TextStyle(color: Colors.black.withOpacity(0.7)),),
     );
   }
+
   Observer buildAverageTimeText(MainPageViewModel store) {
     return Observer(builder: (_){
       return const ListTile(
@@ -231,6 +234,7 @@ class _MainPageState extends State<MainPage> {
       );
     });
   }
+
   Observer buildTimeAndPriceInfoText({required MainPageViewModel store,required bool needPadding,required bool isPriceText}) {
     return Observer(builder: (_){
       return Padding(
@@ -281,3 +285,4 @@ class _MainPageState extends State<MainPage> {
     });
   }
 }
+

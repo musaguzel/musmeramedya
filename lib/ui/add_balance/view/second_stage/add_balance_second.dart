@@ -53,16 +53,12 @@ class AddBalanceSecondStage extends StatelessWidget {
                   const SizedBox(
                     height: 25,
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      children: [
-                        Expanded(flex: 3,child: buildPaymentInfoSummary(context, store, arguments)),
-                        const SizedBox(width: 10,),
+
+                        Expanded(flex: 2,child: buildPaymentInfoSummary(context, store, arguments)),
                         Expanded(
                           flex: 1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ElevatedButton(
                                 onPressed: () {
@@ -91,10 +87,7 @@ class AddBalanceSecondStage extends StatelessWidget {
                             ],
                           ),
                         )
-                      ],
-                    ),
-                  )
-                  //const Spacer(),
+
                 ],
               ),
             ),
@@ -105,7 +98,7 @@ class AddBalanceSecondStage extends StatelessWidget {
   FadeAnimation get buildHowToMakePaymentInfoText {
     return FadeAnimation(
                   delay: 0.7,
-                  child: const Text('1- Toplam tutar belirtilen ödeme adresine EFT/Havale yöntemi ile gönderilir.'
+                  child: const Text('1- Toplam tutar belirtilen ödeme adresine EFT/Havale yöntemi ile gönderilir.(Açıklama Kısmına İsim Soyisim Girilmelidir)'
                       '\n2- Ödemeyi yaptım butonuna tıklayarak işlem tamamlanır. Bakiyeniz ortalama 1-2 saat içinde hesabınıza yansır.'),
                 );
   }
@@ -179,7 +172,7 @@ class AddBalanceSecondStage extends StatelessWidget {
                 buildSummaryInfo(title: 'Bonus', info: '+${paymentModel.selectedPaymentBonus}', isColoredText: true),
                 buildSummaryInfo(title: 'Hesabınıza geçecek tutar\n', info:'+${paymentModel.bonusPlusTotal}\n', isColoredText: true),
                 const Divider(color: Colors.grey, height: 1),
-                buildSummaryInfo(title: 'Toplam Tutar', info: paymentModel.selectedPaymentTotal, isColoredText: true, isBigFontText: true),
+                buildSummaryInfo(title: 'Toplam Ödenecek Tutar', info: paymentModel.selectedPaymentTotal, isColoredText: true, isBigFontText: true),
               ],
             ),
           ),
@@ -213,6 +206,7 @@ class AddBalanceSecondStage extends StatelessWidget {
     return Observer(
       builder: (_) {
         return ElevatedButton(
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.green)),
           onPressed: () => showDialog(
               context: context,
               barrierDismissible: false,

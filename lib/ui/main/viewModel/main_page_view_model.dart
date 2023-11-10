@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
+import 'package:musmeramedya/core/extension/string_extension.dart';
 import 'package:musmeramedya/ui/main/model/social_media_model/social_media_service_model.dart';
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/orders/model/orders_model.dart';
@@ -96,7 +97,7 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
     var index = selectedCategory?.serviceNames.indexOf(sosyalMedyaVeriler!) ?? 1;
     String serviceAverageTime = selectedCategory?.serviceAverageTime[index].toString() ?? '1 saat';  //Aynı indeksteki servis tamamlanma zamanını al
     String servicePrice = selectedCategory?.servicePrice[index].toString() ?? '10 tl';  //Aynı indeksteki servis tamamlanma zamanını al
-    double formattedServicePrice = double.parse(servicePrice);
+    int formattedServicePrice = int.parse(servicePrice);
     selectedService?.clear();
     selectedService = {                                                           //seçilen servisi ismini ekle zamanını ekle,seçilen servisi oluştur
       'servicename': sosyalMedyaVeriler,
@@ -110,32 +111,47 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
   void calculatePrice(){
       if(selectedService != null){
         amountController.text.isEmpty ? livePrice = "Fiyat" : livePrice = "";
-        double formattedPrice = double.parse(selectedService!['serviceprice'].toString()); //veritabanından gelen 1 adet servisin fiyatı
-        double formattedAmount = amountController.text.isNotEmpty ? double.parse(amountController.text) : 0.0;  //Kullanıcının istediği miktar
+        int formattedPrice = int.parse(selectedService!['serviceprice'].toString()); //veritabanından gelen 1 adet servisin fiyatı
+        int formattedAmount = amountController.text.isNotEmpty ? int.parse(amountController.text) : 0;  //Kullanıcının istediği miktar
         var realPrice = formattedPrice * formattedAmount;                                  //Kullanıcıya sunulacak fiyat
 
-        livePrice = realPrice == 0.0 ? "Fiyat" : realPrice.toString();
+        livePrice = realPrice == 0 ? "Fiyat" : realPrice.toString();
       }
   }
 
   @action
   Future<void> saveOrder() async {
+    CollectionReference userCol = firebaseFirestore.collection('users');
     isOrderSaving = true;
     if(firebaseAuth.currentUser != null){
-      double? parsedValue = double.tryParse(livePrice);
-      if(selectedCategory != null && parsedValue != null && livePrice.isNotEmpty && amountController.text.isNotEmpty && linkController.text.isNotEmpty){
-        final formattedDate = DateFormat('dd-MM-yyyy hh:mm').format(DateTime.now());
-        OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: formattedDate,serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, socialMediaName:
+      int? parsedValue = int.tryParse(livePrice);
+      if(currentUser!= null){
+        if(currentUser!.balance >= parsedValue!){
+          if(selectedCategory != null && livePrice.isNotEmpty && amountController.text.isNotEmpty && linkController.text.isNotEmpty && linkController.text.trim().isValidURL){
+            final formattedDate = DateFormat('dd-MM-yyyy hh:mm').format(DateTime.now());
+            OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: formattedDate,serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, socialMediaName:
             selectedCategory?.socialMediaName ?? "instagram",isCancelled: false,status: false);
-        await firebaseFirestore.collection('users').doc(firebaseAuth.currentUser?.uid).collection('orders_history').add(order.toJson()).then((value) =>  showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green));
-        navigation.navigateToPageClear(path: NavigationConstants.ORDERS);
-      }else{
-        showsnackbar(message: 'Lütfen Bilgileri Eksiksiz Girin');
+            await userCol.doc(firebaseAuth.currentUser?.uid).collection('orders_history').add(order.toJson()).then((value) {
+              var updatedBalance = currentUser!.balance - parsedValue;
+              userCol.doc(firebaseAuth.currentUser?.uid).update({'balance': updatedBalance});
+              showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green);
+            });
+            navigation.navigateToPageClear(path: NavigationConstants.ORDERS);
+          }else{
+            showsnackbar(message: 'Lütfen Bilgileri Eksiksiz, Doğru Girin');
+          }
+        }else {
+          showsnackbar(message: 'Bakiyeniz Yetersiz',snackBarAction: SnackBarAction(label: 'Bakiye Yükle', onPressed: () => navigation.navigateToPage(
+            path: NavigationConstants.ADD_BALANCE
+          )));
+        }
       }
+
     }
     isOrderSaving = false;
 
   }
+
 
   @observable
   SocialMediaServiceModel? selectedCategory;

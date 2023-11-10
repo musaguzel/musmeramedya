@@ -23,7 +23,7 @@ class RegisterPage extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             elevation: 0,
-            title: Text(ApplicationConstants.APPNAME),
+            title: const Text(ApplicationConstants.APPNAME),
           ),
           body: SingleChildScrollView(
               child: GestureDetector(

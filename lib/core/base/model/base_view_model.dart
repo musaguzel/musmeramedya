@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../init/navigation/navigation_service.dart';
 
@@ -17,14 +18,14 @@ abstract class BaseViewModel {
   NavigationService navigation = NavigationService.instance;
 
 
- /* void launchURL(String navigateUrl) async {
+  void launchURL(String navigateUrl) async {
     final Uri url = Uri.parse(navigateUrl);
     if (await canLaunchUrl(url)) {
       await launchUrl(url,mode: LaunchMode.externalApplication);
     } else {
       throw 'Web sitesi açılamıyor: $navigateUrl';
     }
-  }*/
+  }
 
 
   void setContext(BuildContext context);
