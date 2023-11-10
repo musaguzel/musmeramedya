@@ -53,7 +53,7 @@ class PaymentHistoryDataSource extends DataTableSource {
                 children: <TextSpan>[
                   TextSpan(
                       text:
-                      " ${payment.totalPayment} TL",
+                      " ${payment.bonusPlusTotal} TL",
                       style: const TextStyle(
                           fontSize: 13.0,
                           color: Colors.green,

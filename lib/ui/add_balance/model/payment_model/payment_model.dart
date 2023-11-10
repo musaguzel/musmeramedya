@@ -17,11 +17,11 @@ class PaymentModel {
   @JsonKey(name: 'selected_payment_total')
   String  selectedPaymentTotal;
 
-  @JsonKey(name: 'selected_payment_discount')
-  String  selectedPaymentDiscount;
+  @JsonKey(name: 'selected_payment_bonus')
+  String  selectedPaymentBonus;
 
-  @JsonKey(name: 'total_payment')
-  String  totalPayment;
+  @JsonKey(name: 'bonus_plus_total')
+  String  bonusPlusTotal;
 
   @JsonKey(name: 'date')
   String  date;
@@ -40,7 +40,7 @@ class PaymentModel {
 
 
   PaymentModel({required this.userId, required this.userName,required this.selectedPaymentMethod,
-    required this.selectedPaymentTotal,required this.selectedPaymentDiscount,required this.totalPayment,required this.date,required this.isCancelled,required this.status});
+    required this.selectedPaymentTotal,required this.selectedPaymentBonus,required this.bonusPlusTotal,required this.date,required this.isCancelled,required this.status});
 
   factory PaymentModel.fromJson(Map<String,dynamic> json) => _$PaymentModelFromJson(json);
   Map<String,dynamic> toJson() => _$PaymentModelToJson(this);

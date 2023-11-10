@@ -54,17 +54,17 @@ abstract class _AddBalancePageViewModelBase with Store, BaseViewModel {
   String? selectedPaymentTotal;
 
   @observable
-  String? selectedDiscount;
+  String? selectedBonus;
 
   @observable
-  String? totalPayment;
+  String? bonusPlusTotal;
 
   @action
   void setTotalPayment(){
     var convertedPaymentTotal = int.tryParse(selectedPaymentTotal!);
-    var convertedTotalDiscount = int.tryParse(selectedDiscount!);
-    var calculatePrice = convertedPaymentTotal! - convertedTotalDiscount!;
-    totalPayment = calculatePrice.toString();
+    var convertedTotalDiscount = int.tryParse(selectedBonus!);
+    var calculatePrice = convertedPaymentTotal! + convertedTotalDiscount!;
+    bonusPlusTotal = calculatePrice.toString();
   }
 
   @action

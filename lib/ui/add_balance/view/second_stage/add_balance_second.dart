@@ -49,14 +49,52 @@ class AddBalanceSecondStage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildHowToMakePaymentInfoText,
-                  buildPaymentInfoContainer(store),
+                  Expanded(flex: 1,child: buildPaymentInfoContainer(store)),
                   const SizedBox(
                     height: 25,
                   ),
-                  buildPaymentInfoSummary(context, store, arguments),
-                  const Spacer(),
-                  buildPaymentSuccessfulButton(context,store,arguments)
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      children: [
+                        Expanded(flex: 3,child: buildPaymentInfoSummary(context, store, arguments)),
+                        const SizedBox(width: 10,),
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.blueGrey.shade300,
+                                        title: Text('Ödeme Nasıl Yapılır'),
+                                        content: buildHowToMakePaymentInfoText,
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(); // Dialog penceresini kapat
+                                            },
+                                            child: Text('Kapat'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Text('Ödeme Nasıl Yapılır ?'),
+                              ),
+                              buildPaymentSuccessfulButton(context,store,arguments)
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                  //const Spacer(),
                 ],
               ),
             ),
@@ -67,14 +105,8 @@ class AddBalanceSecondStage extends StatelessWidget {
   FadeAnimation get buildHowToMakePaymentInfoText {
     return FadeAnimation(
                   delay: 0.7,
-                  child: const Card(
-                      color: Colors.blue,
-                      child: ListTile(
-                        title: Text('Ödeme Nasıl Yapılır'),
-                        subtitle: Text('1- Toplam tutar belirtilen ödeme adresine EFT/Havale yöntemi ile gönderilir.'
-                            '\n2- Ödemeyi yaptım butonuna tıklayarak işlem tamamlanır. Bakiyeniz ortalama 1-2 saat içinde hesabınıza yansır.'),
-                      )
-                  ),
+                  child: const Text('1- Toplam tutar belirtilen ödeme adresine EFT/Havale yöntemi ile gönderilir.'
+                      '\n2- Ödemeyi yaptım butonuna tıklayarak işlem tamamlanır. Bakiyeniz ortalama 1-2 saat içinde hesabınıza yansır.'),
                 );
   }
 
@@ -126,7 +158,7 @@ class AddBalanceSecondStage extends StatelessWidget {
       return FadeAnimation(
         delay: 0.7,
         child: Container(
-          width: context.width / 2,
+          //width: context.width / 2,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
               gradient: const LinearGradient(
@@ -142,11 +174,12 @@ class AddBalanceSecondStage extends StatelessWidget {
                   'Sipariş Özeti',
                   style: TextStyle(fontSize: 20),
                 ),
-                buildSummaryInfo('Yöntem', paymentModel.selectedPaymentMethod, false, false),
-                buildSummaryInfo('Tutar', paymentModel.selectedPaymentTotal, false, false),
-                buildSummaryInfo('İndirim\n', '-${paymentModel.selectedPaymentDiscount}\n', true, false),
+                buildSummaryInfo(title: 'Yöntem', info: paymentModel.selectedPaymentMethod,),
+                buildSummaryInfo(title: 'Tutar', info: paymentModel.selectedPaymentTotal,),
+                buildSummaryInfo(title: 'Bonus', info: '+${paymentModel.selectedPaymentBonus}', isColoredText: true),
+                buildSummaryInfo(title: 'Hesabınıza geçecek tutar\n', info:'+${paymentModel.bonusPlusTotal}\n', isColoredText: true),
                 const Divider(color: Colors.grey, height: 1),
-                buildSummaryInfo('Toplam Tutar', paymentModel.totalPayment, true, true),
+                buildSummaryInfo(title: 'Toplam Tutar', info: paymentModel.selectedPaymentTotal, isColoredText: true, isBigFontText: true),
               ],
             ),
           ),
@@ -156,21 +189,21 @@ class AddBalanceSecondStage extends StatelessWidget {
   }
 
   Row buildSummaryInfo(
-      String title, String info, bool isColoredText, bool isBigFontText) {
+  {required String title, required String info, bool? isColoredText, bool? isBigFontText}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           '\n$title ',
           style: TextStyle(
-              color: isColoredText ? Colors.blue : Colors.black,
-              fontSize: isBigFontText ? 20 : 15),
+              color: (isColoredText != null  && isColoredText) ? Colors.blue : Colors.black,
+              fontSize: (isBigFontText != null  && isBigFontText) ? 20 : 15),
         ),
         Text(
           '\n$info',
           style: TextStyle(
-              color: isColoredText ? Colors.blue : Colors.black,
-              fontSize: isBigFontText ? 20 : 15),
+              color: (isColoredText != null  && isColoredText) ? Colors.blue : Colors.black,
+              fontSize: (isBigFontText != null  && isBigFontText) ? 20 : 15),
         ),
       ],
     );

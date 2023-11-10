@@ -76,7 +76,7 @@ class AddBalancePage extends StatelessWidget {
               store.selectedPaymentTotal != null) {
             final formattedDate = DateFormat('dd-MM-yyyy hh:mm').format(DateTime.now());
             final paymentModel = PaymentModel(userId: currentUser.userID.toString(),userName: currentUser.fullName.toString(),selectedPaymentMethod: store.selectedPaymentMethod.toString()
-            ,selectedPaymentTotal:store.selectedPaymentTotal.toString(),selectedPaymentDiscount: store.selectedDiscount.toString(),totalPayment: store.totalPayment.toString(),isCancelled: false,date: formattedDate,status: false );
+            ,selectedPaymentTotal:store.selectedPaymentTotal.toString(),selectedPaymentBonus: store.selectedBonus.toString(),bonusPlusTotal: store.bonusPlusTotal.toString(),isCancelled: false,date: formattedDate,status: false,);
             store.navigation.navigateToPage(
                 path: NavigationConstants.ADD_BALANCE_SECOND, data: paymentModel);
           } else {
@@ -176,7 +176,7 @@ class AddBalancePage extends StatelessWidget {
             onChanged: (value){
               store.selectedPaymentTotal = value;
               int? index = store.paymentMethods?.prices.indexOf(value ?? "100" );
-              store.selectedDiscount = store.paymentMethods?.discounts[index ?? 0];
+              store.selectedBonus = store.paymentMethods?.discounts[index ?? 0];
               store.setTotalPayment();
             },
             style: const TextStyle(color: Colors.black),

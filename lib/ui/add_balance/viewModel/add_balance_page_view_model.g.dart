@@ -94,35 +94,35 @@ mixin _$AddBalancePageViewModel on _AddBalancePageViewModelBase, Store {
     });
   }
 
-  late final _$selectedDiscountAtom = Atom(
-      name: '_AddBalancePageViewModelBase.selectedDiscount', context: context);
+  late final _$selectedBonusAtom = Atom(
+      name: '_AddBalancePageViewModelBase.selectedBonus', context: context);
 
   @override
-  String? get selectedDiscount {
-    _$selectedDiscountAtom.reportRead();
-    return super.selectedDiscount;
+  String? get selectedBonus {
+    _$selectedBonusAtom.reportRead();
+    return super.selectedBonus;
   }
 
   @override
-  set selectedDiscount(String? value) {
-    _$selectedDiscountAtom.reportWrite(value, super.selectedDiscount, () {
-      super.selectedDiscount = value;
+  set selectedBonus(String? value) {
+    _$selectedBonusAtom.reportWrite(value, super.selectedBonus, () {
+      super.selectedBonus = value;
     });
   }
 
-  late final _$totalPaymentAtom =
-      Atom(name: '_AddBalancePageViewModelBase.totalPayment', context: context);
+  late final _$bonusPlusTotalAtom = Atom(
+      name: '_AddBalancePageViewModelBase.bonusPlusTotal', context: context);
 
   @override
-  String? get totalPayment {
-    _$totalPaymentAtom.reportRead();
-    return super.totalPayment;
+  String? get bonusPlusTotal {
+    _$bonusPlusTotalAtom.reportRead();
+    return super.bonusPlusTotal;
   }
 
   @override
-  set totalPayment(String? value) {
-    _$totalPaymentAtom.reportWrite(value, super.totalPayment, () {
-      super.totalPayment = value;
+  set bonusPlusTotal(String? value) {
+    _$bonusPlusTotalAtom.reportWrite(value, super.bonusPlusTotal, () {
+      super.bonusPlusTotal = value;
     });
   }
 
@@ -232,8 +232,8 @@ containerIsOpen: ${containerIsOpen},
 paymentMethods: ${paymentMethods},
 selectedPaymentMethod: ${selectedPaymentMethod},
 selectedPaymentTotal: ${selectedPaymentTotal},
-selectedDiscount: ${selectedDiscount},
-totalPayment: ${totalPayment},
+selectedBonus: ${selectedBonus},
+bonusPlusTotal: ${bonusPlusTotal},
 paymentHistory: ${paymentHistory},
 isPaymentHistoryLoading: ${isPaymentHistoryLoading}
     ''';

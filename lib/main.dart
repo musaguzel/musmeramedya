@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
 
 
 
-//orders sistemine ve payment sistemine iptal fieldi ekle ve durum icon lara ekleme yap
 //indirim olmayacak 100 ' e 120 verilecek
 //satın alımlarda bakiye güncellemeleri yapılacak
 //referans sistemine devam edilecek
