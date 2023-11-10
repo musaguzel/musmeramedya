@@ -26,12 +26,15 @@ class OrdersModel {
   @JsonKey(name: 'social_media_name')
   String socialMediaName;
 
+  @JsonKey(name: 'isCancelled')
+  bool  isCancelled;
+
   @JsonKey(name: 'status')
   bool  status;
 
 
   OrdersModel({required this.userID, required this.datetime,required this.serviceName
-    ,required this.servicePrice,required this.serviceAmount, required this.socialMediaLink,required this.socialMediaName,required this.status});
+    ,required this.servicePrice,required this.serviceAmount, required this.socialMediaLink,required this.socialMediaName,required this.isCancelled,required this.status});
 
   factory OrdersModel.fromJson(Map<String,dynamic> json) => _$OrdersModelFromJson(json);
   Map<String,dynamic> toJson() => _$OrdersModelToJson(this);

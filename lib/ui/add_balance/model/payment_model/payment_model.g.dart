@@ -14,6 +14,7 @@ PaymentModel _$PaymentModelFromJson(Map<String, dynamic> json) => PaymentModel(
       selectedPaymentDiscount: json['selected_payment_discount'] as String,
       totalPayment: json['total_payment'] as String,
       date: json['date'] as String,
+      isCancelled: json['isCancelled'] as bool,
       status: json['status'] as bool,
     );
 
@@ -26,5 +27,6 @@ Map<String, dynamic> _$PaymentModelToJson(PaymentModel instance) =>
       'selected_payment_discount': instance.selectedPaymentDiscount,
       'total_payment': instance.totalPayment,
       'date': instance.date,
+      'isCancelled': instance.isCancelled,
       'status': instance.status,
     };

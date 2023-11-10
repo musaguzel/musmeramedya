@@ -62,7 +62,8 @@ class PaymentHistoryDataSource extends DataTableSource {
           ),
         ),),
         DataCell(
-          Text(payment.status ? 'Başarılı' : 'İşlemde',style: TextStyle(color: payment.status ? Colors.green : Colors.red,fontSize: 12),),
+          Text((payment.status && !payment.isCancelled) ? 'Başarılı' : (!payment.status && !payment.isCancelled) ? 'İşlemde': 'İptal Edildi',style: TextStyle(color:(payment.status && !payment.isCancelled) ? Colors.green
+              : (!payment.status && !payment.isCancelled) ? Colors.blueGrey : Colors.red,fontSize: 12),),
         ),
       ],
     );

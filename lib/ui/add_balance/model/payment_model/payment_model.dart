@@ -26,6 +26,9 @@ class PaymentModel {
   @JsonKey(name: 'date')
   String  date;
 
+  @JsonKey(name: 'isCancelled')
+  bool  isCancelled;
+
   @JsonKey(name: 'status')
   bool  status;
 
@@ -37,7 +40,7 @@ class PaymentModel {
 
 
   PaymentModel({required this.userId, required this.userName,required this.selectedPaymentMethod,
-    required this.selectedPaymentTotal,required this.selectedPaymentDiscount,required this.totalPayment,required this.date,required this.status});
+    required this.selectedPaymentTotal,required this.selectedPaymentDiscount,required this.totalPayment,required this.date,required this.isCancelled,required this.status});
 
   factory PaymentModel.fromJson(Map<String,dynamic> json) => _$PaymentModelFromJson(json);
   Map<String,dynamic> toJson() => _$PaymentModelToJson(this);

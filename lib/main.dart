@@ -37,6 +37,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
+//orders sistemine ve payment sistemine iptal fieldi ekle ve durum icon lara ekleme yap
+//indirim olmayacak 100 ' e 120 verilecek
+//satın alımlarda bakiye güncellemeleri yapılacak
+//referans sistemine devam edilecek
+//ekranda sipariş yoksa falan henüz bir siparişiniz yok diye ekranın ortasında yazsın
+//yazı yazılırken klavye açıldığında ekranda herhangi bir yere basıldığında klavye kapansın
 //internet kontrolü eklenecek
 //url , kısmına regex kural tanımlanacak
 //kodlar düzenlenecek stringler ayarlanacak, tasarım güzelleştirilecek

@@ -126,7 +126,7 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
       if(selectedCategory != null && parsedValue != null && livePrice.isNotEmpty && amountController.text.isNotEmpty && linkController.text.isNotEmpty){
         final formattedDate = DateFormat('dd-MM-yyyy hh:mm').format(DateTime.now());
         OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: formattedDate,serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, socialMediaName:
-            selectedCategory?.socialMediaName ?? "instagram",status: false);
+            selectedCategory?.socialMediaName ?? "instagram",isCancelled: false,status: false);
         await firebaseFirestore.collection('users').doc(firebaseAuth.currentUser?.uid).collection('orders_history').add(order.toJson()).then((value) =>  showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green));
         navigation.navigateToPageClear(path: NavigationConstants.ORDERS);
       }else{

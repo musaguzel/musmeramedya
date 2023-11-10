@@ -14,6 +14,7 @@ OrdersModel _$OrdersModelFromJson(Map<String, dynamic> json) => OrdersModel(
       serviceAmount: json['service_amount'] as String,
       socialMediaLink: json['social_media_link'] as String,
       socialMediaName: json['social_media_name'] as String,
+      isCancelled: json['isCancelled'] as bool,
       status: json['status'] as bool,
     );
 
@@ -26,5 +27,6 @@ Map<String, dynamic> _$OrdersModelToJson(OrdersModel instance) =>
       'service_amount': instance.serviceAmount,
       'social_media_link': instance.socialMediaLink,
       'social_media_name': instance.socialMediaName,
+      'isCancelled': instance.isCancelled,
       'status': instance.status,
     };
