@@ -17,6 +17,7 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController referenceCodeController = TextEditingController();
   @override
   void init() {
 
@@ -43,7 +44,7 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
             email: emailController.text,
             balance: balance,
             userID: firebaseAuth.currentUser?.uid,
-          referenceCode: referenceCode);
+          referenceCode: referenceCode,friendsReferenceCode: referenceCodeController.text);
 
           await firebaseFirestore
               .collection("users")
@@ -125,5 +126,17 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
     DocumentSnapshot snapshot = await inviteCodesCollection.doc(code).get();
     return snapshot.exists;
   }
+
+  @action
+  Future<bool> checkReferenceCode(String referenceCode) async {
+    referenceCode = referenceCode.toUpperCase();
+    QuerySnapshot referenceCodeQuery = await FirebaseFirestore.instance
+        .collection('users')
+        .where('reference_code', isEqualTo: referenceCode)
+        .get();
+
+    return referenceCodeQuery.docs.isNotEmpty;
+  }
+
 
 }

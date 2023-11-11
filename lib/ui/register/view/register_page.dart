@@ -60,6 +60,8 @@ class RegisterPage extends StatelessWidget {
                   sizedBox2,
                   textFieldConfirmPassword(context, viewModel),
                   sizedBox2,
+                  textFieldReferenceCode(context,viewModel),
+                  sizedBox2,
                   elevatedButtonLogin(context,viewModel),
                 ],
               ),
@@ -172,6 +174,21 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
+  FadeAnimation textFieldReferenceCode(
+      BuildContext context, RegisterPageViewModel viewModel) {
+    return FadeAnimation(
+      delay: 0.2,
+      child: TextFormField(
+        maxLength: 8,
+        style: const TextStyle(color: Colors.black87),
+        controller: viewModel.referenceCodeController,
+        decoration: const InputDecoration(
+            labelText: "Referans Kodu",
+            icon: Icon(Icons.abc,)),
+      ),
+    );
+  }
+
 
   FadeAnimation elevatedButtonLogin(BuildContext context,RegisterPageViewModel viewModel) {
     return FadeAnimation(
@@ -182,7 +199,7 @@ class RegisterPage extends StatelessWidget {
             "Üye Ol",
           ),
         ),
-        onPressed: () {
+        onPressed: () async {
           FocusScope.of(context).unfocus();
           if(viewModel.fullNameController.text.isNotEmpty
               && viewModel.emailValidate
@@ -190,10 +207,15 @@ class RegisterPage extends StatelessWidget {
               && viewModel.confirmPasswordController.text.isNotEmpty)
           {
             if(viewModel.passwordController.text == viewModel.confirmPasswordController.text){
-              viewModel.createUserWithEmailAndPassword(context);
+              if(await viewModel.checkReferenceCode(viewModel.referenceCodeController.text) || viewModel.referenceCodeController.text.isEmpty ){
+                viewModel.createUserWithEmailAndPassword(context);
+              }else {
+                viewModel.showsnackbar(message: "Geçersiz Referans Kodu");
+              }
             }else{
               viewModel.showsnackbar(message: "Şifreler Uyuşmuyor");
             }
+
           }else{
             viewModel.showsnackbar(message: "Lütfen Tüm Alanları Doldurun");
           }

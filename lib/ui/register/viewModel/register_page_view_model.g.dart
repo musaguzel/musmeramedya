@@ -71,6 +71,16 @@ mixin _$RegisterPageViewModel on _RegisterPageViewModelBase, Store {
         .run(() => super.isInviteCodeExists(code));
   }
 
+  late final _$checkReferenceCodeAsyncAction = AsyncAction(
+      '_RegisterPageViewModelBase.checkReferenceCode',
+      context: context);
+
+  @override
+  Future<bool> checkReferenceCode(String referenceCode) {
+    return _$checkReferenceCodeAsyncAction
+        .run(() => super.checkReferenceCode(referenceCode));
+  }
+
   late final _$_RegisterPageViewModelBaseActionController =
       ActionController(name: '_RegisterPageViewModelBase', context: context);
 

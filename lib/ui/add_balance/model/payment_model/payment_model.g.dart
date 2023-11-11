@@ -15,6 +15,7 @@ PaymentModel _$PaymentModelFromJson(Map<String, dynamic> json) => PaymentModel(
       bonusPlusTotal: json['bonus_plus_total'] as String,
       date: json['date'] as String,
       isCancelled: json['isCancelled'] as bool,
+      friendsReferenceCode: json['friends_reference_code'] as String,
       status: json['status'] as bool,
     );
 
@@ -28,5 +29,6 @@ Map<String, dynamic> _$PaymentModelToJson(PaymentModel instance) =>
       'bonus_plus_total': instance.bonusPlusTotal,
       'date': instance.date,
       'isCancelled': instance.isCancelled,
+      'friends_reference_code': instance.friendsReferenceCode,
       'status': instance.status,
     };

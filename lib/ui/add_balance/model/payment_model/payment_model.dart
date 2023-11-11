@@ -29,6 +29,9 @@ class PaymentModel {
   @JsonKey(name: 'isCancelled')
   bool  isCancelled;
 
+  @JsonKey(name: 'friends_reference_code')
+  String  friendsReferenceCode;
+
   @JsonKey(name: 'status')
   bool  status;
 
@@ -36,11 +39,8 @@ class PaymentModel {
 
 
 
-
-
-
   PaymentModel({required this.userId, required this.userName,required this.selectedPaymentMethod,
-    required this.selectedPaymentTotal,required this.selectedPaymentBonus,required this.bonusPlusTotal,required this.date,required this.isCancelled,required this.status});
+    required this.selectedPaymentTotal,required this.selectedPaymentBonus,required this.bonusPlusTotal,required this.date,required this.isCancelled,required this.friendsReferenceCode,required this.status});
 
   factory PaymentModel.fromJson(Map<String,dynamic> json) => _$PaymentModelFromJson(json);
   Map<String,dynamic> toJson() => _$PaymentModelToJson(this);

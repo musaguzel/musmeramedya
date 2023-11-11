@@ -31,7 +31,7 @@ abstract class _LoginPageViewModelBase with Store, BaseViewModel {
   Future<void> loginWithEmailAndPassword(BuildContext context) async {
     showDialog(context: viewModelContext, barrierDismissible: false,builder: (context) => const Center(child: CircularProgressIndicator(),));
     try{
-      await firebaseAuth.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim()).then((value) => navigation.navigateToPageClear(path: NavigationConstants.MAIN));
+      await firebaseAuth.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim()).then((value) =>navigation.navigateToPageClear(path: NavigationConstants.MAIN));
     }catch(error){
       if (error is FirebaseAuthException) {
         switch(error.code){

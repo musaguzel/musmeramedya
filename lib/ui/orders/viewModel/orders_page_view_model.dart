@@ -22,7 +22,7 @@ abstract class _OrdersPageViewModelBase with Store, BaseViewModel {
   ObservableList<OrdersModel> pendingOrders = ObservableList<OrdersModel>();
 
   @observable
-  bool pendingOrdersLoading = true;
+  bool pendingOrdersLoading = false;
 
   @observable
   ObservableList<bool> isOpenList = ObservableList<bool>();
@@ -35,14 +35,15 @@ abstract class _OrdersPageViewModelBase with Store, BaseViewModel {
   @action
   Future<void> fetchPendingOrders() async {
     if(firebaseAuth.currentUser != null){
+      pendingOrdersLoading = true;
       QuerySnapshot pendingTradeSnapshot=
       await firebaseFirestore.collection("users").doc(firebaseAuth.currentUser?.uid).collection('orders_history').orderBy('date', descending: true).get();
       if (pendingTradeSnapshot.docs.isNotEmpty) {
         pendingTradeSnapshot.docs.forEach((element) {
           pendingOrders.add(OrdersModel.fromJson(element.data() as Map<String, dynamic>));
-          pendingOrdersLoading = false;
         });
     }
+      pendingOrdersLoading = false;
     } else {
       print('Belge bulunamadı');
     }

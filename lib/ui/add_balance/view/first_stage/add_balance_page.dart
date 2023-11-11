@@ -76,7 +76,7 @@ class AddBalancePage extends StatelessWidget {
               store.selectedPaymentTotal != null) {
             final formattedDate = DateFormat('dd-MM-yyyy hh:mm').format(DateTime.now());
             final paymentModel = PaymentModel(userId: currentUser.userID.toString(),userName: currentUser.fullName.toString(),selectedPaymentMethod: store.selectedPaymentMethod.toString()
-            ,selectedPaymentTotal:store.selectedPaymentTotal.toString(),selectedPaymentBonus: store.selectedBonus.toString(),bonusPlusTotal: store.bonusPlusTotal.toString(),isCancelled: false,date: formattedDate,status: false,);
+            ,selectedPaymentTotal:store.selectedPaymentTotal.toString(),selectedPaymentBonus: store.selectedBonus.toString(),bonusPlusTotal: store.bonusPlusTotal.toString(),isCancelled: false,date: formattedDate,friendsReferenceCode: currentUser.friendsReferenceCode.toString(),status: false,);
             store.navigation.navigateToPage(
                 path: NavigationConstants.ADD_BALANCE_SECOND, data: paymentModel);
           } else {
