@@ -28,5 +28,7 @@ class NavigationConstants {
 
   static const CONTACT_US = '/contactus';
 
+  static const INVITED_SYSTEM = '/invitedsystem';
+
   static const FORGOT_PASSWORD = "/forgotpassword";
 }

@@ -10,7 +10,7 @@ class UserModel {
   String email;
 
   @JsonKey(name: 'balance')
-  int balance;
+  double balance;
 
   @JsonKey(name: 'userID')
   String? userID;

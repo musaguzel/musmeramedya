@@ -70,8 +70,10 @@ abstract class _AddBalancePageViewModelBase with Store, BaseViewModel {
   @action
   Future<void> savePaymentProccessToFirebase(PaymentModel paymentModel) async {
   try{
-    //await firebaseFirestore.collection('payments').add(paymentModel.toJson());
-    await firebaseFirestore.collection('users').doc(firebaseAuth.currentUser?.uid).collection('payment_history').add(paymentModel.toJson());
+    CollectionReference userPaymentCollection = firebaseFirestore.collection('users').doc(firebaseAuth.currentUser?.uid).collection('payment_history');
+    await userPaymentCollection.add(paymentModel.toJson()).then((value) async {
+      await userPaymentCollection.doc(value.id).update({'payment_id' : value.id});
+    });
   }catch(e){
 
     }

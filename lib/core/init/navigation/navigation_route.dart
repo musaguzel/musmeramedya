@@ -12,6 +12,7 @@ import 'package:musmeramedya/ui/splash/view/splash_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../product/exception/navigate_model_not_found.dart';
+import '../../../ui/invite_system/view/invite_system_page.dart';
 import '../../../ui/login/view/loginpage.dart';
 import '../../../ui/profile/view/profile_page.dart';
 import '../constants/navigation/navigation_constants.dart';
@@ -61,6 +62,9 @@ class NavigationRoute {
 
       case NavigationConstants.ACCOUNT_STATUS:
         return normalNavigate(AccountSettingsPage(), NavigationConstants.ACCOUNT_STATUS ,args.arguments);
+
+      case NavigationConstants.INVITED_SYSTEM:
+        return normalNavigate(const InviteSystemPage(), NavigationConstants.INVITED_SYSTEM ,args.arguments);
 
       case NavigationConstants.NOTFOUND:
         return normalNavigate( const NotFoundNavigationWidget(), NavigationConstants.NOTFOUND ,args.arguments);

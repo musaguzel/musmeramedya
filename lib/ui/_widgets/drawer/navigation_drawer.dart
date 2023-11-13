@@ -37,15 +37,11 @@ class NavigationDrawerMain extends StatelessWidget {
               width: 2.0, // Çizgi kalınlığı
             ),),
           padding: const EdgeInsets.only(top: 20.0,bottom: 20.0,left: 50.0,right: 50.0),
-          child: Observer(
-            builder: (_){
-              return Column(
-                children: [
-                  Text(userModelGlobal.fullName,style: const TextStyle(fontSize: 25),),
-                  Text("Bakiye: ${userModelGlobal.balance.toString()}"),
-                ],
-              );
-            },
+          child: Column(
+            children: [
+              Text(userModelGlobal.fullName,style: const TextStyle(fontSize: 25),),
+              Text("Bakiye: ${userModelGlobal.balance.toString()}"),
+            ],
           ),
         ),
 

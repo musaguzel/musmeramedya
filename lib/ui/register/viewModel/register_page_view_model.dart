@@ -30,7 +30,7 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
   Future<void> createUserWithEmailAndPassword(BuildContext context) async {
     showDialog(context: viewModelContext, barrierDismissible: false,builder: (context) => const Center(child: CircularProgressIndicator(),));
     try {
-      int balance = 0;
+      double balance = 0;
 
         await firebaseAuth
             .createUserWithEmailAndPassword(
@@ -77,7 +77,7 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
             break;
         }
       }
-      Navigator.of(viewModelContext).pop();
+      //Navigator.of(viewModelContext).pop();
     }
   }
 

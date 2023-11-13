@@ -29,7 +29,7 @@ class ProfilePage extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildRowUserInfo(viewModel,context),
+            buildRowUserInfo( context),
             buildSettingsList(viewModel),
             buildExitButton(viewModel, context),
           ],
@@ -38,47 +38,89 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Expanded buildRowUserInfo(ProfilePageViewModel viewModel,BuildContext context) {
+  Expanded buildRowUserInfo(BuildContext context) {
     return Expanded(
       flex: 5,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Observer(
-            builder: (_){
-              return Text(userModelGlobal.fullName,style: const TextStyle(fontSize: 24),);
-            },),
-          CircleAvatar(
-            backgroundImage:
-            AssetImage('avatar'.toPNG),
-            radius: 50,
+          Expanded(
+            flex: 1,
+            child: Observer(
+              builder: (_) {
+                return ListTile(
+                  subtitle: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(
+                        child: Text(userModelGlobal.fullName,
+                          style: const TextStyle(fontSize: 24,color: Colors.black),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const Center(child: Text('Arkadaş Davet Kodunuz')),
+                      Center(
+                        child: ElevatedButton.icon(
+                          onPressed: () {},
+                          label: Text(userModelGlobal.referenceCode.toString()),
+                          icon: const Icon(Icons.copy,size: 15,),
+                          style: ButtonStyle(
+                            textStyle: MaterialStateProperty.resolveWith((states) => const TextStyle(fontSize: 12)),
+                             minimumSize: MaterialStateProperty.all<Size>(const Size(50, 25)), // İstediğiniz değeri deneyebilirsiniz
+                             maximumSize: MaterialStateProperty.all<Size>(const Size(120, 40)), // İstediğiniz değeri deneyebilirsiniz
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: CircleAvatar(
+              backgroundImage: AssetImage('avatar'.toPNG),
+              radius: 50,
+            ),
           )
         ],
       ),
     );
   }
 
-  Expanded buildSettingsList(ProfilePageViewModel viewModel) {
-    return Expanded(
-      flex: 10,
-      child: ListView(
-        children: <ListTile>[
-          buildLSettingsList(
-              viewModel: viewModel,
-              leadingIcon: Icons.change_circle_outlined,
-              title: 'Şifre Değiştir',
-              trailingIcon: Icons.arrow_right,
-              whichPageToGo: NavigationConstants.CHANGE_PASSWORD),
-          buildLSettingsList(
-              viewModel: viewModel,
-              leadingIcon: Icons.person,
-              title: 'Hesap Durumu',
-              trailingIcon: Icons.arrow_right,
-              whichPageToGo: NavigationConstants.ACCOUNT_STATUS),
-        ],
-      ),
-    );
+  Observer buildSettingsList(ProfilePageViewModel viewModel) {
+    return Observer(builder: (_){
+      return Expanded(
+        flex: 10,
+        child: ListView(
+          children: <ListTile>[
+            buildLSettingsList(
+                viewModel: viewModel,
+                leadingIcon: Icons.person_add_alt_1_outlined,
+                title: 'Arkadaşlarını Davet Et Kazan',
+                trailingIcon: Icons.arrow_right,
+                whichPageToGo: NavigationConstants.INVITED_SYSTEM),
+            buildLSettingsList(
+                viewModel: viewModel,
+                leadingIcon: Icons.change_circle_outlined,
+                title: 'Şifre Değiştir',
+                trailingIcon: Icons.arrow_right,
+                whichPageToGo: NavigationConstants.CHANGE_PASSWORD),
+            buildLSettingsList(
+                viewModel: viewModel,
+                leadingIcon: Icons.person,
+                title: 'Hesap Durumu',
+                trailingIcon: Icons.arrow_right,
+                whichPageToGo: NavigationConstants.ACCOUNT_STATUS),
+          ],
+        ),
+      );
+    });
   }
 
   ListTile buildLSettingsList(
@@ -88,7 +130,10 @@ class ProfilePage extends StatelessWidget {
       required IconData trailingIcon,
       required String whichPageToGo}) {
     return ListTile(
-      leading: Icon(leadingIcon,color: Colors.blue,),
+      leading: Icon(
+        leadingIcon,
+        color: Colors.blue,
+      ),
       title: Text(title),
       trailing: Icon(trailingIcon),
       onTap: () => viewModel.navigation.navigateToPage(path: whichPageToGo),
@@ -101,20 +146,22 @@ class ProfilePage extends StatelessWidget {
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
-        child: OutlinedButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.resolveWith(
-                  (states) => Colors.red.shade800),
-              minimumSize:
-                  MaterialStateProperty.all(Size(context.width / 1.2, 40))),
-          onPressed: () {
-            viewModel.firebaseAuth.signOut();
-          },
-          child: const Text(
-            'Çıkış Yap',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
+        child: Observer(builder: (_){
+          return OutlinedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.red.shade800),
+                minimumSize:
+                MaterialStateProperty.all(Size(context.width / 1.2, 40))),
+            onPressed: () {
+              viewModel.firebaseAuth.signOut();
+            },
+            child: const Text(
+              'Çıkış Yap',
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        },)
       ),
     );
   }

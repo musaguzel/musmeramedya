@@ -134,6 +134,7 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
             await userCol.doc(firebaseAuth.currentUser?.uid).collection('orders_history').add(order.toJson()).then((value) {
               var updatedBalance = currentUser!.balance - parsedValue;
               userCol.doc(firebaseAuth.currentUser?.uid).update({'balance': updatedBalance});
+              userCol.doc(firebaseAuth.currentUser?.uid).collection('orders_history').doc(value.id).update({'order_id' : value.id});
               showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green);
             });
             navigation.navigateToPageClear(path: NavigationConstants.ORDERS);

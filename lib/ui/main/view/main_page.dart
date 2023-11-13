@@ -223,16 +223,14 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Observer buildAverageTimeText(MainPageViewModel store) {
-    return Observer(builder: (_){
-      return const ListTile(
-        contentPadding: EdgeInsets.zero,
-        minLeadingWidth: 0,
-        visualDensity: VisualDensity(horizontal: -4,vertical: 0),
-        title:  Text(ApplicationStrings.MAIN_AVERAGE_TIME,style: TextStyle(fontWeight: FontWeight.bold),),
-        leading: Icon(Icons.info,color: Colors.black),
-      );
-    });
+  ListTile buildAverageTimeText(MainPageViewModel store) {
+    return const ListTile(
+      contentPadding: EdgeInsets.zero,
+      minLeadingWidth: 0,
+      visualDensity: VisualDensity(horizontal: -4,vertical: 0),
+      title:  Text(ApplicationStrings.MAIN_AVERAGE_TIME,style: TextStyle(fontWeight: FontWeight.bold),),
+      leading: Icon(Icons.info,color: Colors.black),
+    );
   }
 
   Observer buildTimeAndPriceInfoText({required MainPageViewModel store,required bool needPadding,required bool isPriceText}) {

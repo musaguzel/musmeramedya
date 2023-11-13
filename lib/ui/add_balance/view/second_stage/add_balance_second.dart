@@ -5,9 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/ui/add_balance/model/payment_model/payment_model.dart';
-import 'package:musmeramedya/ui/add_balance/model/price_model/price_packages_model.dart';
 import 'package:musmeramedya/ui/add_balance/viewModel/add_balance_page_view_model.dart';
-
 import '../../../../core/components/Animation/Fade_Animation.dart';
 import '../../components/accept_pay_dialog.dart';
 
@@ -67,14 +65,14 @@ class AddBalanceSecondStage extends StatelessWidget {
                                     builder: (BuildContext context) {
                                       return AlertDialog(
                                         backgroundColor: Colors.blueGrey.shade300,
-                                        title: Text('Ödeme Nasıl Yapılır'),
+                                        title: const Text('Ödeme Nasıl Yapılır'),
                                         content: buildHowToMakePaymentInfoText,
                                         actions: [
                                           TextButton(
                                             onPressed: () {
                                               Navigator.of(context).pop(); // Dialog penceresini kapat
                                             },
-                                            child: Text('Kapat'),
+                                            child: const Text('Kapat'),
                                           ),
                                         ],
                                       );
