@@ -50,10 +50,10 @@ class AccountSettingsPage extends StatelessWidget {
         child: Padding(
           padding: context.paddingMediumHorizontal,
           child: ElevatedButton.icon(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.pink)),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.blue)),
               onPressed: (){
                 viewModel.sendVerificationEmail();
-              }, icon: const Icon(Icons.schedule_send_outlined,color: Colors.yellow,), label: const Text("Tekrar Gönder",style: TextStyle(color: Colors.white),)),
+              }, icon: const Icon(Icons.schedule_send_outlined,color: Colors.white,), label: const Text("Tekrar Gönder",style: TextStyle(color: Colors.white),)),
         ),
       );
     });
@@ -62,7 +62,7 @@ class AccountSettingsPage extends StatelessWidget {
   Observer buildEmailCard(BuildContext context, SettingsViewModel viewModel) {
     return Observer(builder: (_){
       return Card(
-        color: Colors.blueGrey,
+        color: Colors.grey.shade200,
         margin: context.paddingMedium,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -95,7 +95,7 @@ class AccountSettingsPage extends StatelessWidget {
   Card buildCard(BuildContext context, NetworkResult networkResult,
       SettingsViewModel viewModel) {
     return Card(
-      color: Colors.red,
+      color: Colors.blueGrey.shade400,
       margin: context.paddingMedium,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10))),

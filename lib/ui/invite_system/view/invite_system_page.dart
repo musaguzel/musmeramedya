@@ -27,11 +27,12 @@ class InviteSystemPage extends StatelessWidget {
                   children: [
                     Card(
                       margin: context.paddingNormal,
-                      color: Colors.blueAccent,
-                        child: const Padding(
-                          padding: EdgeInsets.all(12.0),
+                      color: Colors.blue,
+                        child:  Padding(
+                          padding: const EdgeInsets.all(12.0),
                           child: Text(
-                              'Referans kodunuzu kullanarak üye olan arkadaşlarınız her bakiye yüklemesi yaptığında, yüklenen miktarın %5 lik bir kısmını size hediye ederiz'),
+                              'Referans kodunuzu kullanarak üye olan arkadaşlarınız her bakiye yüklemesi yaptığında,'
+                                  ' yüklenen miktarın %5 lik bir kısmını size hediye ederiz',style: TextStyle(fontSize: 15,color: Colors.grey.shade200)),
                         ))
                   ,
                     Observer(builder: (_){

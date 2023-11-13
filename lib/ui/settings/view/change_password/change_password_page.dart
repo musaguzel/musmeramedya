@@ -69,7 +69,7 @@ class ChangePasswordPage extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.teal,
+            color: Colors.black,
             width: 1.0,
           ),
         ),
@@ -92,7 +92,7 @@ class ChangePasswordPage extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.teal,
+            color: Colors.black,
             width: 1.0,
           ),
         ),
@@ -104,7 +104,8 @@ class ChangePasswordPage extends StatelessWidget {
       builder: (_){
         return ElevatedButton(
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.purple),minimumSize: MaterialStateProperty.all(Size(context.width / 1.2, 40))),
+              backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.blue),
+              minimumSize: MaterialStateProperty.all(Size(context.width / 1.2, 40))),
           onPressed: () async {
             FocusScope.of(context).unfocus();
             if(viewModel.oldPasswordController.text.isNotEmpty && viewModel.newPasswordController.text.isNotEmpty){

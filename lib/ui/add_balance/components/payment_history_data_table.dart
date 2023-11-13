@@ -45,18 +45,18 @@ class PaymentHistoryDataSource extends DataTableSource {
           //decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
           child: RichText(
             text: TextSpan(
-                text: "${payment.selectedPaymentTotal} TL",
-                style: TextStyle(
+                text: "${payment.selectedPaymentTotal} M",
+                style: const TextStyle(
                     fontSize: 11.0,
-                    color: Colors.red.withOpacity(0.6),
+                    color: Colors.black,
                     decoration: TextDecoration.lineThrough),
                 children: <TextSpan>[
                   TextSpan(
                       text:
-                      " ${payment.bonusPlusTotal} TL",
+                      " ${payment.bonusPlusTotal} M",
                       style: const TextStyle(
                           fontSize: 13.0,
-                          color: Colors.green,
+                          color: Colors.blue,
                           decoration: TextDecoration.none))
                 ]),
           ),

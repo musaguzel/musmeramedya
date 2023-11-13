@@ -33,14 +33,14 @@ class NavigationDrawerMain extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.brown, // Çizgi rengi
-              width: 2.0, // Çizgi kalınlığı
+              color: Colors.blue, // Çizgi rengi
+              width: 3.0, // Çizgi kalınlığı
             ),),
           padding: const EdgeInsets.only(top: 20.0,bottom: 20.0,left: 50.0,right: 50.0),
           child: Column(
             children: [
               Text(userModelGlobal.fullName,style: const TextStyle(fontSize: 25),),
-              Text("Bakiye: ${userModelGlobal.balance.toString()}"),
+              Text("Bakiye: ${userModelGlobal.balance.toString()} M"),
             ],
           ),
         ),
@@ -55,27 +55,27 @@ class NavigationDrawerMain extends StatelessWidget {
       runSpacing: 16,
       children: [
         ListTile(
-          leading: const Icon(Icons.add),
+          leading: const Icon(Icons.add,color: Colors.blue,),
           title: const Text("Yeni Sipariş"),
           onTap: (){
             navigation.navigateToPageClear(path: NavigationConstants.MAIN);
           },
         ),
         ListTile(
-          leading: const Icon(Icons.reorder_sharp),
+          leading: const Icon(Icons.reorder_sharp,color: Colors.blue,),
           title: const Text("Siparişler"),
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.ORDERS);
           },
         ),
         ListTile(
-          leading: const Icon(Icons.currency_lira),
+          leading: const Icon(Icons.currency_lira,color: Colors.blue,),
           title: const Text("Bakiye Ekle"),
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE,);
           },
         ),ListTile(
-          leading: const Icon(Icons.support_agent),
+          leading: const Icon(Icons.support_agent,color: Colors.blue,),
           title: const Text("Destek"),
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.CONTACT_US,);
@@ -83,7 +83,7 @@ class NavigationDrawerMain extends StatelessWidget {
         ),
         const Divider(color: Colors.pink,),
         ListTile(
-          leading: const Icon(Icons.person),
+          leading: const Icon(Icons.person,color: Colors.blue,),
           title: const Text("Hesap"),
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.PROFILE,);

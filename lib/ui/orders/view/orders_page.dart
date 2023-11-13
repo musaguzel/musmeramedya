@@ -27,7 +27,11 @@ class _OrdersPageState extends State<OrdersPage> {
                 title: const Text("Siparişler"),
               ),
               drawer: NavigationDrawerMain(),
-              body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) :buildObserver(store),
+              body: networkResult == NetworkResult.off
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : buildObserver(store),
             ));
   }
 
@@ -116,7 +120,9 @@ class _OrdersPageState extends State<OrdersPage> {
                                   )
                                 : Text(store.pendingOrders[index].serviceName),
                             leading: ImageIcon(AssetImage(store
-                                .pendingOrders[index].socialMediaName.toPNG)),
+                                .pendingOrders[index].socialMediaName.toPNG),color: store
+                                .pendingOrders[index].socialMediaName == 'instagram' ? Colors.red : store
+                                .pendingOrders[index].socialMediaName == 'twitter' ? Colors.blue : Colors.black),
                             trailing: Icon(
                               (store.pendingOrders[index].status &&
                                       !store.pendingOrders[index].isCancelled)

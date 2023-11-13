@@ -30,7 +30,7 @@ class ProfilePage extends StatelessWidget {
         body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildRowUserInfo( context),
+            buildRowUserInfo(context,viewModel),
             buildSettingsList(viewModel),
             buildExitButton(viewModel, context),
           ],
@@ -39,7 +39,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Expanded buildRowUserInfo(BuildContext context) {
+  Expanded buildRowUserInfo(BuildContext context,ProfilePageViewModel viewModel) {
     return Expanded(
       flex: 5,
       child: Row(
@@ -64,7 +64,9 @@ class ProfilePage extends StatelessWidget {
                   const Center(child: Text('Arkadaş Davet Kodunuz')),
                   Center(
                     child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                          viewModel.copyReferenceCode(userModelGlobal.referenceCode.toString());
+                      },
                       label: Text(userModelGlobal.referenceCode.toString()),
                       icon: const Icon(Icons.copy,size: 15,),
                       style: ButtonStyle(
@@ -147,7 +149,7 @@ class ProfilePage extends StatelessWidget {
           return OutlinedButton(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
-                        (states) => Colors.red.shade800),
+                        (states) => Colors.blueGrey.shade400),
                 minimumSize:
                 MaterialStateProperty.all(Size(context.width / 1.2, 40))),
             onPressed: () {
