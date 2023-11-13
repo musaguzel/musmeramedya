@@ -217,7 +217,7 @@ class MainPage extends StatelessWidget {
   Padding get buildMinMaksAmount {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0,left: 4.0),
-      child: Text('Minimum: 100 - Maksimum: 15000',style: TextStyle(color: Colors.black.withOpacity(0.7)),),
+      child: Text('Minimum: 50',style: TextStyle(color: Colors.black.withOpacity(0.7)),),
     );
   }
 

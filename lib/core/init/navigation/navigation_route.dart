@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:musmeramedya/ui/add_balance/view/first_stage/add_balance_page.dart';
 import 'package:musmeramedya/ui/add_balance/view/second_stage/add_balance_second.dart';
 import 'package:musmeramedya/ui/contact_us/view/contact_us_detail.dart';
+import 'package:musmeramedya/ui/forgotpassword/view/forgot_password_page.dart';
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/orders/view/orders_page.dart';
 import 'package:musmeramedya/ui/payment_successful/view/payment_successful_page.dart';
@@ -35,6 +36,9 @@ class NavigationRoute {
 
       case NavigationConstants.REGISTER:
         return normalNavigate(const RegisterPage(), NavigationConstants.REGISTER ,args.arguments);
+
+      case NavigationConstants.FORGOT_PASSWORD:
+        return normalNavigate(ForgotPasswordPage(), NavigationConstants.FORGOT_PASSWORD ,args.arguments);
 
       case NavigationConstants.MAIN:
         return normalNavigate(MainPage(), NavigationConstants.MAIN ,args.arguments);

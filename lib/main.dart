@@ -42,10 +42,7 @@ class MyApp extends StatelessWidget {
 
 
 /*
-Şifremi Unuttum
 authstate dinlenmiyor sanki çıkış yapmıyor
-siparişler iki ekranda tamamlandı ayrılabilir
-minimum maksimum değerleri yapılacak
 */
 
 

@@ -121,34 +121,40 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
 
   @action
   Future<void> saveOrder() async {
-    CollectionReference userCol = firebaseFirestore.collection('users');
-    isOrderSaving = true;
-    if(firebaseAuth.currentUser != null){
-      int? parsedValue = int.tryParse(livePrice);
-      if(currentUser!= null){
-        if(currentUser!.balance >= parsedValue!){
-          if(selectedCategory != null && livePrice.isNotEmpty && amountController.text.isNotEmpty && linkController.text.isNotEmpty && linkController.text.trim().isValidURL){
-            final formattedDate = DateFormat('dd-MM-yyyy hh:mm').format(DateTime.now());
-            OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: formattedDate,serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, socialMediaName:
-            selectedCategory?.socialMediaName ?? "instagram",isCancelled: false,status: false);
-            await userCol.doc(firebaseAuth.currentUser?.uid).collection('orders_history').add(order.toJson()).then((value) {
-              var updatedBalance = currentUser!.balance - parsedValue;
-              userCol.doc(firebaseAuth.currentUser?.uid).update({'balance': updatedBalance});
-              userCol.doc(firebaseAuth.currentUser?.uid).collection('orders_history').doc(value.id).update({'order_id' : value.id});
-              showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green);
-            });
-            navigation.navigateToPageClear(path: NavigationConstants.ORDERS);
-          }else{
-            showsnackbar(message: 'Lütfen Bilgileri Eksiksiz, Doğru Girin');
+    var amount = int.parse(amountController.text);
+    if(amount >= 50){
+      CollectionReference userCol = firebaseFirestore.collection('users');
+      isOrderSaving = true;
+      if(firebaseAuth.currentUser != null){
+        int? parsedValue = int.tryParse(livePrice);
+        if(currentUser!= null){
+          if(currentUser!.balance >= parsedValue!){
+            if(selectedCategory != null && livePrice.isNotEmpty && amountController.text.isNotEmpty && linkController.text.isNotEmpty && linkController.text.trim().isValidURL){
+              final formattedDate = DateFormat('dd-MM-yyyy hh:mm').format(DateTime.now());
+              OrdersModel order = OrdersModel(userID: firebaseAuth.currentUser!.uid, datetime: formattedDate,serviceName: selectedService?['servicename'].toString() ?? 'null' ,servicePrice: livePrice, serviceAmount: amountController.text, socialMediaLink: linkController.text, socialMediaName:
+              selectedCategory?.socialMediaName ?? "instagram",isCancelled: false,status: false);
+              await userCol.doc(firebaseAuth.currentUser?.uid).collection('orders_history').add(order.toJson()).then((value) {
+                var updatedBalance = currentUser!.balance - parsedValue;
+                userCol.doc(firebaseAuth.currentUser?.uid).update({'balance': updatedBalance});
+                userCol.doc(firebaseAuth.currentUser?.uid).collection('orders_history').doc(value.id).update({'order_id' : value.id});
+                showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green);
+              });
+              navigation.navigateToPageClear(path: NavigationConstants.ORDERS);
+            }else{
+              showsnackbar(message: 'Lütfen Bilgileri Eksiksiz, Doğru Girin');
+            }
+          }else {
+            showsnackbar(message: 'Bakiyeniz Yetersiz',snackBarAction: SnackBarAction(label: 'Bakiye Yükle', onPressed: () => navigation.navigateToPage(
+                path: NavigationConstants.ADD_BALANCE
+            )));
           }
-        }else {
-          showsnackbar(message: 'Bakiyeniz Yetersiz',snackBarAction: SnackBarAction(label: 'Bakiye Yükle', onPressed: () => navigation.navigateToPage(
-            path: NavigationConstants.ADD_BALANCE
-          )));
         }
-      }
 
+      }
+    }else {
+      showsnackbar(message: 'Yetersiz Sipariş Adedi');
     }
+
     isOrderSaving = false;
 
   }

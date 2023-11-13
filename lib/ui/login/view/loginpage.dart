@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/init/constants/app/app_constants.dart';
+import 'package:musmeramedya/product/helper/responsive.dart';
 import 'package:musmeramedya/ui/login/viewModel/login_page_view_model.dart';
 import '../../../core/init/constants/navigation/navigation_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
@@ -29,46 +32,54 @@ class LoginPage extends StatelessWidget {
           onTap: (){
             FocusScope.of(context).requestFocus(FocusNode());
           },
-          child: Column(
-            children: [
-              Card(
-                margin: const EdgeInsets.all(20),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildTextfieldTitle(context,"Kullanıcı Adı"),
-                      buildSizedBox,
-                      buildTextFieldEmail(store),
-                      buildSizedBox,
-                      buildTextfieldTitle(context,"Şifre"),
-                      buildSizedBox,
-                      buildTextFieldPassword(store),
-                      buildSizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ElevatedButton(onPressed: (){
-                            FocusScope.of(context).unfocus();
-                            if (store.emailController.text.isNotEmpty &&
-                                store.passwordController.text.isNotEmpty) {
-                              store.loginWithEmailAndPassword(context);
-                            }
-                          }, child: Text('Giriş Yap')),
-                          TextButton(onPressed: (){
-
-                          }, child: Text('Şifremi Unuttum'))
-                        ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: Responsive.isDesktop(context) ? context.width / 2 : null,
+                    child: Card(
+                      margin: const EdgeInsets.all(20),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildTextfieldTitle(context,"Kullanıcı Adı"),
+                            buildSizedBox,
+                            buildTextFieldEmail(store),
+                            buildSizedBox,
+                            buildTextfieldTitle(context,"Şifre"),
+                            buildSizedBox,
+                            buildTextFieldPassword(store),
+                            buildSizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ElevatedButton(onPressed: (){
+                                  FocusScope.of(context).unfocus();
+                                  if (store.emailController.text.isNotEmpty &&
+                                      store.passwordController.text.isNotEmpty) {
+                                    store.loginWithEmailAndPassword(context);
+                                  }
+                                }, child: const Text('Giriş Yap')),
+                                TextButton(onPressed: (){
+                                  store.navigation.navigateToPage(path: NavigationConstants.FORGOT_PASSWORD);
+                                }, child: const Text('Şifremi Unuttum'))
+                              ],
+                            ),
+                            const SizedBox(height: 20,),
+                            wrapSignUp(context,networkResult,store)
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 20,),
-                      wrapSignUp(context,networkResult,store)
-                    ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         )
     );
@@ -76,7 +87,7 @@ class LoginPage extends StatelessWidget {
 
   AppBar get buildAppBar {
     return AppBar(
-        title: Text(ApplicationConstants.APPNAME),
+        title: const Text(ApplicationConstants.APPNAME),
       );
   }
   SizedBox get buildSizedBox => const SizedBox(height: 8,);
@@ -156,7 +167,7 @@ class LoginPage extends StatelessWidget {
           ),
          ElevatedButton(onPressed: (){
               viewModel.navigation.navigateToPage(path: NavigationConstants.REGISTER);
-         }, child: Text('Kayıt Ol'))
+         }, child: const Text('Kayıt Ol'))
         ],
       ),
     );
