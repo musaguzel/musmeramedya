@@ -27,7 +27,7 @@ class NoNetworkWidget extends StatelessWidget {
       firstChild: Container(
         alignment: Alignment.center,
         decoration: const BoxDecoration(
-            color: Colors.pink,
+            color: Colors.blue,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15), topRight: Radius.circular(15))),
         height: context.height * 0.1,

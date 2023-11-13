@@ -5,6 +5,7 @@ import 'package:musmeramedya/core/init/theme/app_theme.dart';
 import 'core/init/constants/app/app_constants.dart';
 import 'core/init/navigation/navigation_route.dart';
 import 'core/init/navigation/navigation_service.dart';
+import 'core/init/network/main_build.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       title: ApplicationConstants.APPNAME,
       debugShowCheckedModeBanner: false,
       theme: MyAppTheme,
+      builder: MainBuild.build,
       onGenerateRoute: NavigationRoute.instance.generateRoute,
       navigatorKey: NavigationService.instance.navigatorKey,
     );
@@ -39,6 +41,16 @@ class MyApp extends StatelessWidget {
 
 
 
-//referans sistemine devam edilecek
-//internet kontrolü eklenecek
-//kodlar düzenlenecek stringler ayarlanacak, tasarım güzelleştirilecek
+/*
+Şifremi Unuttum
+authstate dinlenmiyor sanki çıkış yapmıyor
+siparişler iki ekranda tamamlandı ayrılabilir
+minimum maksimum değerleri yapılacak
+*/
+
+
+
+/*<key>LSApplicationQueriesSchemes</key>
+<array>
+<string>whatsapp</string>
+</array>*/

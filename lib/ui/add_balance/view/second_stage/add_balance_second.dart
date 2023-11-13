@@ -7,6 +7,7 @@ import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/ui/add_balance/model/payment_model/payment_model.dart';
 import 'package:musmeramedya/ui/add_balance/viewModel/add_balance_page_view_model.dart';
 import '../../../../core/components/Animation/Fade_Animation.dart';
+import '../../../../core/init/network/network_change_manager.dart';
 import '../../components/accept_pay_dialog.dart';
 
 class AddBalanceSecondStage extends StatelessWidget {
@@ -14,20 +15,6 @@ class AddBalanceSecondStage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*final Map<String, String> arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    final String selectedPaymentMethod =
-        arguments['selected_payment_method'] ?? '';
-    final String selectedPaymentTotal =
-        arguments['selected_payment_total'] ?? '';
-    final String selectedPaymentDiscount =
-        arguments['selected_payment_discount'] ?? '';
-    final String totalPayment =
-        arguments['total_payment'] ?? '';
-    final String userName =
-        arguments['user_name'] ?? '';
-    final String userID =
-        arguments['user_id'] ?? '';*/
     final PaymentModel arguments =
     ModalRoute.of(context)!.settings.arguments as PaymentModel;
     return BaseView(
@@ -40,7 +27,7 @@ class AddBalanceSecondStage extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Bakiye Ekle'),
           ),
-          body: Card(
+          body:  networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Card(
             margin: context.paddingNormal,
             child: Padding(
               padding: const EdgeInsets.all(24.0),
@@ -51,7 +38,6 @@ class AddBalanceSecondStage extends StatelessWidget {
                   const SizedBox(
                     height: 25,
                   ),
-
                         Expanded(flex: 2,child: buildPaymentInfoSummary(context, store, arguments)),
                         Expanded(
                           flex: 1,

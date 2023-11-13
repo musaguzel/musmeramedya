@@ -62,20 +62,20 @@ class NavigationDrawerMain extends StatelessWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.add),
+          leading: const Icon(Icons.reorder_sharp),
           title: const Text("Siparişler"),
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.ORDERS);
           },
         ),
         ListTile(
-          leading: const Icon(Icons.add),
+          leading: const Icon(Icons.currency_lira),
           title: const Text("Bakiye Ekle"),
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE,);
           },
         ),ListTile(
-          leading: const Icon(Icons.add),
+          leading: const Icon(Icons.support_agent),
           title: const Text("Destek"),
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.CONTACT_US,);
@@ -83,20 +83,12 @@ class NavigationDrawerMain extends StatelessWidget {
         ),
         const Divider(color: Colors.pink,),
         ListTile(
-          leading: const Icon(Icons.add),
+          leading: const Icon(Icons.person),
           title: const Text("Hesap"),
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.PROFILE,);
           },
         ),
-        ListTile(
-          leading: const Icon(Icons.add),
-          title: const Text("Çıkış Yap"),
-          onTap: (){
-          },
-        ),
-
-
       ],
     ),
   );

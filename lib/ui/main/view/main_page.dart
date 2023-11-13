@@ -12,7 +12,7 @@ import '../../register/model/user_model.dart';
 import '../../_widgets/drawer/navigation_drawer.dart';
 
 
-    UserModel userModelGlobal = UserModel(fullName: "", email: "", balance: 5, userID: "",referenceCode: "");
+    UserModel userModelGlobal = UserModel(fullName: "", email: "", balance: 0, userID: "",referenceCode: "");
 class MainPage extends StatelessWidget {
    MainPage({super.key});
 
@@ -41,7 +41,7 @@ class MainPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text(ApplicationConstants.APPNAME),
         ),
-        body: GestureDetector(
+        body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
           },
@@ -69,7 +69,7 @@ class MainPage extends StatelessWidget {
                         buildAverageTimeText(store),
                         buildTimeAndPriceInfoText(store: store,needPadding: false,isPriceText: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
                         buildTimeAndPriceInfoText(store: store,needPadding: true,isPriceText: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
-                        buildCreateOrderButton(store)
+                        buildCreateOrderButton(store,networkResult)
                       ],
                     )),
               )
@@ -177,42 +177,40 @@ class MainPage extends StatelessWidget {
     });
   }
 
-  Observer buildTextField({required MainPageViewModel store,required bool isAmount}) {
-    return Observer(
-      builder: (_) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white, // Arka plan rengi beyaz
-            borderRadius:
-            const BorderRadius.all(Radius.circular(10.0)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.blue.withOpacity(0.3),
-                // Neon gibi parlak mavi renk
-                blurRadius: 10.0,
-                // Bulanıklık miktarı
-                spreadRadius: 1.0,
-                // Yayılma miktarı
-                offset: const Offset(0, 0), // Gölgenin yönü
-              ),
-            ],
+  Container buildTextField({required MainPageViewModel store,required bool isAmount}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white, // Arka plan rengi beyaz
+        borderRadius:
+        const BorderRadius.all(Radius.circular(10.0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blue.withOpacity(0.3),
+            // Neon gibi parlak mavi renk
+            blurRadius: 10.0,
+            // Bulanıklık miktarı
+            spreadRadius: 1.0,
+            // Yayılma miktarı
+            offset: const Offset(0, 0), // Gölgenin yönü
           ),
-          child: TextFormField(
-            onChanged: (value){
-              store.calculatePrice();
-            },
-            keyboardType: isAmount ? TextInputType.number: TextInputType.text,
-            controller: isAmount ? store.amountController : store.linkController,
-            style: const TextStyle(
-              color: Colors.black87,
-            ),
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(left: 10.0),
-            ),
+        ],
+      ),
+      child: Observer(builder: (_){
+        return TextFormField(
+          onChanged: (value){
+            store.calculatePrice();
+          },
+          keyboardType: isAmount ? TextInputType.number: TextInputType.text,
+          controller: isAmount ? store.amountController : store.linkController,
+          style: const TextStyle(
+            color: Colors.black87,
+          ),
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(left: 10.0),
           ),
         );
-      },
+      },)
     );
   }
 
@@ -267,14 +265,16 @@ class MainPage extends StatelessWidget {
     });
   }
 
-  Observer buildCreateOrderButton(MainPageViewModel store) {
+  Observer buildCreateOrderButton(MainPageViewModel store,NetworkResult networkResult) {
     return Observer(builder: (_){
       return
       !store.isOrderSaving ?
        Padding(
         padding: const EdgeInsets.only(left: 1.0,top: 4.0),
         child: ElevatedButton(onPressed: (){
-              store.saveOrder();
+              if(networkResult == NetworkResult.on){
+                store.saveOrder();
+              }
         }, child:  const Text(ApplicationStrings.MAIN_CREATE_ORDER)),
       ):  const Padding(
         padding: EdgeInsets.only(left: 1.0,top: 20.0),

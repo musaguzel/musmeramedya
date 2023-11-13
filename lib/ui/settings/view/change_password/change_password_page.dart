@@ -21,7 +21,7 @@ class ChangePasswordPage extends StatelessWidget {
       onPageBuilder: (context, viewModel,networkResult) => Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(title: const Text('Şifre Değiştir'),),
-        body: GestureDetector(
+        body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
           },

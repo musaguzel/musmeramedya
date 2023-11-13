@@ -29,7 +29,7 @@ class AccountSettingsPage extends StatelessWidget {
         },
         onPageBuilder: (context, viewModel, networkResult) => Scaffold(
           appBar: buildAppBar,
-          body: Column(
+          body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

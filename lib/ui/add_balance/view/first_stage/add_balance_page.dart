@@ -8,6 +8,7 @@ import 'package:musmeramedya/core/init/constants/navigation/navigation_constants
 import 'package:musmeramedya/ui/add_balance/viewModel/add_balance_page_view_model.dart';
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/register/model/user_model.dart';
+import '../../../../core/init/network/network_change_manager.dart';
 import '../../../_widgets/drawer/navigation_drawer.dart';
 import '../../components/payment_history_data_table.dart';
 import '../../model/payment_model/payment_model.dart';
@@ -29,7 +30,7 @@ class AddBalancePage extends StatelessWidget {
                 appBar: AppBar(
                   title: const Text('Bakiye Ekle'),
                 ),
-                body: SingleChildScrollView(
+                body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) :SingleChildScrollView(
                     child: Column(
                         children: [
                       Card(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/string_extension.dart';
+import '../../../core/init/network/network_change_manager.dart';
 import '../../_widgets/drawer/navigation_drawer.dart';
 import '../viewModel/orders_page_view_model.dart';
 
@@ -26,7 +27,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 title: const Text("Siparişler"),
               ),
               drawer: NavigationDrawerMain(),
-              body: buildObserver(store),
+              body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) :buildObserver(store),
             ));
   }
 

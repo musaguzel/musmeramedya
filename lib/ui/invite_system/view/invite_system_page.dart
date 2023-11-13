@@ -5,6 +5,8 @@ import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/ui/invite_system/components/invited_friends_history_data_table.dart';
 import 'package:musmeramedya/ui/invite_system/viewModel/invite_system_page_view_model.dart';
 
+import '../../../core/init/network/network_change_manager.dart';
+
 class InviteSystemPage extends StatelessWidget {
   const InviteSystemPage({super.key});
 
@@ -20,7 +22,7 @@ class InviteSystemPage extends StatelessWidget {
               appBar: AppBar(
                 title: const Text('Davet Et Kazan'),
               ),
-              body: SingleChildScrollView(
+              body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
                 child: Column(
                   children: [
                     Card(
