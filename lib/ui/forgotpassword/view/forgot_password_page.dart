@@ -5,6 +5,7 @@ import 'package:musmeramedya/core/extension/string_extension.dart';
 import '../../../core/base/view/base_widget.dart';
 import '../../../core/components/Animation/Fade_Animation.dart';
 import '../../../core/init/network/network_change_manager.dart';
+import '../../../product/helper/responsive.dart';
 import '../viewModel/forgot_password_page_view_model.dart';
 
 
@@ -36,14 +37,19 @@ class ForgotPasswordPage extends StatelessWidget {
                       padding: context.paddingMediumVertical,
                       child: FadeAnimation(
                         delay: 0.4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            buildPageText,
-                            buildEmailField(context, viewModel),
-                            buildResetPasswordButton(context, viewModel, networkResult)
-                          ],
+                        child: Center(
+                          child: SizedBox(
+                            width: Responsive.isDesktop(context) ? context.width / 2 : null,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                buildPageText,
+                                buildEmailField(context, viewModel),
+                                buildResetPasswordButton(context, viewModel, networkResult)
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -92,7 +98,7 @@ class ForgotPasswordPage extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               minimumSize: Size(context.width * 0.90,
                   context.height * 0.06),
-              backgroundColor: Colors.pink.withOpacity(
+              backgroundColor: Colors.blue.withOpacity(
                   viewModel.emailIsValidate ? 1 : 0.5)),
           onPressed: () {
             if(networkResult == NetworkResult.on){

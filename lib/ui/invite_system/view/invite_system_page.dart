@@ -6,6 +6,7 @@ import 'package:musmeramedya/ui/invite_system/components/invited_friends_history
 import 'package:musmeramedya/ui/invite_system/viewModel/invite_system_page_view_model.dart';
 
 import '../../../core/init/network/network_change_manager.dart';
+import '../../../product/helper/responsive.dart';
 
 class InviteSystemPage extends StatelessWidget {
   const InviteSystemPage({super.key});
@@ -23,27 +24,34 @@ class InviteSystemPage extends StatelessWidget {
                 title: const Text('Davet Et Kazan'),
               ),
               body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Card(
-                      margin: context.paddingNormal,
-                      color: Colors.blue,
-                        child:  Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Text(
-                              'Referans kodunuzu kullanarak üye olan arkadaşlarınız her bakiye yüklemesi yaptığında,'
-                                  ' yüklenen miktarın %5 lik bir kısmını size hediye ederiz',style: TextStyle(fontSize: 15,color: Colors.grey.shade200)),
-                        ))
-                  ,
-                    Observer(builder: (_){
-                      return
-                        viewModel.isLoading ? const CircularProgressIndicator() :
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12.0,right: 12.0),
-                          child: InvitedFriendsHistoryDataTable(invitedFriendsHistory: viewModel.invitedFriendsHistoryList)
-                        );
-                    },)
-                  ],
+                child: Center(
+                  child: SizedBox(
+                    width: Responsive.isDesktop(context)
+                        ? context.width / 2
+                        : null,
+                    child: Column(
+                      children: [
+                        Card(
+                          margin: context.paddingNormal,
+                          color: Colors.blue,
+                            child:  Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
+                                  'Referans kodunuzu kullanarak üye olan arkadaşlarınız her bakiye yüklemesi yaptığında,'
+                                      ' yüklenen miktarın %5 lik bir kısmını size hediye ederiz',style: TextStyle(fontSize: 15,color: Colors.grey.shade200)),
+                            ))
+                      ,
+                        Observer(builder: (_){
+                          return
+                            viewModel.isLoading ? const CircularProgressIndicator() :
+                            Padding(
+                              padding: const EdgeInsets.only(left: 12.0,right: 12.0),
+                              child: InvitedFriendsHistoryDataTable(invitedFriendsHistory: viewModel.invitedFriendsHistoryList)
+                            );
+                        },)
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ));

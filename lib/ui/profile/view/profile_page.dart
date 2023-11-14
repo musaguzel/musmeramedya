@@ -7,6 +7,7 @@ import 'package:musmeramedya/ui/main/view/main_page.dart';
 import '../../../core/base/view/base_widget.dart';
 import '../../../core/init/constants/navigation/navigation_constants.dart';
 import '../../../core/init/network/network_change_manager.dart';
+import '../../../product/helper/responsive.dart';
 import '../viewModel/profile_page_view_model.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -27,13 +28,20 @@ class ProfilePage extends StatelessWidget {
           title: const Text('Hesap'),
         ),
         resizeToAvoidBottomInset: false,
-        body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            buildRowUserInfo(context,viewModel),
-            buildSettingsList(viewModel),
-            buildExitButton(viewModel, context),
-          ],
+        body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Center(
+          child: SizedBox(
+            width: Responsive.isDesktop(context)
+                ? context.width / 2
+                : null,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                buildRowUserInfo(context,viewModel),
+                buildSettingsList(viewModel),
+                buildExitButton(viewModel, context),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -57,11 +65,14 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   Center(
                     child: Text(userModelGlobal.fullName,
-                      style: const TextStyle(fontSize: 24,color: Colors.black),
+                      style: TextStyle(fontSize: Responsive.isMobile(context)? 24 : 35,color: Colors.black),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const Center(child: Text('Arkadaş Davet Kodunuz')),
+                  Padding(
+                    padding: Responsive.isMobile(context) ? const EdgeInsets.only(top: 2.0,bottom: 2.0) : const EdgeInsets.only(top: 10.0,bottom: 10.0),
+                    child: const Center(child: Text('Arkadaş Davet Kodunuz')),
+                  ),
                   Center(
                     child: ElevatedButton.icon(
                       onPressed: () {

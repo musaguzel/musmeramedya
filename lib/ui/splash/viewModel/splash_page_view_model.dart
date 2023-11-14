@@ -3,7 +3,6 @@ import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
 import '../../../core/base/model/base_view_model.dart';
 import '../../../core/init/constants/navigation/navigation_constants.dart';
-import '../../../core/init/navigation/navigation_service.dart';
 import '../../../core/init/network/network_change_manager.dart';
 part 'splash_page_view_model.g.dart';
 

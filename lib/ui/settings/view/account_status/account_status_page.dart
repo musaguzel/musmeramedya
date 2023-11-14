@@ -7,6 +7,7 @@ import 'package:musmeramedya/ui/main/view/main_page.dart';
 
 import '../../../../core/base/view/base_widget.dart';
 import '../../../../core/init/network/network_change_manager.dart';
+import '../../../../product/helper/responsive.dart';
 import '../../../_widgets/dialog/delete_account_dialog.dart';
 import '../../viewModel/settings_view_model.dart';
 
@@ -29,16 +30,23 @@ class AccountSettingsPage extends StatelessWidget {
         },
         onPageBuilder: (context, viewModel, networkResult) => Scaffold(
           appBar: buildAppBar,
-          body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                buildEmailCard(context, viewModel),
-                buildResendEmailButton(viewModel, context),
-                const Spacer(),
-                buildCard(context, networkResult, viewModel)
-              ],
+          body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Center(
+            child: SizedBox(
+              width: Responsive.isDesktop(context)
+                  ? context.width / 2
+                  : null,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    buildEmailCard(context, viewModel),
+                    buildResendEmailButton(viewModel, context),
+                    const Spacer(),
+                    buildCard(context, networkResult, viewModel)
+                  ],
+                ),
             ),
+          ),
 
         ));
   }

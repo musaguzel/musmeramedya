@@ -1,14 +1,12 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/extension/string_extension.dart';
 import 'package:musmeramedya/ui/contact_us/viewModel/contact_us_view_model.dart';
-import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/base/view/base_widget.dart';
 import '../../../core/init/network/network_change_manager.dart';
+import '../../../product/helper/responsive.dart';
 
 class ContactUsPage extends StatelessWidget {
   const ContactUsPage({Key? key}) : super(key: key);
@@ -26,18 +24,32 @@ class ContactUsPage extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Bize Ulaşın'),
             ),
-            body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Card(
-              margin: context.paddingNormal,
-              child: ListTile(
-                contentPadding: context.paddingNormal,
-                leading: Image.asset('whatsapp'.toPNG),
-                title: Text('Whatsapp ile bizimle iletişime geçebilirsiniz'),
-                subtitle: ElevatedButton(
-                  onPressed: (){
-                      openWhatsapp(context);
-                  },style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.teal)),child: const Text('İletişime Geç'),
+            body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Column(
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: Responsive.isDesktop(context)
+                        ? context.width / 2
+                        : null,
+                    child: Card(
+                      margin: context.paddingNormal,
+                      child: ListTile(
+                        contentPadding: context.paddingHigh,
+                        leading: Image.asset('whatsapp'.toPNG),
+                        title: const Text('Whatsapp ile bizimle iletişime geçebilirsiniz'),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: (){
+                                openWhatsapp(context);
+                            },style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.teal)),child: const Text('İletişime Geç'),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
     );
@@ -47,14 +59,8 @@ class ContactUsPage extends StatelessWidget {
     var whatsappURL =
     Uri.parse("https://wa.me/$WhatsappNo?text=Merhaba");
 
-    if (Platform.isIOS) {
-      if (await canLaunchUrl(whatsappURL)) {
-        await launchUrl(whatsappURL);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("İletişim Numarası: $WhatsappNo")));
-      }
-    } else {
+
+    if (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android|| kIsWeb) {
       if (await canLaunchUrl(whatsappURL)) {
         await launchUrl(whatsappURL);
       } else {

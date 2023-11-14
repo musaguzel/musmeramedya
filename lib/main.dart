@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
 /*
 Tasarım responsive olacak
 M para birimi tasarla
-webde whatsapp yönlendirmeyi aktif et
-authstate dinlenmiyor sanki çıkış yapmıyor
+domain al
+gerçek değerleri veritabanına gir
 */
 
 

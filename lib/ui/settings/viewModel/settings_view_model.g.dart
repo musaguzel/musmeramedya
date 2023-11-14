@@ -27,6 +27,22 @@ mixin _$SettingsViewModel on _SettingsViewModelBase, Store {
     });
   }
 
+  late final _$isAccountDeletingAtom =
+      Atom(name: '_SettingsViewModelBase.isAccountDeleting', context: context);
+
+  @override
+  bool get isAccountDeleting {
+    _$isAccountDeletingAtom.reportRead();
+    return super.isAccountDeleting;
+  }
+
+  @override
+  set isAccountDeleting(bool value) {
+    _$isAccountDeletingAtom.reportWrite(value, super.isAccountDeleting, () {
+      super.isAccountDeleting = value;
+    });
+  }
+
   late final _$emailVerifiedAtom =
       Atom(name: '_SettingsViewModelBase.emailVerified', context: context);
 
@@ -105,6 +121,7 @@ mixin _$SettingsViewModel on _SettingsViewModelBase, Store {
   String toString() {
     return '''
 updatePasswordProcessIsLoading: ${updatePasswordProcessIsLoading},
+isAccountDeleting: ${isAccountDeleting},
 emailVerified: ${emailVerified},
 canResendEmail: ${canResendEmail}
     ''';

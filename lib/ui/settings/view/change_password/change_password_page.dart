@@ -4,6 +4,7 @@ import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import '../../../../core/base/view/base_widget.dart';
 import '../../../../core/init/network/network_change_manager.dart';
+import '../../../../product/helper/responsive.dart';
 import '../../viewModel/settings_view_model.dart';
 
 
@@ -36,16 +37,23 @@ class ChangePasswordPage extends StatelessWidget {
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       key: viewModel.formState,
-      child: Padding(
-        padding: context.paddingMedium,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [buildOldPasswordTextField(viewModel),
-            buildSizedBox(15),
-            buildNewPasswordTextField(viewModel),
-            buildSizedBox(30),
-            elevatedButtonUpdatePassword(context,viewModel,networkResult)
-          ],
+      child: Center(
+        child: SizedBox(
+          width: Responsive.isDesktop(context)
+              ? context.width / 2
+              : null,
+          child: Padding(
+            padding: context.paddingMedium,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [buildOldPasswordTextField(viewModel),
+                buildSizedBox(15),
+                buildNewPasswordTextField(viewModel),
+                buildSizedBox(30),
+                elevatedButtonUpdatePassword(context,viewModel,networkResult)
+              ],
+            ),
+          ),
         ),
       ),
     );

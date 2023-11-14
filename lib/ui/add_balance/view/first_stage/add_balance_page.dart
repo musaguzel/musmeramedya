@@ -9,6 +9,7 @@ import 'package:musmeramedya/ui/add_balance/viewModel/add_balance_page_view_mode
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import 'package:musmeramedya/ui/register/model/user_model.dart';
 import '../../../../core/init/network/network_change_manager.dart';
+import '../../../../product/helper/responsive.dart';
 import '../../../_widgets/drawer/navigation_drawer.dart';
 import '../../components/payment_history_data_table.dart';
 import '../../model/payment_model/payment_model.dart';
@@ -31,42 +32,49 @@ class AddBalancePage extends StatelessWidget {
                   title: const Text('Bakiye Ekle'),
                 ),
                 body: networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) :SingleChildScrollView(
-                    child: Column(
-                        children: [
-                      Card(
-                          margin: const EdgeInsets.all(5),
-                          child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 15.0,
-                                right: 15.0,
-                              ),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    buildTitle('Yöntem'),
-                                    buildDropdownPaymentMethod(
-                                        store: store, context: context),
-                                    buildSizedBox20,
-                                    buildTitle('Tutar'),
-                                    buildDropdownPaymentTotal(
-                                        store: store, context: context),
-                                    buildSizedBox20,
-                                    buildButtonNext(store,userModelGlobal),
-                                    //buildSizedBox20,
-                                  ]))),
+                    child: Center(
+                      child: SizedBox(
+                        width: Responsive.isDesktop(context)
+                            ? context.width / 2
+                            : null,
+                        child: Column(
+                            children: [
+                          Card(
+                              margin: Responsive.isMobile(context) ? const EdgeInsets.all(5) : const EdgeInsets.only(top: 40),
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                  ),
+                                  child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        buildTitle('Yöntem'),
+                                        buildDropdownPaymentMethod(
+                                            store: store, context: context),
+                                        buildSizedBox20,
+                                        buildTitle('Tutar'),
+                                        buildDropdownPaymentTotal(
+                                            store: store, context: context),
+                                        buildSizedBox20,
+                                        buildButtonNext(store,userModelGlobal),
+                                        //buildSizedBox20,
+                                      ]))),
 
-                                Observer(builder: (_){
-                                  return
-                                  !store.isPaymentHistoryLoading ?
-                                   Padding(
-                                     padding: const EdgeInsets.all(2.0),
-                                     child: PaymentHistoryDataTable(paymentHistory: store.paymentHistory,),
-                                   ) : const CircularProgressIndicator();
-                                },)
+                                    Observer(builder: (_){
+                                      return
+                                      !store.isPaymentHistoryLoading ?
+                                       Padding(
+                                         padding: Responsive.isMobile(context) ? const EdgeInsets.all(5) : const EdgeInsets.only(top: 30),
+                                         child: PaymentHistoryDataTable(paymentHistory: store.paymentHistory,),
+                                       ) : const CircularProgressIndicator();
+                                    },)
 
 
-                    ]))));
+                        ]),
+                      ),
+                    ))));
   }
 
   Observer buildButtonNext(AddBalancePageViewModel store,UserModel currentUser) {

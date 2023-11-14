@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:musmeramedya/core/init/constants/navigation/navigation_constants.dart';
+import 'package:musmeramedya/ui/main/view/main_page.dart';
 import '../../../core/base/model/base_view_model.dart';
 part 'settings_view_model.g.dart';
 
@@ -48,9 +49,9 @@ abstract class _SettingsViewModelBase with Store, BaseViewModel {
       });
     } catch (error) {
       if (error is FirebaseAuthException) {
-        if (error.code == 'wrong-password') {
+        if (error.code == 'INVALID_LOGIN_CREDENTIALS') {
           showsnackbar(
-              message: 'Şifreler Uyuşmuyor');
+              message: 'Mevcut şifreniz yanlış');
         }
       }
     }
@@ -58,33 +59,65 @@ abstract class _SettingsViewModelBase with Store, BaseViewModel {
 
   //Account_Status Screen
 
+
+  @observable
+  bool isAccountDeleting = false;
   @action
   Future<void> deleteAccount() async {
-    if(firebaseAuth.currentUser != null){
-      try {
-        final userDocRef = FirebaseFirestore.instance.collection('users').doc(firebaseAuth.currentUser?.uid);
+    isAccountDeleting = true;
+    if(firebaseAuth.currentUser != null) {
+      try{
+        await firebaseAuth.currentUser?.delete().then((value) async {
+          try {
+            final userDocRef = FirebaseFirestore.instance.collection('users').doc(userModelGlobal.userID);
 
-        await userDocRef.delete().then((value) async {
-          await deleteInviteCodes();
-          final userCollectionRefPaymentHistory = userDocRef.collection('payment_history');
-          final userCollectionRefOrdersHistory = userDocRef.collection('orders_history');
+            await userDocRef.delete().then((value) async {
+              await deleteInviteCodes();
+              final userCollectionRefPaymentHistory = userDocRef.collection('payment_history');
+              final userCollectionRefOrdersHistory = userDocRef.collection('orders_history');
+              final userCollectionRefInvitedFriends = userDocRef.collection('invited_friends');
 
-          // Koleksiyon içindeki belgeleri sorgula ve sil
-          final QuerySnapshot userSubcollectionSnapshotPaymentHistory = await userCollectionRefPaymentHistory.get();
-          final QuerySnapshot userSubcollectionSnapshotOrdersHistory = await userCollectionRefOrdersHistory.get();
-          for (QueryDocumentSnapshot doc in userSubcollectionSnapshotPaymentHistory.docs) {
-            await userCollectionRefPaymentHistory.doc(doc.id).delete();
+              // Koleksiyon içindeki belgeleri sorgula ve sil
+              final QuerySnapshot userSubcollectionSnapshotPaymentHistory = await userCollectionRefPaymentHistory.get();
+              final QuerySnapshot userSubcollectionSnapshotOrdersHistory = await userCollectionRefOrdersHistory.get();
+              final QuerySnapshot userSubcollectionInvitedFriends = await userCollectionRefOrdersHistory.get();
+
+              try{
+                if(userSubcollectionSnapshotPaymentHistory.docs.isNotEmpty){
+                  for (QueryDocumentSnapshot doc in userSubcollectionSnapshotPaymentHistory.docs) {
+                    await userCollectionRefPaymentHistory.doc(doc.id).delete();
+                  }
+                }
+                if(userSubcollectionSnapshotOrdersHistory.docs.isNotEmpty){
+                  for (QueryDocumentSnapshot doc in userSubcollectionSnapshotOrdersHistory.docs) {
+                    await userCollectionRefOrdersHistory.doc(doc.id).delete();
+                  }
+                }
+                if(userSubcollectionInvitedFriends.docs.isNotEmpty){
+                  for (QueryDocumentSnapshot doc in userSubcollectionInvitedFriends.docs) {
+                    await userCollectionRefOrdersHistory.doc(doc.id).delete();
+                  }
+                }
+              }catch(e){
+                print(e.toString());
+                isAccountDeleting = false;
+                showsnackbar(message: 'Hesabınızı silmek için uygulamayı yeniden başlatıp tekrar deneyin');
+              }
+
+            });
+
+          } catch (e) {
+            isAccountDeleting = false;
+            print('Kullanıcı hesabı silinirken bir hata oluştu: $e');
           }
-          for (QueryDocumentSnapshot doc in userSubcollectionSnapshotOrdersHistory.docs) {
-            await userCollectionRefOrdersHistory.doc(doc.id).delete();
-          }
-          await firebaseAuth.currentUser?.delete();
         });
-
-      } catch (e) {
-        print('Kullanıcı hesabı silinirken bir hata oluştu: $e');
+      }catch(e){
+        isAccountDeleting = false;
+        print(e.toString());
       }
+
     }
+    isAccountDeleting = false;
   }
 
   @observable

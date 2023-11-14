@@ -12,9 +12,9 @@ class DeleteAccountDialog extends StatelessWidget {
       title: const Text('Musmera Medya'),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15.0))),
-      content: const Padding(
-        padding: EdgeInsets.only(top: 12.0),
-        child: Text(
+      content: Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: settingsPageViewModel.isAccountDeleting ? const CircularProgressIndicator() : const Text(
           'Hesabınız Silinecektir Onaylıyor Musunuz ?',
         ),
       ),
@@ -22,7 +22,6 @@ class DeleteAccountDialog extends StatelessWidget {
         TextButton(
           onPressed: () async {
             await settingsPageViewModel.deleteAccount();
-
           },
           child: const Text('Evet',style: TextStyle(color: Colors.black),),
         ),

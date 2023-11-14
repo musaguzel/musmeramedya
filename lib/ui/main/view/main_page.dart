@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
 import 'package:musmeramedya/core/extension/string_extension.dart';
+import 'package:musmeramedya/product/helper/responsive.dart';
 import 'package:musmeramedya/ui/main/model/social_media_model/social_media_service_model.dart';
 import 'package:musmeramedya/ui/main/viewModel/main_page_view_model.dart';
 import '../../../core/base/view/base_widget.dart';
@@ -47,31 +48,36 @@ class MainPage extends StatelessWidget {
           },
           child: SingleChildScrollView(
             child: Column(children: [
-              Card(
-                margin: const EdgeInsets.all(10),
-                child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0,right: 15.0,),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        buildTitle(ApplicationStrings.MAIN_CATEGORY),
-                        buildDropdownCategory(
-                            store: store,context: context),
-                        buildTitle(ApplicationStrings.MAIN_SERVIS),
-                        buildDropdownService(
-                            store: store,context: context),
-                        buildTitle(ApplicationStrings.MAIN_LINK),
-                        buildTextField(store: store,isAmount: false),
-                        buildTitle(ApplicationStrings.MAIN_AMOUNT),
-                        buildTextField(store: store,isAmount: true),
-                        buildMinMaksAmount,
-                        buildAverageTimeText(store),
-                        buildTimeAndPriceInfoText(store: store,needPadding: false,isPriceText: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
-                        buildTimeAndPriceInfoText(store: store,needPadding: true,isPriceText: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
-                        buildCreateOrderButton(store,networkResult)
-                      ],
-                    )),
+              Center(
+                child: SizedBox(
+                  width: Responsive.isDesktop(context) ? context.width / 2 : null,
+                  child: Card(
+                    margin: const EdgeInsets.all(10),
+                    child: Padding(
+                        padding: const EdgeInsets.all( 15.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildTitle(ApplicationStrings.MAIN_CATEGORY),
+                            buildDropdownCategory(
+                                store: store,context: context),
+                            buildTitle(ApplicationStrings.MAIN_SERVIS),
+                            buildDropdownService(
+                                store: store,context: context),
+                            buildTitle(ApplicationStrings.MAIN_LINK),
+                            buildTextField(store: store,isAmount: false),
+                            buildTitle(ApplicationStrings.MAIN_AMOUNT),
+                            buildTextField(store: store,isAmount: true),
+                            buildMinMaksAmount,
+                            buildAverageTimeText(store),
+                            buildTimeAndPriceInfoText(store: store,needPadding: false,isPriceText: false), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
+                            buildTimeAndPriceInfoText(store: store,needPadding: true,isPriceText: true), //saat bilgileri ve para bilgileri veritabanından çekilip parantez içinde bu tarafa verilecek
+                            buildCreateOrderButton(context,store,networkResult)
+                          ],
+                        )),
+                  ),
+                ),
               )
             ]),
           ),
@@ -112,6 +118,7 @@ class MainPage extends StatelessWidget {
                 children: [
                   ImageIcon(
                     AssetImage(category.socialMediaName.toPNG),
+                    color: getIconColor(category.socialMediaName),
                   ),
                   const SizedBox(width: 8),
                   Text(category.categoryName), // Kategori adı
@@ -154,6 +161,7 @@ class MainPage extends StatelessWidget {
                     children: [
                       ImageIcon(
                         AssetImage(store.selectedCategory!.socialMediaName.toPNG),
+                        color: getIconColor(store.selectedCategory!.socialMediaName),
                       ),
                       const SizedBox(width: 8),
                       Text(item), // Kategori adı
@@ -265,12 +273,12 @@ class MainPage extends StatelessWidget {
     });
   }
 
-  Observer buildCreateOrderButton(MainPageViewModel store,NetworkResult networkResult) {
+  Observer buildCreateOrderButton(BuildContext context,MainPageViewModel store,NetworkResult networkResult) {
     return Observer(builder: (_){
       return
       !store.isOrderSaving ?
        Padding(
-        padding: const EdgeInsets.only(left: 1.0,top: 4.0),
+        padding: EdgeInsets.only(left: 1.0,top: Responsive.isMobile(context) ? 8 : 20 ),
         child: ElevatedButton(onPressed: (){
               if(networkResult == NetworkResult.on){
                 store.saveOrder();
@@ -281,6 +289,11 @@ class MainPage extends StatelessWidget {
         child: Center(child: CircularProgressIndicator()),
       );
     });
+  }
+  
+  Color getIconColor(String socialMediaName){
+     return socialMediaName == 'instagram' ? Colors.red :
+        socialMediaName == 'twitter' ? Colors.blue : Colors.black;
   }
 }
 

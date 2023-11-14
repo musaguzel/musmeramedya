@@ -8,6 +8,7 @@ import 'package:musmeramedya/ui/add_balance/model/payment_model/payment_model.da
 import 'package:musmeramedya/ui/add_balance/viewModel/add_balance_page_view_model.dart';
 import '../../../../core/components/Animation/Fade_Animation.dart';
 import '../../../../core/init/network/network_change_manager.dart';
+import '../../../../product/helper/responsive.dart';
 import '../../components/accept_pay_dialog.dart';
 
 class AddBalanceSecondStage extends StatelessWidget {
@@ -16,7 +17,7 @@ class AddBalanceSecondStage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PaymentModel arguments =
-    ModalRoute.of(context)!.settings.arguments as PaymentModel;
+        ModalRoute.of(context)!.settings.arguments as PaymentModel;
     return BaseView(
       viewModel: AddBalancePageViewModel(),
       onModelReady: (model) {
@@ -27,64 +28,95 @@ class AddBalanceSecondStage extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Bakiye Ekle'),
           ),
-          body:  networkResult == NetworkResult.off ? const Center(child: CircularProgressIndicator(),) : Card(
-            margin: context.paddingNormal,
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(flex: 1,child: buildPaymentInfoContainer(store)),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                        Expanded(flex: 2,child: buildPaymentInfoSummary(context, store, arguments)),
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        backgroundColor: Colors.blueGrey.shade300,
-                                        title: const Text('Ödeme Nasıl Yapılır'),
-                                        content: buildHowToMakePaymentInfoText,
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop(); // Dialog penceresini kapat
-                                            },
-                                            child: const Text('Kapat'),
-                                          ),
-                                        ],
+          body: networkResult == NetworkResult.off
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Center(
+                child: SizedBox(
+            width: Responsive.isDesktop(context)
+                  ? context.width / 2
+                  : null,
+                  child: Card(
+                      margin: context.paddingNormal,
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                                flex: 1, child: buildPaymentInfoContainer(store)),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Expanded(
+                                flex: 2,
+                                child: buildPaymentInfoSummary(
+                                    context, store, arguments)),
+                            Expanded(
+                              flex: 1,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  buildHowToMakePaymentButton(context),
+                                  const SizedBox(width: 20,),
+                                  buildPaymentSuccessfulButton(
+                                      context, store, arguments)
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                ),
+              )),
+    );
+  }
+
+  Expanded buildHowToMakePaymentButton(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          minimumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,50)),
+          maximumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,70)),
+        ),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            backgroundColor:
+                                                Colors.blueGrey.shade300,
+                                            title:
+                                                const Text('Ödeme Nasıl Yapılır'),
+                                            content: buildHowToMakePaymentInfoText,
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // Dialog penceresini kapat
+                                                },
+                                                child: const Text('Kapat'),
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       );
                                     },
-                                  );
-                                },
-                                child: Text('Ödeme Nasıl Yapılır ?'),
-                              ),
-                              buildPaymentSuccessfulButton(context,store,arguments)
-                            ],
-                          ),
-                        )
-
-                ],
-              ),
-            ),
-          )),
+                                    child: const Text('Ödeme Nasıl Yapılır ?'),
+                                  ),
     );
   }
 
   FadeAnimation get buildHowToMakePaymentInfoText {
     return FadeAnimation(
-                  delay: 0.7,
-                  child: const Text('1- Toplam tutar belirtilen ödeme adresine EFT/Havale yöntemi ile gönderilir.(Açıklama Kısmına İsim Soyisim Girilmelidir)'
-                      '\n2- Ödemeyi yaptım butonuna tıklayarak işlem tamamlanır. Bakiyeniz ortalama 1-2 saat içinde hesabınıza yansır.'),
-                );
+      delay: 0.7,
+      child: const Text(
+          '1- Toplam tutar belirtilen ödeme adresine EFT/Havale yöntemi ile gönderilir.(Açıklama Kısmına İsim Soyisim Girilmelidir)'
+          '\n2- Ödemeyi yaptım butonuna tıklayarak işlem tamamlanır. Bakiyeniz ortalama 1-2 saat içinde hesabınıza yansır.'),
+    );
   }
 
   Observer buildPaymentInfoContainer(AddBalancePageViewModel store) {
@@ -127,10 +159,8 @@ class AddBalanceSecondStage extends StatelessWidget {
     });
   }
 
-  Observer buildPaymentInfoSummary(
-      BuildContext context,
-      AddBalancePageViewModel store,
-      PaymentModel paymentModel) {
+  Observer buildPaymentInfoSummary(BuildContext context,
+      AddBalancePageViewModel store, PaymentModel paymentModel) {
     return Observer(builder: (_) {
       return FadeAnimation(
         delay: 0.7,
@@ -138,9 +168,7 @@ class AddBalanceSecondStage extends StatelessWidget {
           //width: context.width / 2,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
-              gradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  colors: [Colors.white, Colors.white])),
+              color: Colors.white,),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -151,12 +179,28 @@ class AddBalanceSecondStage extends StatelessWidget {
                   'Sipariş Özeti',
                   style: TextStyle(fontSize: 20),
                 ),
-                buildSummaryInfo(title: 'Yöntem', info: paymentModel.selectedPaymentMethod,),
-                buildSummaryInfo(title: 'Tutar', info: paymentModel.selectedPaymentTotal,),
-                buildSummaryInfo(title: 'Bonus', info: '+${paymentModel.selectedPaymentBonus}', isColoredText: true),
-                buildSummaryInfo(title: 'Hesabınıza geçecek tutar\n', info:'+${paymentModel.bonusPlusTotal}\n', isColoredText: true),
+                buildSummaryInfo(
+                  title: 'Yöntem',
+                  info: paymentModel.selectedPaymentMethod,
+                ),
+                buildSummaryInfo(
+                  title: 'Tutar',
+                  info: paymentModel.selectedPaymentTotal,
+                ),
+                buildSummaryInfo(
+                    title: 'Bonus',
+                    info: '+${paymentModel.selectedPaymentBonus}',
+                    isColoredText: true),
+                buildSummaryInfo(
+                    title: 'Hesabınıza geçecek tutar\n',
+                    info: '+${paymentModel.bonusPlusTotal}\n',
+                    isColoredText: true),
                 const Divider(color: Colors.grey, height: 1),
-                buildSummaryInfo(title: 'Toplam Ödenecek Tutar', info: paymentModel.selectedPaymentTotal, isColoredText: true, isBigFontText: true),
+                buildSummaryInfo(
+                    title: 'Toplam Ödenecek Tutar',
+                    info: paymentModel.selectedPaymentTotal,
+                    isColoredText: true,
+                    isBigFontText: true),
               ],
             ),
           ),
@@ -166,43 +210,61 @@ class AddBalanceSecondStage extends StatelessWidget {
   }
 
   Row buildSummaryInfo(
-  {required String title, required String info, bool? isColoredText, bool? isBigFontText}) {
+      {required String title,
+      required String info,
+      bool? isColoredText,
+      bool? isBigFontText}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           '\n$title ',
           style: TextStyle(
-              color: (isColoredText != null  && isColoredText) ? Colors.blue : Colors.black,
-              fontSize: (isBigFontText != null  && isBigFontText) ? 20 : 15),
+              color: (isColoredText != null && isColoredText)
+                  ? Colors.blue
+                  : Colors.black,
+              fontSize: (isBigFontText != null && isBigFontText) ? 20 : 15),
         ),
         Text(
           '\n$info',
           style: TextStyle(
-              color: (isColoredText != null  && isColoredText) ? Colors.blue : Colors.black,
-              fontSize: (isBigFontText != null  && isBigFontText) ? 20 : 15),
+              color: (isColoredText != null && isColoredText)
+                  ? Colors.blue
+                  : Colors.black,
+              fontSize: (isBigFontText != null && isBigFontText) ? 20 : 15),
         ),
       ],
     );
   }
 
-  Observer buildPaymentSuccessfulButton(BuildContext context,AddBalancePageViewModel store,PaymentModel paymentModel) {
-    return Observer(
-      builder: (_) {
-        return ElevatedButton(
-          style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.green)),
-          onPressed: () => showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => FadeAnimation(
-                    delay: 0.4,
-                    child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-                        child: AcceptPayDialog(addBalancePageViewModel: store,paymentModel: paymentModel,)),
-                  )),
-          child: const Text('Ödemeyi yaptım'),
-        );
-      },
+  Expanded buildPaymentSuccessfulButton(BuildContext context,
+      AddBalancePageViewModel store, PaymentModel paymentModel) {
+    return Expanded(
+      flex: 1,
+      child: Observer(
+        builder: (_) {
+          return ElevatedButton(
+            style: ButtonStyle(
+                minimumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,40)),
+                maximumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,70)),
+                backgroundColor:
+                    MaterialStateProperty.resolveWith((states) => Colors.green)),
+            onPressed: () => showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => FadeAnimation(
+                      delay: 0.4,
+                      child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
+                          child: AcceptPayDialog(
+                            addBalancePageViewModel: store,
+                            paymentModel: paymentModel,
+                          )),
+                    )),
+            child: const Text('Ödemeyi yaptım'),
+          );
+        },
+      ),
     );
   }
 }

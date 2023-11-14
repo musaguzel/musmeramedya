@@ -42,7 +42,7 @@ class LoginPage extends StatelessWidget {
                     child: Card(
                       margin: const EdgeInsets.all(20),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(Responsive.isDesktop(context) ? 20.0 : 8.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
