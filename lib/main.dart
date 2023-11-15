@@ -42,10 +42,7 @@ class MyApp extends StatelessWidget {
 
 
 /*
-M para birimi tasarla
-domain al
 gerçek değerleri veritabanına gir
-son kez butonları ayarla
 */
 
 

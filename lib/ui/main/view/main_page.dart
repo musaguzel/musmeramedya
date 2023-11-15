@@ -210,6 +210,8 @@ class MainPage extends StatelessWidget {
           },
           keyboardType: isAmount ? TextInputType.number: TextInputType.text,
           controller: isAmount ? store.amountController : store.linkController,
+          maxLength: isAmount ? 19 : null,
+          buildCounter: (BuildContext context, {required int? currentLength, required bool? isFocused, int? maxLength}) => Container(),
           style: const TextStyle(
             color: Colors.black87,
           ),
@@ -263,9 +265,21 @@ class MainPage extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Text(
-                isPriceText ? (store.livePrice) : (store.selectedService?['serviceaveragetime'].toString() ?? ApplicationStrings.MAIN_AVERAGE_TIME),
-              style: const TextStyle(fontWeight: FontWeight.bold),
+            child: Row(
+              children: [
+                Text(
+                    isPriceText ? ('${store.livePrice} ') : (store.selectedService?['serviceaveragetime'].toString() ?? ApplicationStrings.MAIN_AVERAGE_TIME),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                if(isPriceText)
+                  Center(
+                    child: Image.asset(
+                      'mcoin'.toPNG,
+                      width: 15,
+                      height: 15,
+                    ),
+                  ),
+              ],
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
+import 'package:musmeramedya/core/extension/string_extension.dart';
 import 'package:musmeramedya/ui/add_balance/model/payment_model/payment_model.dart';
 
 import '../model/invited_friends_history_model.dart';
@@ -41,7 +42,18 @@ class InvitedFriendsHistoryDataSource extends DataTableSource {
       cells: [
         DataCell(Text(invitedFriend.date.toString(),style: const TextStyle(fontSize: 14),textAlign: TextAlign.center,)),
         DataCell(Text(invitedFriend.invitedUserName.toString(),style: const TextStyle(fontSize: 15),textAlign: TextAlign.center,)),
-        DataCell(Text(invitedFriend.earnedBonus.toString(),style: const TextStyle(fontSize: 15),textAlign: TextAlign.center,)),
+        DataCell(Row(
+          children: [
+            Text('${invitedFriend.earnedBonus.toString()}    ',style: const TextStyle(fontSize: 15),textAlign: TextAlign.center,),
+            Center(
+              child: Image.asset(
+                'mcoin'.toPNG,
+                width: 15,
+                height: 15,
+              ),
+            ),
+          ],
+        )),
       ],
     );
   }

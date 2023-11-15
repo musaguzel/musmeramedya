@@ -87,6 +87,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                                 viewModel: store),
                                             buildOrdersDetail(
                                                 title: 'Fiyat: ',
+                                                isPriceText: true,
                                                 value: store.pendingOrders[index]
                                                     .servicePrice),
                                             buildOrdersDetail(
@@ -177,6 +178,7 @@ class _OrdersPageState extends State<OrdersPage> {
       bool? isStatusValue,
       bool? isCancelled,
       bool? isLinkText,
+        bool? isPriceText,
       OrdersPageViewModel? viewModel}) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
@@ -199,7 +201,7 @@ class _OrdersPageState extends State<OrdersPage> {
                         color: Colors.blueAccent, fontWeight: FontWeight.bold),
                   ))
               : Text(
-                  value,
+                  '$value ',
                   style: TextStyle(
                       color: isStatusValue == null
                           ? Colors.black
@@ -209,6 +211,14 @@ class _OrdersPageState extends State<OrdersPage> {
                                   ? Colors.blueGrey
                                   : Colors.red)),
                 ),
+          if(isPriceText != null && isPriceText)
+            Center(
+              child: Image.asset(
+                'mcoin'.toPNG,
+                width: 15,
+                height: 15,
+              ),
+            ),
         ],
       ),
     );

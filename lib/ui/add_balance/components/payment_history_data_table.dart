@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
+import 'package:musmeramedya/core/extension/string_extension.dart';
 import 'package:musmeramedya/ui/add_balance/model/payment_model/payment_model.dart';
 
 class PaymentHistoryDataTable extends StatelessWidget {
@@ -43,22 +44,31 @@ class PaymentHistoryDataSource extends DataTableSource {
         DataCell(Container(
           padding: const EdgeInsets.all(1.0),
           //decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-          child: RichText(
-            text: TextSpan(
-                text: "${payment.selectedPaymentTotal} M",
-                style: const TextStyle(
-                    fontSize: 11.0,
-                    color: Colors.black,
-                    decoration: TextDecoration.lineThrough),
-                children: <TextSpan>[
-                  TextSpan(
-                      text:
-                      " ${payment.bonusPlusTotal} M",
-                      style: const TextStyle(
-                          fontSize: 13.0,
-                          color: Colors.blue,
-                          decoration: TextDecoration.none))
-                ]),
+          child: Row(
+            children: [
+              RichText(
+                text: TextSpan(
+                    text: "${payment.selectedPaymentTotal} M ",
+                    style: const TextStyle(
+                        fontSize: 11.0,
+                        color: Colors.black,
+                        decoration: TextDecoration.lineThrough),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text:
+                          " ${payment.bonusPlusTotal} ",
+                          style: const TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.blue,
+                              decoration: TextDecoration.none))
+                    ]),
+              ),
+          Image.asset(
+            'mcoin'.toPNG,
+            width: 15,
+            height: 15,
+          ),
+      ],
           ),
         ),),
         DataCell(

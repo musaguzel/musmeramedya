@@ -23,7 +23,6 @@ class ProfilePage extends StatelessWidget {
       },
       onPageBuilder: (context, viewModel, networkResult) => Scaffold(
         drawer: NavigationDrawerMain(),
-        backgroundColor: const Color(0xffF5F5F5),
         appBar: AppBar(
           title: const Text('Hesap'),
         ),
@@ -33,13 +32,15 @@ class ProfilePage extends StatelessWidget {
             width: Responsive.isDesktop(context)
                 ? context.width / 2
                 : null,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                buildRowUserInfo(context,viewModel),
-                buildSettingsList(viewModel),
-                buildExitButton(viewModel, context),
-              ],
+            child: Card(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildRowUserInfo(context,viewModel),
+                  buildSettingsList(viewModel),
+                  buildExitButton(viewModel, context),
+                ],
+              ),
             ),
           ),
         ),
@@ -82,7 +83,7 @@ class ProfilePage extends StatelessWidget {
                       icon: const Icon(Icons.copy,size: 15,),
                       style: ButtonStyle(
                         textStyle: MaterialStateProperty.resolveWith((states) => const TextStyle(fontSize: 12)),
-                         minimumSize: MaterialStateProperty.all<Size>(const Size(50, 25)), // İstediğiniz değeri deneyebilirsiniz
+                         minimumSize: MaterialStateProperty.all<Size>(const Size(50, 35)), // İstediğiniz değeri deneyebilirsiniz
                          maximumSize: MaterialStateProperty.all<Size>(const Size(120, 40)), // İstediğiniz değeri deneyebilirsiniz
                       ),
                     ),
@@ -93,9 +94,14 @@ class ProfilePage extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: CircleAvatar(
-              backgroundImage: AssetImage('avatar'.toPNG),
-              radius: 50,
+            child: ClipOval(
+                child: Image.asset(
+                  'avatar'.toPNG,
+                  color: Colors.blue,
+                  width: context.highValue * 1.4,
+                  height: context.highValue * 1.4,
+                  fit: BoxFit.contain,
+                )
             ),
           )
         ],

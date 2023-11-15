@@ -58,8 +58,8 @@ class AddBalancePage extends StatelessWidget {
                                         buildDropdownPaymentTotal(
                                             store: store, context: context),
                                         buildSizedBox20,
-                                        buildButtonNext(store,userModelGlobal),
-                                        //buildSizedBox20,
+                                        buildButtonNext(context,store,userModelGlobal),
+                                        buildSizedBox20,
                                       ]))),
 
                                     Observer(builder: (_){
@@ -77,9 +77,12 @@ class AddBalancePage extends StatelessWidget {
                     ))));
   }
 
-  Observer buildButtonNext(AddBalancePageViewModel store,UserModel currentUser) {
+  Observer buildButtonNext(BuildContext context,AddBalancePageViewModel store,UserModel currentUser) {
     return Observer(builder: (_) {
       return ElevatedButton(
+        style: ButtonStyle(
+            minimumSize: MaterialStateProperty.all(Size(context.width, 43)),
+        ),
         onPressed: () {
           if (store.selectedPaymentMethod != null &&
               store.selectedPaymentTotal != null) {

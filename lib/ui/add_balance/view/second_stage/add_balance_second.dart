@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
+import 'package:musmeramedya/core/extension/string_extension.dart';
 import 'package:musmeramedya/ui/add_balance/model/payment_model/payment_model.dart';
 import 'package:musmeramedya/ui/add_balance/viewModel/add_balance_page_view_model.dart';
 import '../../../../core/components/Animation/Fade_Animation.dart';
@@ -173,7 +174,7 @@ class AddBalanceSecondStage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const Text(
                   'Sipariş Özeti',
@@ -182,25 +183,30 @@ class AddBalanceSecondStage extends StatelessWidget {
                 buildSummaryInfo(
                   title: 'Yöntem',
                   info: paymentModel.selectedPaymentMethod,
+                  isPriceText: false
                 ),
                 buildSummaryInfo(
                   title: 'Tutar',
                   info: paymentModel.selectedPaymentTotal,
+                    isPriceText: true
                 ),
                 buildSummaryInfo(
                     title: 'Bonus',
                     info: '+${paymentModel.selectedPaymentBonus}',
-                    isColoredText: true),
+                    isColoredText: true,
+                    isPriceText: true),
                 buildSummaryInfo(
-                    title: 'Hesabınıza geçecek tutar\n',
-                    info: '+${paymentModel.bonusPlusTotal}\n',
-                    isColoredText: true),
+                    title: 'Hesabınıza geçecek tutar',
+                    info: '+${paymentModel.bonusPlusTotal}',
+                    isColoredText: true,
+                    isPriceText: true),
                 const Divider(color: Colors.grey, height: 1),
                 buildSummaryInfo(
                     title: 'Toplam Ödenecek Tutar',
                     info: paymentModel.selectedPaymentTotal,
                     isColoredText: true,
-                    isBigFontText: true),
+                    isBigFontText: true,
+                    isPriceText: true),
               ],
             ),
           ),
@@ -213,26 +219,42 @@ class AddBalanceSecondStage extends StatelessWidget {
       {required String title,
       required String info,
       bool? isColoredText,
-      bool? isBigFontText}) {
+      bool? isBigFontText,
+      required bool isPriceText}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          '\n$title ',
+          title,
           style: TextStyle(
               color: (isColoredText != null && isColoredText)
                   ? Colors.blue
                   : Colors.black,
               fontSize: (isBigFontText != null && isBigFontText) ? 20 : 15),
         ),
-        Text(
-          '\n$info',
-          style: TextStyle(
-              color: (isColoredText != null && isColoredText)
-                  ? Colors.blue
-                  : Colors.black,
-              fontSize: (isBigFontText != null && isBigFontText) ? 20 : 15),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              '$info ',
+              style: TextStyle(
+                  color: (isColoredText != null && isColoredText)
+                      ? Colors.blue
+                      : Colors.black,
+                  fontSize: (isBigFontText != null && isBigFontText) ? 20 : 15),
+            ),
+            if(isPriceText)
+              Center(
+                child: Image.asset(
+                  'mcoin'.toPNG,
+                  width: 15,
+                  height: 15,
+                ),
+              ),          ],
         ),
+
       ],
     );
   }
@@ -245,7 +267,7 @@ class AddBalanceSecondStage extends StatelessWidget {
         builder: (_) {
           return ElevatedButton(
             style: ButtonStyle(
-                minimumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,40)),
+                minimumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,50)),
                 maximumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,70)),
                 backgroundColor:
                     MaterialStateProperty.resolveWith((states) => Colors.green)),

@@ -38,11 +38,12 @@ class ContactUsPage extends StatelessWidget {
                         leading: Image.asset('whatsapp'.toPNG),
                         title: const Text('Whatsapp ile bizimle iletişime geçebilirsiniz'),
                         subtitle: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(left: 8.0,top: 20),
                           child: ElevatedButton(
                             onPressed: (){
                                 openWhatsapp(context);
-                            },style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.teal)),child: const Text('İletişime Geç'),
+                            },style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.teal),
+                              minimumSize: MaterialStateProperty.all(Size(context.width / 1.2, 50))),child: const Text('İletişime Geç'),
                           ),
                         ),
                       ),
