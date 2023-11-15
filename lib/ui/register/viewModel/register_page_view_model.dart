@@ -62,18 +62,18 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
       if (error is FirebaseAuthException) {
         switch (error.code) {
           case 'invalid-email':
-            showsnackbar(message: "Geçersiz E-Mail Adresi");
+            showsnackbar(message: "Geçersiz E-Mail Adresi",backgroundColor: Colors.grey);
             break;
           case 'network-request-failed':
-            showsnackbar(message: "Bağlantı Hatası");
+            showsnackbar(message: "Bağlantı Hatası",backgroundColor: Colors.grey);
             break;
           case 'weak-password':
             showsnackbar(
                 message:
-                "Zayıf Parola");
+                "Zayıf Parola",backgroundColor: Colors.grey);
             break; //No such user found
           case 'email-already-in-use':
-            showsnackbar(message: "E-Mail zaten kullanılıyor");
+            showsnackbar(message: "E-Mail zaten kullanılıyor",backgroundColor: Colors.grey);
             break;
         }
       }

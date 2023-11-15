@@ -35,11 +35,11 @@ abstract class _LoginPageViewModelBase with Store, BaseViewModel {
     }catch(error){
       if (error is FirebaseAuthException) {
         switch(error.code){
-          case 'invalid-email': showsnackbar(message: "Geçersiz Email",backgroundColor: Colors.blueGrey);break;
-          case 'user-not-found': showsnackbar(message: "Kullanıcı Bulunamadı",backgroundColor: Colors.blueGrey);break;
-          case 'network-request-failed': showsnackbar(message: "Bağlantı Hatası",backgroundColor: Colors.blueGrey);break;
-          case 'too-many-requests': showsnackbar(message: "Çok Fazla İstekte Bulundunuz",backgroundColor: Colors.blueGrey);break;
-          case 'wrong-password': showsnackbar(message: "Yanlış Şifre",backgroundColor: Colors.blueGrey); break;
+          case 'invalid-email': showsnackbar(message: "Geçersiz Email",backgroundColor: Colors.grey);break;
+          case 'user-not-found': showsnackbar(message: "Kullanıcı Bulunamadı",backgroundColor: Colors.grey);break;
+          case 'network-request-failed': showsnackbar(message: "Bağlantı Hatası",backgroundColor: Colors.grey);break;
+          case 'too-many-requests': showsnackbar(message: "Çok Fazla İstekte Bulundunuz",backgroundColor: Colors.grey);break;
+          case 'wrong-password': showsnackbar(message: "Yanlış Şifre",backgroundColor: Colors.grey); break;
 
         }
 

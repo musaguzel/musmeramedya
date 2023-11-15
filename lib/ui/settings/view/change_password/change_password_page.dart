@@ -121,7 +121,7 @@ class ChangePasswordPage extends StatelessWidget {
                 await viewModel.updatePassword(userModelGlobal.email);
               }
             }else{
-              viewModel.showsnackbar(message: 'Lütfen tüm Alanları Doldurun');
+              viewModel.showsnackbar(message: 'Lütfen tüm Alanları Doldurun',backgroundColor: Colors.grey);
             }
           }, child:  const Text(
           'Şifreyi Güncelle',

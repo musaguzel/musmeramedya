@@ -21,6 +21,6 @@ abstract class _ProfilePageViewModelBase with Store, BaseViewModel {
   @action
   void copyReferenceCode(String referenceCode) {
     Clipboard.setData(ClipboardData(text: referenceCode));
-    showsnackbar(message: 'Metin Kopyalandı');
+    showsnackbar(message: 'Metin Kopyalandı',backgroundColor: Colors.teal);
   }
 }

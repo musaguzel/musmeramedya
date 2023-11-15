@@ -27,11 +27,11 @@ abstract class _ContactUsViewModelBase with Store, BaseViewModel {
   Future<void> sendMessageToFirebase(String email) async {
     ContactUsModel contactUsModel = ContactUsModel(name: nameController.text, email: emailController.text, message: messageController.text,userId: userModelGlobal.userID.toString());
     await firebaseFirestore.collection("support").doc(email).set(contactUsModel.toJson()).then((value) {
-      showsnackbar(message: 'Mesajınız iletildi');
+      showsnackbar(message: 'Mesajınız iletildi',backgroundColor: Colors.teal);
       navigation.navigateToPageClear(path: NavigationConstants.MAIN);
     })
         .catchError((error) {
-      showsnackbar(message: error.toString());
+      showsnackbar(message: error.toString(),backgroundColor: Colors.grey);
     });
   }
 

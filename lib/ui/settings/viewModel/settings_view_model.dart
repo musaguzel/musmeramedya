@@ -44,14 +44,16 @@ abstract class _SettingsViewModelBase with Store, BaseViewModel {
         await firebaseAuth.currentUser?.updatePassword(
             newPasswordController.text),
         updatePasswordProcessIsLoading = false,
-        showsnackbar(message: 'Şifreniz Güncellendi'),
+        showsnackbar(message: 'Şifreniz Güncellendi',backgroundColor: Colors.teal),
         navigation.navigateToPageClear(path: NavigationConstants.PROFILE)
       });
     } catch (error) {
+      print(error.toString());
       if (error is FirebaseAuthException) {
-        if (error.code == 'INVALID_LOGIN_CREDENTIALS') {
+        if (error.code.contains('invalid-login-credentials')) {
+          print(error.code);
           showsnackbar(
-              message: 'Mevcut şifreniz yanlış');
+              message: 'Mevcut şifreniz yanlış',backgroundColor: Colors.grey);
         }
       }
     }
@@ -101,7 +103,7 @@ abstract class _SettingsViewModelBase with Store, BaseViewModel {
               }catch(e){
                 print(e.toString());
                 isAccountDeleting = false;
-                showsnackbar(message: 'Hesabınızı silmek için uygulamayı yeniden başlatıp tekrar deneyin');
+                showsnackbar(message: 'Hesabınızı silmek için uygulamayı yeniden başlatıp tekrar deneyin',backgroundColor: Colors.grey);
               }
 
             });
@@ -145,16 +147,16 @@ abstract class _SettingsViewModelBase with Store, BaseViewModel {
     try{
       final user = firebaseAuth.currentUser;
       await user?.sendEmailVerification();
-      showsnackbar(message: 'E-mail Adresinize Doğrulama Linki Gönderildi');
+      showsnackbar(message: 'E-mail Adresinize Doğrulama Linki Gönderildi',backgroundColor: Colors.teal);
       canResendEmail = false;
       Future.delayed(const Duration(minutes: 1));
       canResendEmail = true;
     }catch(error){
       if (error is FirebaseAuthException) {
         switch(error.code){
-          case 'too-many-requests': showsnackbar(message: 'Çok Fazla İstekte Bulundunuz');
+          case 'too-many-requests': showsnackbar(message: 'Çok Fazla İstekte Bulundunuz',backgroundColor: Colors.grey);
           break;
-          default: showsnackbar(message: error.toString());
+          default: showsnackbar(message: error.toString(),backgroundColor: Colors.grey);
         }
       }
     }

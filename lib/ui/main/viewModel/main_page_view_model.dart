@@ -137,14 +137,14 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
                 var updatedBalance = currentUser!.balance - parsedValue;
                 userCol.doc(firebaseAuth.currentUser?.uid).update({'balance': updatedBalance});
                 userCol.doc(firebaseAuth.currentUser?.uid).collection('orders_history').doc(value.id).update({'order_id' : value.id});
-                showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.green);
+                showsnackbar(message: 'Siparişiniz Kaydedildi',backgroundColor: Colors.teal);
               });
               navigation.navigateToPageClear(path: NavigationConstants.ORDERS);
             }else{
-              showsnackbar(message: 'Lütfen Bilgileri Eksiksiz, Doğru Girin');
+              showsnackbar(message: 'Lütfen Bilgileri Eksiksiz, Doğru Girin',backgroundColor: Colors.grey);
             }
           }else {
-            showsnackbar(message: 'Bakiyeniz Yetersiz',snackBarAction: SnackBarAction(label: 'Bakiye Yükle', onPressed: () => navigation.navigateToPage(
+            showsnackbar(message: 'Bakiyeniz Yetersiz',backgroundColor: Colors.grey,snackBarAction: SnackBarAction(label: 'Bakiye Yükle', onPressed: () => navigation.navigateToPage(
                 path: NavigationConstants.ADD_BALANCE
             )));
           }
@@ -152,7 +152,7 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
 
       }
     }else {
-      showsnackbar(message: 'Yetersiz Sipariş Adedi');
+      showsnackbar(message: 'Yetersiz Sipariş Adedi',backgroundColor: Colors.grey);
     }
 
     isOrderSaving = false;

@@ -210,14 +210,14 @@ class RegisterPage extends StatelessWidget {
               if(await viewModel.checkReferenceCode(viewModel.referenceCodeController.text) || viewModel.referenceCodeController.text.isEmpty ){
                 viewModel.createUserWithEmailAndPassword(context);
               }else {
-                viewModel.showsnackbar(message: "Geçersiz Referans Kodu");
+                viewModel.showsnackbar(message: "Geçersiz Referans Kodu",backgroundColor: Colors.grey);
               }
             }else{
-              viewModel.showsnackbar(message: "Şifreler Uyuşmuyor");
+              viewModel.showsnackbar(message: "Şifreler Uyuşmuyor",backgroundColor: Colors.grey);
             }
 
           }else{
-            viewModel.showsnackbar(message: "Lütfen Tüm Alanları Doldurun");
+            viewModel.showsnackbar(message: "Lütfen Tüm Alanları Doldurun",backgroundColor: Colors.grey);
           }
         },
       ),

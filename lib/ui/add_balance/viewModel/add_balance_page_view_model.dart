@@ -30,7 +30,7 @@ abstract class _AddBalancePageViewModelBase with Store, BaseViewModel {
   @action
   void copyIban() {
     Clipboard.setData(ClipboardData(text: paymentMethods?.iban ?? 'Ödeme Adresi'));
-    showsnackbar(message: 'Metin Kopyalandı');
+    showsnackbar(message: 'Metin Kopyalandı',backgroundColor: Colors.grey);
   }
 
   @action
