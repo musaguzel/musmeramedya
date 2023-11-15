@@ -40,7 +40,7 @@ abstract class _LoginPageViewModelBase with Store, BaseViewModel {
           case 'network-request-failed': showsnackbar(message: "Bağlantı Hatası",backgroundColor: Colors.grey);break;
           case 'too-many-requests': showsnackbar(message: "Çok Fazla İstekte Bulundunuz",backgroundColor: Colors.grey);break;
           case 'wrong-password': showsnackbar(message: "Yanlış Şifre",backgroundColor: Colors.grey); break;
-
+          case 'invalid-login-credentials': showsnackbar(message: "Hatalı e-mail yada şifre",backgroundColor: Colors.grey); break;
         }
 
       }

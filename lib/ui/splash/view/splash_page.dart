@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:musmeramedya/core/extension/context_extension.dart';
+import 'package:musmeramedya/core/extension/string_extension.dart';
 
 import '../../../core/base/state/base_state.dart';
 import '../../../core/base/view/base_widget.dart';
+import '../../../product/helper/responsive.dart';
 import '../viewModel/splash_page_view_model.dart';
 
 class SplashPage extends StatefulWidget {
@@ -28,9 +31,19 @@ class _SplashPageState extends BaseState<SplashPage> {
   }
 
   Widget buildScaffoldBody(BuildContext context, SplashPageViewModel viewModel) {
-    return const Scaffold(
+    return Scaffold(
         body: Center(
-          child: Text("Musmera Medya"),
+          child: Padding(
+            padding: Responsive.isDesktop(context) ? const EdgeInsets.only(bottom: 200.0) : const EdgeInsets.only(bottom: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset('logo'.toPNG,width: context.width / 4,height: context.height / 4,),
+                const Text("Musmera Medya",style: TextStyle(fontSize: 50),),
+              ],
+            ),
+          ),
         )
     );
   }

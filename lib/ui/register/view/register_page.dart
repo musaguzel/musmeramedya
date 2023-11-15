@@ -6,6 +6,7 @@ import 'package:musmeramedya/core/extension/string_extension.dart';
 import '../../../core/base/view/base_widget.dart';
 import '../../../core/components/Animation/Fade_Animation.dart';
 import '../../../core/init/constants/app/app_constants.dart';
+import '../../../product/helper/responsive.dart';
 import '../viewModel/register_page_view_model.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -40,34 +41,41 @@ class RegisterPage extends StatelessWidget {
   Card buildForm(RegisterPageViewModel viewModel, BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(left: 20,right: 20,),
-      child: Column(
-        children: [
-          Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: viewModel.formState,
-            child: Padding(
-              padding: context.paddingMedium,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  buildTitle(context),
-                  textFieldFullName(context, viewModel),
-                  sizedBox2,
-                  textFieldEmail(context, viewModel),
-                  sizedBox2,
-                  textFieldPassword(context, viewModel),
-                  sizedBox2,
-                  textFieldConfirmPassword(context, viewModel),
-                  sizedBox2,
-                  textFieldReferenceCode(context,viewModel),
-                  sizedBox2,
-                  elevatedButtonLogin(context,viewModel),
-                ],
+      child: Center(
+        child: SizedBox(
+          width: Responsive.isDesktop(context)
+              ? context.width / 2
+              : null,
+          child: Column(
+            children: [
+              Form(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                key: viewModel.formState,
+                child: Padding(
+                  padding: context.paddingMedium,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      buildTitle(context),
+                      textFieldFullName(context, viewModel),
+                      sizedBox2,
+                      textFieldEmail(context, viewModel),
+                      sizedBox2,
+                      textFieldPassword(context, viewModel),
+                      sizedBox2,
+                      textFieldConfirmPassword(context, viewModel),
+                      sizedBox2,
+                      textFieldReferenceCode(context,viewModel),
+                      sizedBox2,
+                      elevatedButtonLogin(context,viewModel),
+                    ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
