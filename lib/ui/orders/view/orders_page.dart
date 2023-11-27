@@ -105,7 +105,8 @@ class _OrdersPageState extends State<OrdersPage> {
                                                 title: 'Servis: ',
                                                 value: store
                                                     .pendingOrders[index]
-                                                    .serviceName),
+                                                    .serviceName,
+                                                isServiceName: true),
                                             buildOrdersDetail(
                                                 title: 'Durum: ',
                                                 value: (store
@@ -184,14 +185,16 @@ class _OrdersPageState extends State<OrdersPage> {
     return socialMediaName == 'instagram'
         ? Colors.deepOrange.shade600
         : socialMediaName == 'facebook'
-        ? Colors.blueAccent :
-    socialMediaName == 'youtube'
-        ? Colors.red
-        : socialMediaName == 'twitter'
-        ? Colors.blue : socialMediaName == 'twitch'
-        ? Colors.purple: socialMediaName == 'spotify'
-        ? Colors.green
-        : Colors.black;
+            ? Colors.blueAccent
+            : socialMediaName == 'youtube'
+                ? Colors.red
+                : socialMediaName == 'twitter'
+                    ? Colors.blue
+                    : socialMediaName == 'twitch'
+                        ? Colors.purple
+                        : socialMediaName == 'spotify'
+                            ? Colors.green
+                            : Colors.black;
   }
 
   Padding buildOrdersDetail(
@@ -201,6 +204,7 @@ class _OrdersPageState extends State<OrdersPage> {
       bool? isCancelled,
       bool? isLinkText,
       bool? isPriceText,
+      bool? isServiceName,
       OrdersPageViewModel? viewModel}) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
@@ -222,23 +226,39 @@ class _OrdersPageState extends State<OrdersPage> {
                     style: TextStyle(
                         color: Colors.blueAccent, fontWeight: FontWeight.bold),
                   ))
-              : Text(
-                  '$value ',
-                  style: TextStyle(
-                      color: isStatusValue == null
-                          ? Colors.black
-                          : ((isStatusValue && !isCancelled!)
-                              ? Colors.green
-                              : (!isStatusValue && !isCancelled!)
-                                  ? Colors.blueGrey
-                                  : Colors.red)),
-                ),
+              : isServiceName != null
+                  ? Expanded(
+                      child: Text(
+                        '$value ',
+                        style: TextStyle(
+                            color: isStatusValue == null
+                                ? Colors.black
+                                : ((isStatusValue && !isCancelled!)
+                                    ? Colors.green
+                                    : (!isStatusValue && !isCancelled!)
+                                        ? Colors.blueGrey
+                                        : Colors.red),
+                            fontSize: 13),
+                      ),
+                    )
+                  : Text(
+                      '$value ',
+                      style: TextStyle(
+                          color: isStatusValue == null
+                              ? Colors.black
+                              : ((isStatusValue && !isCancelled!)
+                                  ? Colors.green
+                                  : (!isStatusValue && !isCancelled!)
+                                      ? Colors.blueGrey
+                                      : Colors.red),),
+                    ),
           if (isPriceText != null && isPriceText)
             Center(
               child: Image.asset(
                 'mcoin'.toPNG,
                 width: 15,
                 height: 15,
+                alignment: Alignment.centerLeft,
               ),
             ),
         ],

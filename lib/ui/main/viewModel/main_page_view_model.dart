@@ -121,12 +121,12 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
 
   @action
   Future<void> saveOrder() async {
-    var amount = int.parse(amountController.text);
+    var amount = double.parse(amountController.text);
     if(amount >= 50){
       CollectionReference userCol = firebaseFirestore.collection('users');
       isOrderSaving = true;
       if(firebaseAuth.currentUser != null){
-        int? parsedValue = int.tryParse(livePrice);
+        double? parsedValue = double.tryParse(livePrice);
         if(currentUser!= null){
           if(currentUser!.balance >= parsedValue!){
             if(selectedCategory != null && livePrice.isNotEmpty && amountController.text.isNotEmpty && linkController.text.isNotEmpty && linkController.text.trim().isValidURL){

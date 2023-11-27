@@ -34,6 +34,7 @@ abstract class _LoginPageViewModelBase with Store, BaseViewModel {
       await firebaseAuth.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim()).then((value) =>navigation.navigateToPageClear(path: NavigationConstants.MAIN));
     }catch(error){
       if (error is FirebaseAuthException) {
+        print(error.code);
         switch(error.code){
           case 'invalid-email': showsnackbar(message: "Geçersiz Email",backgroundColor: Colors.grey);break;
           case 'user-not-found': showsnackbar(message: "Kullanıcı Bulunamadı",backgroundColor: Colors.grey);break;
@@ -41,6 +42,7 @@ abstract class _LoginPageViewModelBase with Store, BaseViewModel {
           case 'too-many-requests': showsnackbar(message: "Çok Fazla İstekte Bulundunuz",backgroundColor: Colors.grey);break;
           case 'wrong-password': showsnackbar(message: "Yanlış Şifre",backgroundColor: Colors.grey); break;
           case 'invalid-login-credentials': showsnackbar(message: "Hatalı e-mail yada şifre",backgroundColor: Colors.grey); break;
+          case 'INVALID_LOGIN_CREDENTIALS': showsnackbar(message: "Hatalı e-mail yada şifre",backgroundColor: Colors.grey); break;
         }
 
       }

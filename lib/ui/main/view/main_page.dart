@@ -54,7 +54,7 @@ class MainPage extends StatelessWidget {
                   child: Card(
                     margin: const EdgeInsets.all(10),
                     child: Padding(
-                        padding: const EdgeInsets.all( 15.0),
+                        padding: Responsive.isDesktop(context) ? const EdgeInsets.all( 15.0) :  const EdgeInsets.only(left: 15,right: 15),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,7 +295,7 @@ class MainPage extends StatelessWidget {
       return
       !store.isOrderSaving ?
        Padding(
-        padding: EdgeInsets.only(left: 1.0,top: Responsive.isMobile(context) ? 8 : 20 ),
+        padding: EdgeInsets.only(left: 1.0,top: Responsive.isMobile(context) ? 3 : 20 ),
         child: ElevatedButton(onPressed: (){
               if(networkResult == NetworkResult.on){
                 store.saveOrder();

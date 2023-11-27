@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/extension/string_extension.dart';
@@ -84,7 +85,7 @@ class NavigationDrawerMain extends StatelessWidget {
           onTap: (){
             navigation.navigateToPage(path: NavigationConstants.ADD_BALANCE,);
           },
-        ),ListTile(
+        ),if(!kIsWeb)ListTile(
           leading: const Icon(Icons.support_agent,color: Colors.blue,),
           title: const Text("Destek"),
           onTap: (){
