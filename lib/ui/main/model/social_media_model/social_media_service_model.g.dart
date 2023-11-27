@@ -14,7 +14,7 @@ SocialMediaServiceModel _$SocialMediaServiceModelFromJson(
           .map((e) => e as String)
           .toList(),
       servicePrice: (json['service_price'] as List<dynamic>)
-          .map((e) => e as String)
+          .map((e) => (e as num).toDouble())
           .toList(),
       serviceAverageTime: (json['service_average_times'] as List<dynamic>)
           .map((e) => e as String)

@@ -13,7 +13,7 @@ import '../../register/model/user_model.dart';
 import '../../_widgets/drawer/navigation_drawer.dart';
 
 
-    UserModel userModelGlobal = UserModel(fullName: "", email: "", balance: 0, userID: "",referenceCode: "");
+    UserModel userModelGlobal = UserModel(fullName: "", email: "", balance: 0.0, userID: "",referenceCode: "");
 class MainPage extends StatelessWidget {
    MainPage({super.key});
 
@@ -185,43 +185,46 @@ class MainPage extends StatelessWidget {
     });
   }
 
-  Container buildTextField({required MainPageViewModel store,required bool isAmount}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white, // Arka plan rengi beyaz
-        borderRadius:
-        const BorderRadius.all(Radius.circular(10.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue.withOpacity(0.3),
-            // Neon gibi parlak mavi renk
-            blurRadius: 10.0,
-            // Bulanıklık miktarı
-            spreadRadius: 1.0,
-            // Yayılma miktarı
-            offset: const Offset(0, 0), // Gölgenin yönü
-          ),
-        ],
-      ),
-      child: Observer(builder: (_){
-        return TextFormField(
-          onChanged: (value){
-            store.calculatePrice();
-          },
-          keyboardType: isAmount ? TextInputType.number: TextInputType.text,
-          controller: isAmount ? store.amountController : store.linkController,
-          maxLength: isAmount ? 19 : null,
-          buildCounter: (BuildContext context, {required int? currentLength, required bool? isFocused, int? maxLength}) => Container(),
-          style: const TextStyle(
-            color: Colors.black87,
-          ),
-          decoration: const InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(left: 10.0),
-          ),
-        );
-      },)
-    );
+  Observer buildTextField({required MainPageViewModel store,required bool isAmount}) {
+    return Observer(builder: (_){
+      return AbsorbPointer(
+        absorbing: store.selectedCategory != null ? false : true,
+        child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white, // Arka plan rengi beyaz
+              borderRadius:
+              const BorderRadius.all(Radius.circular(10.0)),
+              boxShadow: [
+                BoxShadow(
+                  color: store.selectedCategory != null ? Colors.blue.withOpacity(0.3) : Colors.black.withOpacity(0.3),
+                  // Neon gibi parlak mavi renk
+                  blurRadius: 10.0,
+                  // Bulanıklık miktarı
+                  spreadRadius: 1.0,
+                  // Yayılma miktarı
+                  offset: const Offset(0, 0), // Gölgenin yönü
+                ),
+              ],
+            ),
+            child: TextFormField(
+              onChanged: (value){
+                store.calculatePrice();
+              },
+              keyboardType: isAmount ? TextInputType.number: TextInputType.text,
+              controller: isAmount ? store.amountController : store.linkController,
+              maxLength: isAmount ? 19 : null,
+              buildCounter: (BuildContext context, {required int? currentLength, required bool? isFocused, int? maxLength}) => Container(),
+              style: const TextStyle(
+                color: Colors.black87,
+              ),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(left: 10.0),
+              ),
+            )
+        ),
+      );
+    });
   }
 
   Padding get buildMinMaksAmount {
@@ -304,10 +307,19 @@ class MainPage extends StatelessWidget {
       );
     });
   }
-  
-  Color getIconColor(String socialMediaName){
-     return socialMediaName == 'instagram' ? Colors.red :
-        socialMediaName == 'twitter' ? Colors.blue : Colors.black;
-  }
+
+   Color getIconColor(String socialMediaName) {
+     return socialMediaName == 'instagram'
+         ? Colors.deepOrange.shade600
+         : socialMediaName == 'facebook'
+         ? Colors.blueAccent :
+     socialMediaName == 'youtube'
+         ? Colors.red
+         : socialMediaName == 'twitter'
+         ? Colors.blue : socialMediaName == 'twitch'
+         ? Colors.purple: socialMediaName == 'spotify'
+         ? Colors.green
+         : Colors.black;
+   }
 }
 

@@ -44,7 +44,7 @@ class _OrdersPageState extends State<OrdersPage> {
             ? const Center(child: CircularProgressIndicator())
             : (store.pendingOrders.isNotEmpty)
                 ? Center(
-                  child: SizedBox(
+                    child: SizedBox(
                       width: Responsive.isDesktop(context)
                           ? context.width / 2
                           : null,
@@ -55,11 +55,14 @@ class _OrdersPageState extends State<OrdersPage> {
                             return AnimatedContainer(
                               decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(7))),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(7))),
                               duration: const Duration(milliseconds: 200),
                               height: store.isOpenList[index] ? 200 : 50,
-                              margin: Responsive.isMobile(context) ? const EdgeInsets.all(8) : const EdgeInsets.only(left: 50,right: 50,top: 12),
+                              margin: Responsive.isMobile(context)
+                                  ? const EdgeInsets.all(8)
+                                  : const EdgeInsets.only(
+                                      left: 50, right: 50, top: 12),
                               child: Center(
                                   child: ListTile(
                                 onTap: () {
@@ -77,36 +80,46 @@ class _OrdersPageState extends State<OrdersPage> {
                                             buildOrdersDetail(
                                                 title: 'Tarih: ',
                                                 value: store
-                                                    .pendingOrders[index].datetime
+                                                    .pendingOrders[index]
+                                                    .datetime
                                                     .toString()),
                                             buildOrdersDetail(
                                                 title: 'Link: ',
-                                                value: store.pendingOrders[index]
+                                                value: store
+                                                    .pendingOrders[index]
                                                     .socialMediaLink,
                                                 isLinkText: true,
                                                 viewModel: store),
                                             buildOrdersDetail(
                                                 title: 'Fiyat: ',
                                                 isPriceText: true,
-                                                value: store.pendingOrders[index]
+                                                value: store
+                                                    .pendingOrders[index]
                                                     .servicePrice),
                                             buildOrdersDetail(
                                                 title: 'Miktar: ',
-                                                value: store.pendingOrders[index]
+                                                value: store
+                                                    .pendingOrders[index]
                                                     .serviceAmount),
                                             buildOrdersDetail(
                                                 title: 'Servis: ',
-                                                value: store.pendingOrders[index]
+                                                value: store
+                                                    .pendingOrders[index]
                                                     .serviceName),
                                             buildOrdersDetail(
                                                 title: 'Durum: ',
-                                                value: (store.pendingOrders[index]
+                                                value: (store
+                                                            .pendingOrders[
+                                                                index]
                                                             .status &&
                                                         !store
-                                                            .pendingOrders[index]
+                                                            .pendingOrders[
+                                                                index]
                                                             .isCancelled)
                                                     ? 'Tamamlandı'
-                                                    : (!store.pendingOrders[index]
+                                                    : (!store
+                                                                .pendingOrders[
+                                                                    index]
                                                                 .status &&
                                                             !store
                                                                 .pendingOrders[
@@ -120,7 +133,8 @@ class _OrdersPageState extends State<OrdersPage> {
                                                             ? 'İptal'
                                                             : 'Diğer Durum',
                                                 isStatusValue: store
-                                                    .pendingOrders[index].status,
+                                                    .pendingOrders[index]
+                                                    .status,
                                                 isCancelled: store
                                                     .pendingOrders[index]
                                                     .isCancelled),
@@ -136,7 +150,8 @@ class _OrdersPageState extends State<OrdersPage> {
                                         .pendingOrders[index].socialMediaName)),
                                 trailing: Icon(
                                   (store.pendingOrders[index].status &&
-                                          !store.pendingOrders[index].isCancelled)
+                                          !store
+                                              .pendingOrders[index].isCancelled)
                                       ? Icons.done
                                       : (!store.pendingOrders[index].status &&
                                               !store.pendingOrders[index]
@@ -144,7 +159,8 @@ class _OrdersPageState extends State<OrdersPage> {
                                           ? Icons.access_time_outlined
                                           : Icons.cancel,
                                   color: (store.pendingOrders[index].status &&
-                                          !store.pendingOrders[index].isCancelled)
+                                          !store
+                                              .pendingOrders[index].isCancelled)
                                       ? Colors.green
                                       : (!store.pendingOrders[index].status &&
                                               !store.pendingOrders[index]
@@ -158,7 +174,7 @@ class _OrdersPageState extends State<OrdersPage> {
                         ),
                       ),
                     ),
-                )
+                  )
                 : const Center(child: Text('Şu Anda Bekleyen Siparişiniz Yok'));
       },
     );
@@ -166,10 +182,16 @@ class _OrdersPageState extends State<OrdersPage> {
 
   Color getIconColor(String socialMediaName) {
     return socialMediaName == 'instagram'
+        ? Colors.deepOrange.shade600
+        : socialMediaName == 'facebook'
+        ? Colors.blueAccent :
+    socialMediaName == 'youtube'
         ? Colors.red
         : socialMediaName == 'twitter'
-            ? Colors.blue
-            : Colors.black;
+        ? Colors.blue : socialMediaName == 'twitch'
+        ? Colors.purple: socialMediaName == 'spotify'
+        ? Colors.green
+        : Colors.black;
   }
 
   Padding buildOrdersDetail(
@@ -178,7 +200,7 @@ class _OrdersPageState extends State<OrdersPage> {
       bool? isStatusValue,
       bool? isCancelled,
       bool? isLinkText,
-        bool? isPriceText,
+      bool? isPriceText,
       OrdersPageViewModel? viewModel}) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
@@ -211,7 +233,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                   ? Colors.blueGrey
                                   : Colors.red)),
                 ),
-          if(isPriceText != null && isPriceText)
+          if (isPriceText != null && isPriceText)
             Center(
               child: Image.asset(
                 'mcoin'.toPNG,

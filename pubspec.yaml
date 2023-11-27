@@ -41,6 +41,7 @@ dependencies:
   shimmer: ^3.0.0
   cached_network_image: ^3.3.0
   data_table_2: ^2.5.8
+  flutter_tawk: ^0.1.0
 
 
 

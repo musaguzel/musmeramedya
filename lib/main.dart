@@ -42,7 +42,8 @@ class MyApp extends StatelessWidget {
 
 
 /*
-gerçek değerleri veritabanına gir
+para birimi int yerine double olacak
+destek bölümü yap
 */
 
 

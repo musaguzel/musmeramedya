@@ -40,7 +40,7 @@ class _SplashPageState extends BaseState<SplashPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset('logo'.toPNG,width: context.width / 4,height: context.height / 4,),
-                const Text("Musmera Medya",style: TextStyle(fontSize: 50),),
+                const Text("\nMusmera Medya",style: TextStyle(fontSize: 50),),
               ],
             ),
           ),

@@ -4,11 +4,11 @@ import 'package:musmeramedya/core/init/constants/navigation/navigation_constants
 import 'package:musmeramedya/ui/main/view/main_page.dart';
 import '../../../core/base/model/base_view_model.dart';
 import '../model/contact_us_model.dart';
-part 'contact_us_view_model.g.dart';
+part 'support_page_view_model.g.dart';
 
-class ContactUsViewModel = _ContactUsViewModelBase with _$ContactUsViewModel;
+class SupportPageViewModel = _SupportPageViewModelBase with _$SupportPageViewModel;
 
-abstract class _ContactUsViewModelBase with Store, BaseViewModel {
+abstract class _SupportPageViewModelBase with Store, BaseViewModel {
 
   GlobalKey<FormState> formState = GlobalKey();
   TextEditingController nameController = TextEditingController();

@@ -26,7 +26,7 @@ class NavigationConstants {
 
   static const ACCOUNT_STATUS = '/accountstatus';
 
-  static const CONTACT_US = '/contactus';
+  static const SUPPORT = '/support';
 
   static const INVITED_SYSTEM = '/invitedsystem';
 

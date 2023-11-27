@@ -31,24 +31,27 @@ class NavigationDrawerMain extends StatelessWidget {
     child: Column(
       children: [
         const SizedBox(height: 20,),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.blue, // Çizgi rengi
-              width: 3.0, // Çizgi kalınlığı
-            ),),
-          padding: const EdgeInsets.only(top: 20.0,bottom: 20.0,left: 50.0,right: 50.0),
-          child: Column(
-            children: [
-              Text(userModelGlobal.fullName,style: const TextStyle(fontSize: 25),),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Bakiye: ${userModelGlobal.balance.toString()}  "),
-                  Image.asset('mcoin'.toPNG,height: 15,width: 15,)
-                ],
-              ),
-            ],
+        Padding(
+          padding: const EdgeInsets.only(left: 10.0,right: 10),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.blue, // Çizgi rengi
+                width: 3.0, // Çizgi kalınlığı
+              ),),
+            padding: const EdgeInsets.only(top: 20.0,bottom: 20.0,left: 50.0,right: 50.0),
+            child: Column(
+              children: [
+                Text(userModelGlobal.fullName,style: const TextStyle(fontSize: 25),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Bakiye: ${userModelGlobal.balance.toString()}  "),
+                    Image.asset('mcoin'.toPNG,height: 15,width: 15,)
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
 
@@ -85,7 +88,7 @@ class NavigationDrawerMain extends StatelessWidget {
           leading: const Icon(Icons.support_agent,color: Colors.blue,),
           title: const Text("Destek"),
           onTap: (){
-            navigation.navigateToPage(path: NavigationConstants.CONTACT_US,);
+            navigation.navigateToPage(path: NavigationConstants.SUPPORT,);
           },
         ),
         const Divider(color: Colors.pink,),

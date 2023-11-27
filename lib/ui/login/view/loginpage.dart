@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            buildTextfieldTitle(context,"Kullanıcı Adı"),
+                            buildTextfieldTitle(context,"E-mail"),
                             buildSizedBox,
                             buildTextFieldEmail(store),
                             buildSizedBox,

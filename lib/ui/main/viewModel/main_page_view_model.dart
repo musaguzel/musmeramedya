@@ -97,7 +97,7 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
     var index = selectedCategory?.serviceNames.indexOf(sosyalMedyaVeriler!) ?? 1;
     String serviceAverageTime = selectedCategory?.serviceAverageTime[index].toString() ?? '1 saat';  //Aynı indeksteki servis tamamlanma zamanını al
     String servicePrice = selectedCategory?.servicePrice[index].toString() ?? '10 tl';  //Aynı indeksteki servis tamamlanma zamanını al
-    int formattedServicePrice = int.parse(servicePrice);
+    double formattedServicePrice = double.parse(servicePrice);
     selectedService?.clear();
     selectedService = {                                                           //seçilen servisi ismini ekle zamanını ekle,seçilen servisi oluştur
       'servicename': sosyalMedyaVeriler,
@@ -111,11 +111,11 @@ abstract class _MainPageViewModelBase with Store, BaseViewModel {
   void calculatePrice(){
       if(selectedService != null){
         amountController.text.isEmpty ? livePrice = "Fiyat" : livePrice = "";
-        int formattedPrice = int.parse(selectedService!['serviceprice'].toString()); //veritabanından gelen 1 adet servisin fiyatı
-        int formattedAmount = amountController.text.isNotEmpty ? int.parse(amountController.text) : 0;  //Kullanıcının istediği miktar
+        double formattedPrice = double.parse(selectedService!['serviceprice'].toString()); //veritabanından gelen 1 adet servisin fiyatı
+        double formattedAmount = amountController.text.isNotEmpty ? double.parse(amountController.text) : 0.0;  //Kullanıcının istediği miktar
         var realPrice = formattedPrice * formattedAmount;                                  //Kullanıcıya sunulacak fiyat
 
-        livePrice = realPrice == 0 ? "Fiyat" : realPrice.toString();
+        livePrice = realPrice == 0 ? "Fiyat" : realPrice.toStringAsFixed(5).replaceAll(RegExp(r"(\.0+|(?<=\.\d)0+)(?!.*\d)"), "");;
       }
   }
 
