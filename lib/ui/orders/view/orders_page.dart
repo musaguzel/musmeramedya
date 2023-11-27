@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/base/view/base_widget.dart';
@@ -226,7 +227,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     style: TextStyle(
                         color: Colors.blueAccent, fontWeight: FontWeight.bold),
                   ))
-              : isServiceName != null
+              : isServiceName != null && !kIsWeb
                   ? Expanded(
                       child: Text(
                         '$value ',

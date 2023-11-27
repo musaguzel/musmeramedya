@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
@@ -50,7 +51,7 @@ class MainPage extends StatelessWidget {
             child: Column(children: [
               Center(
                 child: SizedBox(
-                  width: Responsive.isDesktop(context) ? context.width / 2 : null,
+                  width: (Responsive.isDesktop(context) && kIsWeb) ? context.width / 2 : null,
                   child: Card(
                     margin: const EdgeInsets.all(10),
                     child: Padding(
