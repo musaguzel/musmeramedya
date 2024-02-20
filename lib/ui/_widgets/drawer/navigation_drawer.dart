@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/extension/string_extension.dart';
 import 'package:musmeramedya/core/init/navigation/navigation_service.dart';
 import '../../../core/init/constants/navigation/navigation_constants.dart';
@@ -47,7 +45,7 @@ class NavigationDrawerMain extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Bakiye: ${userModelGlobal.balance.toString()}  "),
+                    Text("Bakiye: ${userModelGlobal.balance.toStringAsFixed(5)}  "),
                     Image.asset('mcoin'.toPNG,height: 15,width: 15,)
                   ],
                 ),

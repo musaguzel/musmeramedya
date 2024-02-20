@@ -42,8 +42,7 @@ class MyApp extends StatelessWidget {
 
 
 /*
-para birimi int yerine double olacak
-destek bölümü yap
+indexte api falan gözüküyor bu sıkıntı yaratır mı ?
 */
 
 

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/base/view/base_widget.dart';
@@ -33,55 +32,56 @@ class LoginPage extends StatelessWidget {
             FocusScope.of(context).requestFocus(FocusNode());
           },
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: SizedBox(
-                    width: Responsive.isDesktop(context) ? context.width / 2 : null,
-                    child: Card(
-                      margin: const EdgeInsets.all(20),
-                      child: Padding(
-                        padding: EdgeInsets.all(Responsive.isDesktop(context) ? 20.0 : 8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            buildTextfieldTitle(context,"E-mail"),
-                            buildSizedBox,
-                            buildTextFieldEmail(store),
-                            buildSizedBox,
-                            buildTextfieldTitle(context,"Şifre"),
-                            buildSizedBox,
-                            buildTextFieldPassword(store),
-                            buildSizedBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ElevatedButton(onPressed: (){
-                                  FocusScope.of(context).unfocus();
-                                  if (store.emailController.text.isNotEmpty &&
-                                      store.passwordController.text.isNotEmpty) {
-                                    store.loginWithEmailAndPassword(context);
-                                  }
-                                }, child: const Text('Giriş Yap')),
-                                TextButton(onPressed: (){
-                                  store.navigation.navigateToPage(path: NavigationConstants.FORGOT_PASSWORD);
-                                }, child: const Text('Şifremi Unuttum'))
-                              ],
-                            ),
-                            const SizedBox(height: 20,),
-                            wrapSignUp(context,networkResult,store)
-                          ],
+            child:Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: SizedBox(
+                      width: Responsive.isDesktop(context) ? context.width / 2 : null,
+                      child: Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.all(20),
+                        child: Padding(
+                          padding: EdgeInsets.all(Responsive.isDesktop(context) ? 20.0 : 8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              buildTextfieldTitle(context,"E-mail"),
+                              buildSizedBox,
+                              buildTextFieldEmail(store),
+                              buildSizedBox,
+                              buildTextfieldTitle(context,"Şifre"),
+                              buildSizedBox,
+                              buildTextFieldPassword(store),
+                              buildSizedBox,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton(onPressed: (){
+                                    FocusScope.of(context).unfocus();
+                                    if (store.emailController.text.isNotEmpty &&
+                                        store.passwordController.text.isNotEmpty) {
+                                      store.loginWithEmailAndPassword(context);
+                                    }
+                                  }, child: const Text('Giriş Yap')),
+                                  TextButton(onPressed: (){
+                                    store.navigation.navigateToPage(path: NavigationConstants.FORGOT_PASSWORD);
+                                  }, child: const Text('Şifremi Unuttum'))
+                                ],
+                              ),
+                              const SizedBox(height: 20,),
+                              wrapSignUp(context,networkResult,store)
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
-        )
     );
   }
 

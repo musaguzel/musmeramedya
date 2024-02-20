@@ -34,11 +34,11 @@ class AddBalanceSecondStage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 )
               : Center(
-                child: SizedBox(
-            width: Responsive.isDesktop(context)
-                  ? context.width / 2
-                  : null,
-                  child: Card(
+                  child: SizedBox(
+                    width: Responsive.isDesktop(context)
+                        ? context.width / 2
+                        : null,
+                    child: Card(
                       margin: context.paddingNormal,
                       child: Padding(
                         padding: const EdgeInsets.all(24.0),
@@ -46,7 +46,8 @@ class AddBalanceSecondStage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
-                                flex: 1, child: buildPaymentInfoContainer(store)),
+                                flex: 1,
+                                child: buildPaymentInfoContainer(store)),
                             const SizedBox(
                               height: 25,
                             ),
@@ -57,10 +58,13 @@ class AddBalanceSecondStage extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   buildHowToMakePaymentButton(context),
-                                  const SizedBox(width: 20,),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
                                   buildPaymentSuccessfulButton(
                                       context, store, arguments)
                                 ],
@@ -70,8 +74,8 @@ class AddBalanceSecondStage extends StatelessWidget {
                         ),
                       ),
                     ),
-                ),
-              )),
+                  ),
+                )),
     );
   }
 
@@ -80,34 +84,33 @@ class AddBalanceSecondStage extends StatelessWidget {
       flex: 1,
       child: ElevatedButton(
         style: ButtonStyle(
-          minimumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,50)),
-          maximumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,70)),
+          minimumSize: MaterialStateProperty.resolveWith(
+              (states) => Size(context.width * 0.2, 50)),
+          maximumSize: MaterialStateProperty.resolveWith(
+              (states) => Size(context.width * 0.2, 70)),
         ),
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            backgroundColor:
-                                                Colors.blueGrey.shade300,
-                                            title:
-                                                const Text('Ödeme Nasıl Yapılır'),
-                                            content: buildHowToMakePaymentInfoText,
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // Dialog penceresini kapat
-                                                },
-                                                child: const Text('Kapat'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: const Text('Ödeme Nasıl Yapılır ?'),
-                                  ),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: Colors.blueGrey.shade300,
+                title: const Text('Ödeme Nasıl Yapılır'),
+                content: buildHowToMakePaymentInfoText,
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Dialog penceresini kapat
+                    },
+                    child: const Text('Kapat'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: const Text('Ödeme Nasıl Yapılır ?'),
+      ),
     );
   }
 
@@ -115,7 +118,7 @@ class AddBalanceSecondStage extends StatelessWidget {
     return FadeAnimation(
       delay: 0.7,
       child: const Text(
-          '1- Toplam tutar belirtilen ödeme adresine EFT/Havale yöntemi ile gönderilir.(Açıklama Kısmına İsim Soyisim Girilmelidir)'
+          '1- Toplam tutar belirtilen ödeme adresine EFT/Havale yöntemi ile gönderilir.(Açıklama Kısmına kendi isim soyisminizi giriniz)'
           '\n2- Ödemeyi yaptım butonuna tıklayarak işlem tamamlanır. Bakiyeniz ortalama 1-2 saat içinde hesabınıza yansır.'),
     );
   }
@@ -146,12 +149,16 @@ class AddBalanceSecondStage extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 24.0),
+                  padding: const EdgeInsets.only(top: 12.0),
                   child: Text(
                     store.paymentMethods?.iban ?? 'Ödeme Adresi',
                     style: const TextStyle(fontSize: 20.0),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Text('Alıcı Adı: ${store.paymentMethods!.nameSurname}',style: TextStyle(fontSize: 20),),
+                )
               ],
             ),
           ),
@@ -168,8 +175,9 @@ class AddBalanceSecondStage extends StatelessWidget {
         child: Container(
           //width: context.width / 2,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: Colors.white,),
+            borderRadius: BorderRadius.circular(4),
+            color: Colors.white,
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -181,15 +189,13 @@ class AddBalanceSecondStage extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 buildSummaryInfo(
-                  title: 'Yöntem',
-                  info: paymentModel.selectedPaymentMethod,
-                  isPriceText: false
-                ),
+                    title: 'Yöntem',
+                    info: paymentModel.selectedPaymentMethod,
+                    isPriceText: false),
                 buildSummaryInfo(
-                  title: 'Tutar',
-                  info: paymentModel.selectedPaymentTotal,
-                    isPriceText: true
-                ),
+                    title: 'Tutar',
+                    info: paymentModel.selectedPaymentTotal,
+                    isPriceText: true),
                 buildSummaryInfo(
                     title: 'Bonus',
                     info: '+${paymentModel.selectedPaymentBonus}',
@@ -245,16 +251,16 @@ class AddBalanceSecondStage extends StatelessWidget {
                       : Colors.black,
                   fontSize: (isBigFontText != null && isBigFontText) ? 20 : 15),
             ),
-            if(isPriceText)
+            if (isPriceText)
               Center(
                 child: Image.asset(
                   'mcoin'.toPNG,
                   width: 15,
                   height: 15,
                 ),
-              ),          ],
+              ),
+          ],
         ),
-
       ],
     );
   }
@@ -267,10 +273,12 @@ class AddBalanceSecondStage extends StatelessWidget {
         builder: (_) {
           return ElevatedButton(
             style: ButtonStyle(
-                minimumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,50)),
-                maximumSize: MaterialStateProperty.resolveWith((states) => Size(context.width * 0.2,70)),
-                backgroundColor:
-                    MaterialStateProperty.resolveWith((states) => Colors.green)),
+                minimumSize: MaterialStateProperty.resolveWith(
+                    (states) => Size(context.width * 0.2, 50)),
+                maximumSize: MaterialStateProperty.resolveWith(
+                    (states) => Size(context.width * 0.2, 70)),
+                backgroundColor: MaterialStateProperty.resolveWith(
+                    (states) => Colors.green)),
             onPressed: () => showDialog(
                 context: context,
                 barrierDismissible: false,

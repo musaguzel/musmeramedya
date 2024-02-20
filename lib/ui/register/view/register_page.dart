@@ -20,32 +20,32 @@ class RegisterPage extends StatelessWidget {
           model.setContext(context);
           //model.init();
         },
-        onPageBuilder: (context, viewModel,networkResult) => Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            elevation: 0,
-            title: const Text(ApplicationConstants.APPNAME),
-          ),
-          body: SingleChildScrollView(
-              child: GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: buildForm(viewModel, context),
+        onPageBuilder: (context, viewModel, networkResult) => Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: AppBar(
+                elevation: 0,
+                title: const Text(ApplicationConstants.APPNAME),
               ),
-            ),
-
-        ));
+              body: SingleChildScrollView(
+                child: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                  child: buildForm(viewModel, context),
+                ),
+              ),
+            ));
   }
 
   Card buildForm(RegisterPageViewModel viewModel, BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(left: 20,right: 20,),
+      margin: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+      ),
       child: Center(
         child: SizedBox(
-          width: Responsive.isDesktop(context)
-              ? context.width / 2
-              : null,
+          width: Responsive.isDesktop(context) ? context.width / 2 : null,
           child: Column(
             children: [
               Form(
@@ -66,9 +66,9 @@ class RegisterPage extends StatelessWidget {
                       sizedBox2,
                       textFieldConfirmPassword(context, viewModel),
                       sizedBox2,
-                      textFieldReferenceCode(context,viewModel),
+                      textFieldReferenceCode(context, viewModel),
                       sizedBox2,
-                      elevatedButtonLogin(context,viewModel),
+                      elevatedButtonLogin(context, viewModel),
                     ],
                   ),
                 ),
@@ -80,9 +80,13 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  FadeAnimation buildTitle(BuildContext context) => FadeAnimation(delay: 0.2,child: Text("Üye Ol",textAlign: TextAlign.center,style: context.textTheme?.generalTextStyle,));
-
-
+  FadeAnimation buildTitle(BuildContext context) => FadeAnimation(
+      delay: 0.2,
+      child: Text(
+        "Üye Ol",
+        textAlign: TextAlign.center,
+        style: context.textTheme?.generalTextStyle,
+      ));
 
   FadeAnimation textFieldFullName(
       BuildContext context, RegisterPageViewModel viewModel) {
@@ -117,14 +121,16 @@ class RegisterPage extends StatelessWidget {
         },
         decoration: const InputDecoration(
             labelText: "E-Mail",
-            icon: Icon(Icons.email,)),
+            icon: Icon(
+              Icons.email,
+            )),
       ),
     );
   }
 
   SizedBox get sizedBox2 => const SizedBox(
-    height: 14,
-  );
+        height: 14,
+      );
 
   Observer textFieldPassword(
       BuildContext context, RegisterPageViewModel viewModel) {
@@ -135,8 +141,7 @@ class RegisterPage extends StatelessWidget {
           child: TextFormField(
             controller: viewModel.passwordController,
             style: const TextStyle(color: Colors.black87),
-            validator: (value) =>
-            value!.isNotEmpty ? null : "Bu Alan Gerekli",
+            validator: (value) => value!.isNotEmpty ? null : "Bu Alan Gerekli",
             obscureText: viewModel.isLock,
             decoration: InputDecoration(
               labelText: "Şifre",
@@ -169,8 +174,7 @@ class RegisterPage extends StatelessWidget {
           child: TextFormField(
             style: const TextStyle(color: Colors.black87),
             controller: viewModel.confirmPasswordController,
-            validator: (value) =>
-            value!.isNotEmpty ? null : "Bu Alan Gerekli",
+            validator: (value) => value!.isNotEmpty ? null : "Bu Alan Gerekli",
             obscureText: viewModel.isLock,
             decoration: InputDecoration(
               labelText: "Şifreyi Onayla",
@@ -191,14 +195,16 @@ class RegisterPage extends StatelessWidget {
         style: const TextStyle(color: Colors.black87),
         controller: viewModel.referenceCodeController,
         decoration: const InputDecoration(
-            labelText: "Referans Kodu",
-            icon: Icon(Icons.abc,)),
+            labelText: "Referans Kodu (Yoksa Boş Bırakınız)",
+            icon: Icon(
+              Icons.abc,
+            )),
       ),
     );
   }
 
-
-  FadeAnimation elevatedButtonLogin(BuildContext context,RegisterPageViewModel viewModel) {
+  FadeAnimation elevatedButtonLogin(
+      BuildContext context, RegisterPageViewModel viewModel) {
     return FadeAnimation(
       delay: 0.2,
       child: ElevatedButton(
@@ -209,23 +215,36 @@ class RegisterPage extends StatelessWidget {
         ),
         onPressed: () async {
           FocusScope.of(context).unfocus();
-          if(viewModel.fullNameController.text.isNotEmpty
-              && viewModel.emailValidate
-              && viewModel.passwordController.text.isNotEmpty
-              && viewModel.confirmPasswordController.text.isNotEmpty)
-          {
-            if(viewModel.passwordController.text == viewModel.confirmPasswordController.text){
-              if(await viewModel.checkReferenceCode(viewModel.referenceCodeController.text) || viewModel.referenceCodeController.text.isEmpty ){
-                viewModel.createUserWithEmailAndPassword(context);
-              }else {
-                viewModel.showsnackbar(message: "Geçersiz Referans Kodu",backgroundColor: Colors.grey);
+          if (viewModel.fullNameController.text.isNotEmpty &&
+              viewModel.emailValidate &&
+              viewModel.passwordController.text.isNotEmpty &&
+              viewModel.confirmPasswordController.text.isNotEmpty) {
+            if (viewModel.passwordController.text ==
+                viewModel.confirmPasswordController.text) {
+              if (await viewModel.checkReferenceCode(
+                      viewModel.referenceCodeController.text) ||
+                  viewModel.referenceCodeController.text.isEmpty) {
+                viewModel.registerLoading
+                    ? showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => const Center(
+                              child: CircularProgressIndicator(),
+                            ))
+                    : viewModel.createUserWithEmailAndPassword(context);
+              } else {
+                viewModel.showsnackbar(
+                    message: "Geçersiz Referans Kodu",
+                    backgroundColor: Colors.grey);
               }
-            }else{
-              viewModel.showsnackbar(message: "Şifreler Uyuşmuyor",backgroundColor: Colors.grey);
+            } else {
+              viewModel.showsnackbar(
+                  message: "Şifreler Uyuşmuyor", backgroundColor: Colors.grey);
             }
-
-          }else{
-            viewModel.showsnackbar(message: "Lütfen Tüm Alanları Doldurun",backgroundColor: Colors.grey);
+          } else {
+            viewModel.showsnackbar(
+                message: "Lütfen Tüm Alanları Doldurun",
+                backgroundColor: Colors.grey);
           }
         },
       ),

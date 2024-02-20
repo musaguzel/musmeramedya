@@ -8,6 +8,9 @@ class PaymentInfoModel {
   @JsonKey(name: 'iban')
   String iban;
 
+  @JsonKey(name: 'namesurname')
+  String nameSurname;
+
   @JsonKey(name: 'payment_method')
   List<String> paymentMethod;
 
@@ -23,7 +26,9 @@ class PaymentInfoModel {
 
 
 
-  PaymentInfoModel({required this.iban, required this.paymentMethod,required this.prices,required this.discounts});
+
+
+  PaymentInfoModel({required this.iban, required this.nameSurname,required this.paymentMethod,required this.prices,required this.discounts});
 
   factory PaymentInfoModel.fromJson(Map<String,dynamic> json) => _$PaymentInfoModelFromJson(json);
   Map<String,dynamic> toJson() => _$PaymentInfoModelToJson(this);

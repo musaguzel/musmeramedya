@@ -48,7 +48,7 @@ abstract class _AddBalancePageViewModelBase with Store, BaseViewModel {
   PaymentInfoModel? paymentMethods;
 
   @observable
-  String? selectedPaymentMethod;
+  String? selectedPaymentMethod = "iban";
 
   @observable
   String? selectedPaymentTotal;

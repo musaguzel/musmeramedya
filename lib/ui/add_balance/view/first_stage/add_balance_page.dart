@@ -92,7 +92,7 @@ class AddBalancePage extends StatelessWidget {
             store.navigation.navigateToPage(
                 path: NavigationConstants.ADD_BALANCE_SECOND, data: paymentModel);
           } else {
-            store.showsnackbar(message: 'Lütfen Gerekli Alanları Doldurun',backgroundColor: Colors.grey);
+            store.showsnackbar(message: 'Lütfen Tutar Belirleyiniz',backgroundColor: Colors.grey);
           }
         },
         child: const Row(

@@ -26,9 +26,13 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
   @override
   void setContext(BuildContext context) => viewModelContext = context;
 
+  @observable
+  bool registerLoading = false;
+
   @action
   Future<void> createUserWithEmailAndPassword(BuildContext context) async {
-    showDialog(context: viewModelContext, barrierDismissible: false,builder: (context) => const Center(child: CircularProgressIndicator(),));
+    //
+    registerLoading = true;
     try {
       double balance = 0.0;
 
@@ -59,6 +63,7 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
         navigation.navigateToPage(path: NavigationConstants.MAIN);
 
     } catch (error) {
+      registerLoading = false;
       if (error is FirebaseAuthException) {
         switch (error.code) {
           case 'invalid-email':
@@ -116,7 +121,7 @@ abstract class _RegisterPageViewModelBase with Store, BaseViewModel {
     } while (await isInviteCodeExists(inviteCode));
 
     // Üretilen kodu Firestore'a ekleyin ve kullanıcı ID'si ile ilişkilendirin.
-    await inviteCodesCollection.doc(inviteCode).set({'used': true, 'userId': userId});
+    await inviteCodesCollection.doc(inviteCode).set({'used': true, 'userId': userId}); //TODO burası checkReferenceCode ile değişecek
 
     return inviteCode;
   }

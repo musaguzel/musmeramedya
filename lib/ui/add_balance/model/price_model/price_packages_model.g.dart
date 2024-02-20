@@ -9,6 +9,7 @@ part of 'price_packages_model.dart';
 PaymentInfoModel _$PaymentInfoModelFromJson(Map<String, dynamic> json) =>
     PaymentInfoModel(
       iban: json['iban'] as String,
+      nameSurname: json['namesurname'] as String,
       paymentMethod: (json['payment_method'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -21,6 +22,7 @@ PaymentInfoModel _$PaymentInfoModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PaymentInfoModelToJson(PaymentInfoModel instance) =>
     <String, dynamic>{
       'iban': instance.iban,
+      'namesurname': instance.nameSurname,
       'payment_method': instance.paymentMethod,
       'prices': instance.prices,
       'discounts': instance.discounts,

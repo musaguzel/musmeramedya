@@ -9,6 +9,22 @@ part of 'register_page_view_model.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$RegisterPageViewModel on _RegisterPageViewModelBase, Store {
+  late final _$registerLoadingAtom = Atom(
+      name: '_RegisterPageViewModelBase.registerLoading', context: context);
+
+  @override
+  bool get registerLoading {
+    _$registerLoadingAtom.reportRead();
+    return super.registerLoading;
+  }
+
+  @override
+  set registerLoading(bool value) {
+    _$registerLoadingAtom.reportWrite(value, super.registerLoading, () {
+      super.registerLoading = value;
+    });
+  }
+
   late final _$emailValidateAtom =
       Atom(name: '_RegisterPageViewModelBase.emailValidate', context: context);
 
@@ -98,6 +114,7 @@ mixin _$RegisterPageViewModel on _RegisterPageViewModelBase, Store {
   @override
   String toString() {
     return '''
+registerLoading: ${registerLoading},
 emailValidate: ${emailValidate},
 isLock: ${isLock}
     ''';
