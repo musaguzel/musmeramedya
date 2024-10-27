@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:musmeramedya/core/base/view/base_widget.dart';
 import 'package:musmeramedya/core/extension/context_extension.dart';
+import 'package:musmeramedya/core/extension/string_extension.dart';
 import 'package:musmeramedya/core/init/constants/app/app_constants.dart';
 import 'package:musmeramedya/product/helper/responsive.dart';
 import 'package:musmeramedya/ui/login/viewModel/login_page_view_model.dart';
@@ -35,11 +36,54 @@ class LoginPage extends StatelessWidget {
             child:Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  if(Responsive.isDesktop(context))Image.asset("auth-img".toPNG,height: 200, width: context.width / 1.3,fit: BoxFit.contain,),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+
+                      Image.asset("diamond".toPNG,height: 50,width: 50,),
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: const TextSpan(
+                          style: TextStyle(color: Colors.white), // Varsayılan stil
+                          children: [
+                            TextSpan(text: "Sosyal medya hesaplarınız için\n"),
+                            TextSpan(
+                              text: "Takipçi - İzlenme - Beğeni ",
+                              style: TextStyle(color: Color(0xFFFDA2FF),fontWeight: FontWeight.bold), // Belirli renk
+                            ),
+                            TextSpan(text: "\nhizmetlerini kullanın Markanıza değer katın.."),
+                          ],
+                        ),
+                      ),
+                      Image.asset("diamond".toPNG,height: 50,width: 50,),
+                    ],
+                  ),
+
                   Center(
-                    child: SizedBox(
-                      width: Responsive.isDesktop(context) ? context.width / 2 : null,
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 30),
+                      width: Responsive.isDesktop(context) ? context.width / 2 :  context.width / 1.2,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0XFF836EE3),
+                              Color(0xff33237C),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.7), // Işıltı rengi ve opaklığı
+                          spreadRadius: 12, // Gölge yayılma miktarı
+                          blurRadius: 26,  // Gölge bulanıklığı
+                        ),
+                      ],),
                       child: Card(
-                        elevation: 2,
+                        color: Colors.transparent,
+                        elevation: 0,
                         margin: const EdgeInsets.all(20),
                         child: Padding(
                           padding: EdgeInsets.all(Responsive.isDesktop(context) ? 20.0 : 8.0),
@@ -77,7 +121,9 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  const SizedBox(height: 30,),
+                  if(!Responsive.isDesktop(context)) Image.asset("auth-img".toPNG,height: 200, width: context.width / 1.3,fit: BoxFit.contain,)
                 ],
               ),
             ),

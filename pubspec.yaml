@@ -1,5 +1,5 @@
 name: musmeramedya
-description: A new Flutter project.
+description:
 
 publish_to:
 
@@ -19,9 +19,9 @@ dependencies:
   #url navigator
   url_launcher: ^6.0.0
   #firebase
-  firebase_core: ^2.13.0
-  firebase_auth: ^4.6.1
-  cloud_firestore: ^4.7.1
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.4
 
 
   #Animation
@@ -35,7 +35,7 @@ dependencies:
   connectivity_plus: ^4.0.1
 
   #Animation
-  simple_animations: ^4.0.1
+  simple_animations: ^5.0.2
   supercharged: ^2.1.1
   animated_text_kit: ^4.2.2
 
@@ -48,7 +48,7 @@ dependencies:
 
 
 dependency_overrides:
-  test_api: 0.5.2
+  test_api: 0.6.1
 
 
 
